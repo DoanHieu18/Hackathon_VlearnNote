@@ -1,8 +1,10 @@
 """Provider LLM thật — không hardcode câu trả lời, không mock.
 
-Cần biến môi trường OPENAI_API_KEY (đọc từ .env, xem .env.example). Nếu thiếu
-key, lỗi ngay khi khởi tạo — không âm thầm rơi về câu trả lời giả lập, vì
-rubric R5 yêu cầu "≥1 lời gọi AI chạy thật, không hardcode".
+Dùng Google Gemini qua `langchain-google-genai`. Cần biến môi trường
+GEMINI_API_KEY hoặc GOOGLE_API_KEY (đọc từ .env, xem .env.example — key dạng
+"AIza..." lấy từ Google AI Studio). Nếu thiếu key, lỗi ngay khi khởi tạo —
+không âm thầm rơi về câu trả lời giả lập, vì rubric R5 yêu cầu "≥1 lời gọi AI
+chạy thật, không hardcode".
 """
 
 from __future__ import annotations
@@ -10,24 +12,29 @@ from __future__ import annotations
 import concurrent.futures
 import os
 
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
-DEFAULT_MODEL = os.getenv("VLEARNNOTE_MODEL", "gpt-4o-mini")
+DEFAULT_MODEL = os.getenv("VLEARNNOTE_MODEL", "gemini-2.0-flash")
 TIMEOUT_SECONDS = float(os.getenv("VLEARNNOTE_TIMEOUT_SECONDS", "20"))
 
-_llm: ChatOpenAI | None = None
+_llm: ChatGoogleGenerativeAI | None = None
 
 
-def get_llm() -> ChatOpenAI:
+def _read_gemini_key() -> str | None:
+    return os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+
+
+def get_llm() -> ChatGoogleGenerativeAI:
     global _llm
     if _llm is None:
-        api_key = os.environ.get("OPENAI_API_KEY")
+        api_key = _read_gemini_key()
         if not api_key:
             raise RuntimeError(
-                "Thiếu OPENAI_API_KEY trong biến môi trường — xem backend/.env.example. "
-                "Tính năng bắt buộc gọi AI thật, không được hardcode/mock ở lớp này."
+                "Thiếu GEMINI_API_KEY (hoặc GOOGLE_API_KEY) trong biến môi trường — "
+                "xem backend/.env.example. Tính năng bắt buộc gọi AI thật, không được "
+                "hardcode/mock ở lớp này."
             )
-        _llm = ChatOpenAI(model=DEFAULT_MODEL, api_key=api_key, temperature=0)
+        _llm = ChatGoogleGenerativeAI(model=DEFAULT_MODEL, google_api_key=api_key, temperature=0)
     return _llm
 
 

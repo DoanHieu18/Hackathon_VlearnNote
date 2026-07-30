@@ -80,7 +80,7 @@ Loại: [ ] Tối ưu tính năng có sẵn  [x] Tính năng mới
   3. *Không bịa thêm*: đối chiếu nội dung note/câu trả lời với transcript gốc, không có câu/ý nằm ngoài input — pass/fail, người thứ hai chấm độc lập.
 - **Golden set**: `eval/golden_set.json` — hiện có **22 case** (9 thường, 2 hiếm, 8 case theo 4 lớp chỗ khó ×2, 3 case route Q&A thường), ≥10 case lấy trực tiếp từ 6 transcript thật (`data/vlearn-pack/transcript/`). Cần bổ sung thêm ≥8 case (mở rộng lên 30+ theo khuyến nghị) trước CP4 nếu dùng promptfoo.
 - **Quality bar** (chốt tại thời điểm commit spec, giữ nguyên sau đó): *"Đạt khi ≥80% case classify_segment đúng is_note_worthy + đúng label, VÀ 100% case lớp ① (nguồn sự thật) không được bịa thêm nội dung ngoài input."*
-- **Kết quả chạy**: chưa chạy lượt đầu — cần `OPENAI_API_KEY` thật (xem `backend/.env.example`). Kế hoạch: chạy trọn `eval/golden_set.json` qua `ingest_graph`/`question_graph` trước CP3, ghi bảng % vào `eval/run_001.md`.
+- **Kết quả chạy**: chưa chạy lượt đầu — cần `GEMINI_API_KEY` thật (xem `backend/.env.example`, lấy từ Google AI Studio). Kế hoạch: chạy trọn `eval/golden_set.json` qua `ingest_graph`/`question_graph` trước CP3, ghi bảng % vào `eval/run_001.md`.
 
 ## §8. Phân công & kế hoạch
 - **Phân công có tên** (xem thêm `PHAN-CONG.md`):
