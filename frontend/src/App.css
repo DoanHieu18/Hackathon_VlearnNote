@@ -1,20 +1,21 @@
-/* VLearn.dev inspired palette - slate/blue */
+/* VLearn exact colors from screenshot */
 :root {
   --bg-primary: #f8fafc;
   --bg-secondary: #f1f5f9;
   --surface-white: #ffffff;
   --border-light: #e2e8f0;
   --border-medium: #cbd5e1;
-  --text-primary: #0f172a;
+  --text-primary: #1e293b;
   --text-secondary: #475569;
-  --text-muted: #64748b;
-  --accent-blue: #0ea5e9;
-  --accent-blue-hover: #0284c7;
-  --accent-blue-light: #e0f2fe;
-  --accent-dark: #0c4a6e;
+  --text-muted: #94a3b8;
+  --vlearn-blue: #3b82f6;
+  --vlearn-blue-hover: #2563eb;
+  --vlearn-blue-light: #dbeafe;
+  --vlearn-red: #dc2626;
+  --vlearn-red-light: #fee2e2;
   --success: #10b981;
   --warning: #f59e0b;
-  --danger: #ef4444;
+  --danger: #dc2626;
 }
 
 body {
@@ -55,7 +56,7 @@ body {
   font-weight: 700;
   letter-spacing: -0.025em;
   color: var(--text-primary);
-  background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-dark) 100%);
+  background: linear-gradient(135deg, var(--vlearn-blue) 0%, var(--text-primary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -74,13 +75,13 @@ body {
 }
 
 .btn-start {
-  background-color: var(--accent-blue);
+  background-color: var(--vlearn-blue);
   color: white;
   box-shadow: 0 1px 3px rgba(14, 165, 233, 0.3);
 }
 
 .btn-start:hover {
-  background-color: var(--accent-blue-hover);
+  background-color: var(--vlearn-blue-hover);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
 }
@@ -99,9 +100,9 @@ body {
 
 /* Scope Banner - G2 */
 .scope-banner {
-  background: var(--accent-blue-light);
+  background: var(--vlearn-blue-light);
   border: 1px solid var(--border-light);
-  border-left: 4px solid var(--accent-blue);
+  border-left: 4px solid var(--vlearn-blue);
   border-radius: 8px;
   padding: 1rem 1.5rem;
   margin: 1.5rem 2rem;
@@ -111,7 +112,7 @@ body {
 
 .banner-label {
   display: inline-block;
-  background: var(--accent-blue);
+  background: var(--vlearn-blue);
   color: white;
   padding: 0.25rem 0.75rem;
   border-radius: 6px;
@@ -183,7 +184,7 @@ body {
 
 .speaker {
   font-weight: 700;
-  color: var(--accent-blue);
+  color: var(--vlearn-blue);
   margin-right: 0.5rem;
 }
 
@@ -197,7 +198,7 @@ body {
   border-radius: 8px;
   background-color: var(--surface-white);
   border: 1px solid var(--border-light);
-  border-left: 3px solid var(--accent-blue);
+  border-left: 3px solid var(--vlearn-blue);
   animation: slideIn 0.3s ease-out forwards;
   position: relative;
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
@@ -232,8 +233,8 @@ body {
   font-weight: 700;
   padding: 0.25rem 0.625rem;
   border-radius: 6px;
-  background: var(--accent-blue-light);
-  color: var(--accent-dark);
+  background: var(--vlearn-blue-light);
+  color: var(--text-primary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -335,12 +336,12 @@ body {
 }
 
 .btn-save {
-  background-color: var(--accent-blue);
+  background-color: var(--vlearn-blue);
   color: white;
 }
 
 .btn-save:hover {
-  background-color: var(--accent-blue-hover);
+  background-color: var(--vlearn-blue-hover);
 }
 
 .btn-cancel {
@@ -388,9 +389,9 @@ body {
 
 .qa-input:focus {
   outline: none;
-  border-color: var(--accent-blue);
+  border-color: var(--vlearn-blue);
   background: var(--surface-white);
-  box-shadow: 0 0 0 3px var(--accent-blue-light);
+  box-shadow: 0 0 0 3px var(--vlearn-blue-light);
 }
 
 .qa-input:disabled {
@@ -401,7 +402,7 @@ body {
 .btn-ask {
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
-  background-color: var(--accent-blue);
+  background-color: var(--vlearn-blue);
   color: white;
   border: none;
   font-weight: 600;
@@ -412,7 +413,7 @@ body {
 }
 
 .btn-ask:hover:not(:disabled) {
-  background-color: var(--accent-blue-hover);
+  background-color: var(--vlearn-blue-hover);
   transform: translateY(-1px);
 }
 
@@ -445,7 +446,7 @@ body {
 .qa-observation summary {
   cursor: pointer;
   font-weight: 600;
-  color: var(--accent-blue);
+  color: var(--vlearn-blue);
 }
 
 .qa-observation pre {
@@ -513,8 +514,8 @@ body {
 }
 
 .status-listening {
-  background: linear-gradient(135deg, var(--accent-blue-light) 0%, #bae6fd 100%);
-  color: var(--accent-dark);
+  background: linear-gradient(135deg, var(--vlearn-blue-light) 0%, #bae6fd 100%);
+  color: var(--text-primary);
 }
 
 @keyframes pulse {
@@ -541,7 +542,7 @@ body {
 .note-source-details summary {
   cursor: pointer;
   font-size: 0.8125rem;
-  color: var(--accent-blue);
+  color: var(--vlearn-blue);
   font-weight: 600;
   padding: 0.5rem;
   border-radius: 6px;
@@ -549,7 +550,7 @@ body {
 }
 
 .note-source-details summary:hover {
-  background: var(--accent-blue-light);
+  background: var(--vlearn-blue-light);
 }
 
 .note-source-details .note-source {
@@ -616,7 +617,7 @@ body {
 .qa-response-label {
   font-size: 0.8125rem;
   font-weight: 700;
-  color: var(--accent-blue);
+  color: var(--vlearn-blue);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -638,8 +639,8 @@ body {
 .qa-input:focus,
 .note-edit-input:focus {
   outline: none;
-  border-color: var(--accent-blue);
-  box-shadow: 0 0 0 3px var(--accent-blue-light);
+  border-color: var(--vlearn-blue);
+  box-shadow: 0 0 0 3px var(--vlearn-blue-light);
 }
 
 /* Loading state for buttons */
@@ -668,7 +669,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-blue);
+  background: var(--vlearn-blue);
 }
   outline: none;
   border-color: var(--terracotta);
