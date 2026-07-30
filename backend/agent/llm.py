@@ -42,18 +42,17 @@ def _load_gemini_keys() -> list[str]:
         if value:
             keys.append(value)
 
-    # Key Gemini AI Studio hợp lệ có dạng "AIza..."; các giá trị không đúng
-    # định dạng (vd. token OAuth "AQ.Ab8...") không dùng được cho REST API key
-    # và bị loại ở đây để tránh lỗi khó hiểu khi gọi thật.
-    valid_keys = [k for k in keys if k.startswith("AIza")]
-    return valid_keys
+    # Không lọc theo tiền tố "AIza" — Google phát hành key Gemini ở nhiều định
+    # dạng (vd. "AQ.Ab8..." cũng là key hợp lệ gọi được qua SDK này, đã verify
+    # bằng lời gọi thật). Việc key có hoạt động hay không để API tự báo lỗi.
+    return keys
 
 
 def _build_clients() -> list[ChatGoogleGenerativeAI]:
     keys = _load_gemini_keys()
     if not keys:
         raise RuntimeError(
-            "Không có GEMINI_API_KEY hợp lệ (dạng 'AIza...') trong biến môi trường — "
+            "Thiếu GEMINI_API_KEY (hoặc GOOGLE_API_KEY) trong biến môi trường — "
             "xem backend/.env.example. Tính năng bắt buộc gọi AI thật, không được "
             "hardcode/mock ở lớp này."
         )
