@@ -1,0 +1,213 @@
+{
+  "_meta": {
+    "purpose": "Golden set cho node classify_segment_node + route_intent_node (backend/agent/graph.py)",
+    "cau_truc": "≥2 case/lớp chỗ khó (①②③④) + 8-10 case thường + 2-4 case hiếm, ≥10 case lấy từ 6 transcript thật trong data/vlearn-pack/transcript",
+    "luu_y_bao_mat": "Chỉ trích ngắn (1-3 câu) kèm mã đoạn [Txx-NNN] để trace lại — không dán nguyên văn dài đúng luật bảo mật data pack",
+    "quality_bar_de_xuat": "Đạt khi ≥80% case classify_segment đúng is_note_worthy + đúng label, VÀ 100% case lớp ① (nguồn sự thật) không được bịa thêm nội dung ngoài input"
+  },
+  "cases": [
+    {
+      "id": "N01",
+      "type": "classify_segment",
+      "class": "normal",
+      "source": "T01-018",
+      "input": {"speaker": "Teacher", "text": "Phát triển sản phẩm AI thì bản thân nó chứa phát triển sản phẩm — cho nên thứ nhất, bạn vẫn phải nắm vững được các nguyên lý của phát triển sản phẩm.", "timestamp_s": 1200},
+      "expected": {"is_note_worthy": true, "label": "definition"}
+    },
+    {
+      "id": "N02",
+      "type": "classify_segment",
+      "class": "normal",
+      "source": "T04-015",
+      "input": {"speaker": "Teacher", "text": "AI là một từ bao phủ tất cả những từ bên trong... Vòng bên trong là machine learning... Vòng tiếp theo bên trong là deep learning... tầng bên trong cùng là tầng của generative AI.", "timestamp_s": 2450},
+      "expected": {"is_note_worthy": true, "label": "definition"}
+    },
+    {
+      "id": "N03",
+      "type": "classify_segment",
+      "class": "normal",
+      "source": "T01-030",
+      "input": {"speaker": "Teacher", "text": "Có một framework rất phổ biến là bạn dùng Five Whys — bạn hỏi why đến năm lần, nó cũng giúp bạn đào sâu được.", "timestamp_s": 1800},
+      "expected": {"is_note_worthy": true, "label": "definition"}
+    },
+    {
+      "id": "N04",
+      "type": "classify_segment",
+      "class": "normal",
+      "source": "T05-006",
+      "input": {"speaker": "Teacher", "text": "Nội dung cả bài có bảy phần: AI landscape, anti-pattern, AI product life cycle, các thành tố của AI system, khung chọn mức độ ứng dụng AI, problem statement, và discovery workshop.", "timestamp_s": 300},
+      "expected": {"is_note_worthy": true, "label": "definition"}
+    },
+    {
+      "id": "N05",
+      "type": "classify_segment",
+      "class": "normal",
+      "source": "T01-009",
+      "input": {"speaker": "Student", "text": "Project thì tạo ra xong rồi là xong, có thể bàn giao; sản phẩm thì người ta tiếp tục bảo trì, PM sẽ nghiên cứu khách hàng, xu hướng, định hình sản phẩm.", "timestamp_s": 1500},
+      "expected": {"is_note_worthy": true, "label": "definition"}
+    },
+    {
+      "id": "N06",
+      "type": "classify_segment",
+      "class": "normal",
+      "source": "T05-008",
+      "input": {"speaker": "Teacher", "text": "Trung bình một ngày đội ngũ AWS phát hành khoảng 40 chức năng; thống kê khác của Google thì khoảng 100 một ngày.", "timestamp_s": 2000},
+      "expected": {"is_note_worthy": true, "label": "example"}
+    },
+    {
+      "id": "N07",
+      "type": "classify_segment",
+      "class": "normal",
+      "source": "T04-013",
+      "input": {"speaker": "Teacher", "text": "Sáng ngày mai chúng ta sẽ làm một bài lab — bài lab này phần lớn liên quan đến việc các bạn bắt đầu cài đặt môi trường, đăng ký các loại tài khoản, API key cần thiết.", "timestamp_s": 2900},
+      "expected": {"is_note_worthy": true, "label": "action_item"}
+    },
+    {
+      "id": "N08",
+      "type": "classify_segment",
+      "class": "normal",
+      "source": "T01-016",
+      "input": {"speaker": "Teacher", "text": "Tư duy nhanh và tư duy chậm — từ cuốn Thinking, Fast and Slow: tư duy nhanh là phản xạ bản năng, tư duy chậm tốn năng lượng nhưng hình thành kỹ năng mới.", "timestamp_s": 2100},
+      "expected": {"is_note_worthy": true, "label": "definition"}
+    },
+    {
+      "id": "N09",
+      "type": "classify_segment",
+      "class": "normal",
+      "source": "T04-014",
+      "input": {"speaker": "Teacher", "text": "Cuối buổi chúng ta sẽ có một quiz ngắn trên Kahoot; điểm cao sẽ được cộng bonus.", "timestamp_s": 3000},
+      "expected": {"is_note_worthy": true, "label": "action_item"}
+    },
+    {
+      "id": "R01",
+      "type": "classify_segment",
+      "class": "rare",
+      "source": "T04-010",
+      "input": {"speaker": "Teacher", "text": "Cứu hộ cứu nạn sẽ khác với cứu trợ: cứu hộ cứu nạn là cứu người dân đang bị kẹt trong nhà, bị lũ, đưa người ra; còn cứu trợ là đưa đồ ăn, lương thực thực phẩm cho họ.", "timestamp_s": 2500},
+      "expected": {"is_note_worthy": true, "label": "definition"},
+      "note": "Case hiếm: định nghĩa phân biệt 2 thuật ngữ dễ nhầm trong ví dụ ngoài lề — vẫn đáng note vì là 'definition' rõ ràng dù nằm trong câu chuyện kể"
+    },
+    {
+      "id": "R02",
+      "type": "classify_segment",
+      "class": "rare",
+      "source": "synthetic",
+      "input": {"speaker": "Teacher", "text": "print('hello world')  # nhớ indent đúng 4 space, Python rất nhạy với thụt lề", "timestamp_s": 500},
+      "expected": {"is_note_worthy": true, "label": "example"},
+      "note": "Case hiếm buổi thực hành: đoạn code — bắt buộc giữ NGUYÊN VĂN, không được 'diễn giải lại cho dễ hiểu' (xem lớp ④ ở R2b)"
+    },
+    {
+      "id": "C1_01",
+      "type": "classify_segment",
+      "class": "①_nguon_su_that",
+      "source": "T01-014",
+      "input": {"speaker": "Teacher", "text": "Người miền Nam mình thấy thường mở hơn, người miền Bắc thì hơi đóng, tính hơi phòng vệ — đây là góc nhìn cá nhân của mình.", "timestamp_s": 1900},
+      "expected": {"is_note_worthy": false, "label": "none"},
+      "note": "Lớp ①: đây là ý kiến cá nhân giảng viên tự gắn nhãn 'góc nhìn cá nhân', KHÔNG phải kiến thức chính khoá — agent không được note như một 'definition' kiến thức, tránh học viên học nhầm ý kiến thành sự thật"
+    },
+    {
+      "id": "C1_02",
+      "type": "classify_segment",
+      "class": "①_nguon_su_that",
+      "source": "synthetic",
+      "input": {"speaker": "Teacher", "text": "Chắc chắn 100% là câu này sẽ ra trong đề thi cuối khoá đấy nhé.", "timestamp_s": 600},
+      "expected": {"is_note_worthy": true, "label": "exam_warning"},
+      "note": "Lớp ①/④: agent PHẢI note đúng nguyên văn cam kết 'ra thi', không được tự thêm suy đoán nội dung sẽ thi là gì nếu giảng viên không nói rõ"
+    },
+    {
+      "id": "C2_01",
+      "type": "classify_segment",
+      "class": "②_mo_ho",
+      "source": "T02-002",
+      "input": {"speaker": "Teacher", "text": "[Hoạt động lớp: giảng viên xem bài, chỉ ra chỗ hai trục biểu đồ bị đặt nhầm, bình luận vui về ví dụ 'buồn ngủ trên lớp', 'không nhớ mật khẩu'.]", "timestamp_s": 100},
+      "expected": {"is_note_worthy": false, "label": "ambiguous"},
+      "note": "Lớp ②: đoạn hoạt động lớp không có nội dung kiến thức cụ thể để note — nếu agent cố note sẽ note nhầm việc hành chính thành kiến thức"
+    },
+    {
+      "id": "C2_02",
+      "type": "classify_segment",
+      "class": "②_mo_ho",
+      "source": "synthetic",
+      "input": {"speaker": "Teacher", "text": "Cái này quan trọng đấy, mọi người nhớ kỹ nhé.", "timestamp_s": 700},
+      "expected": {"is_note_worthy": false, "label": "ambiguous"},
+      "note": "Lớp ②: câu lửng không kèm nội dung — agent phải chờ segment kế tiếp, không được đoán 'cái này' là gì"
+    },
+    {
+      "id": "C3_01",
+      "type": "route_intent",
+      "class": "③_ngoai_pham_vi",
+      "source": "synthetic",
+      "input": {"student_question": "AI ơi giải hộ em bài tập ma trận tác động-nỗ lực với, em không biết làm sao"},
+      "expected": {"intent": "out_of_scope"},
+      "note": "Lớp ③: đây là job của tutor Q&A, không phải job của note/catch-up agent — phải từ chối lịch sự + trỏ đúng kênh"
+    },
+    {
+      "id": "C3_02",
+      "type": "route_intent",
+      "class": "③_ngoai_pham_vi",
+      "source": "synthetic",
+      "input": {"student_question": "Deadline nộp bài lab tuần này là ngày nào vậy AI?"},
+      "expected": {"intent": "out_of_scope"},
+      "note": "Lớp ③: thông tin logistics phải lấy từ nguồn chính thức (giảng viên/kênh thông báo), agent không được tự suy đoán deadline"
+    },
+    {
+      "id": "C4_01",
+      "type": "classify_segment",
+      "class": "④_dac_thu_domain",
+      "source": "T01-011",
+      "input": {"speaker": "Teacher", "text": "Product manager sẽ rộng hơn, nhìn ra cơ hội rồi khoanh vùng lại; product owner thì đi sâu vào khảo sát user khi bài toán đã cụ thể.", "timestamp_s": 1550},
+      "expected": {"is_note_worthy": true, "label": "definition"},
+      "note": "Lớp ④: nhầm PM/PO là lỗi domain nghiêm trọng (2 vai trò khác hẳn) — summary phải giữ đúng chiều phân biệt, không gộp chung"
+    },
+    {
+      "id": "C4_02",
+      "type": "classify_segment",
+      "class": "④_dac_thu_domain",
+      "source": "R02_code",
+      "input": {"speaker": "Teacher", "text": "def calculate_score(a, b): return (a * b) ** 0.5  # trung bình NHÂN chứ không phải trung bình cộng, khác nhau đấy nhé", "timestamp_s": 800},
+      "expected": {"is_note_worthy": true, "label": "example"},
+      "note": "Lớp ④ buổi thực hành: sai 1 toán tử (** 0.5 thành *0.5, hoặc nhân thành cộng) khiến học viên chép code sai chạy sai kết quả — bắt buộc giữ nguyên văn code"
+    },
+    {
+      "id": "QA01",
+      "type": "route_intent",
+      "class": "normal",
+      "source": "synthetic",
+      "input": {"student_question": "Vừa nãy thầy nói gì về sự khác nhau giữa AI, machine learning với deep learning ấy nhỉ?"},
+      "expected": {"intent": "catch_up", "keyword_hint": "machine learning"}
+    },
+    {
+      "id": "QA02",
+      "type": "route_intent",
+      "class": "normal",
+      "source": "synthetic",
+      "input": {"student_question": "Em bị mất tập trung đoạn vừa rồi, tóm tắt lại giúp em 5 phút trước được không?"},
+      "expected": {"intent": "catch_up", "keyword_hint": null}
+    },
+    {
+      "id": "QA03",
+      "type": "route_intent",
+      "class": "normal",
+      "source": "synthetic",
+      "input": {"student_question": "Tổng hợp lại toàn bộ nội dung buổi học từ đầu đến giờ giúp em với"},
+      "expected": {"intent": "session_recap"}
+    },
+    {
+      "id": "QA04_not_found",
+      "type": "catch_up_qa",
+      "class": "①_nguon_su_that",
+      "source": "synthetic",
+      "input": {"student_question": "Thầy vừa nói gì về RAG vậy?", "rolling_transcript_has_topic": false},
+      "expected": {"answer_must_state": "không tìm thấy nội dung này được nhắc trong buổi", "must_not": "tự bịa định nghĩa RAG từ kiến thức chung"},
+      "note": "Lớp ① quan trọng nhất của toàn bộ prototype: nếu chủ đề chưa từng được giảng, agent phải thừa nhận không có, tuyệt đối không tự trả lời bằng kiến thức nền của LLM"
+    },
+    {
+      "id": "QA05_partial_transcript",
+      "type": "catch_up_qa",
+      "class": "①_nguon_su_that",
+      "source": "T04-003",
+      "input": {"student_question": "Vừa nãy thầy nói khoá học này thiết kế để học cái gì nhỉ?", "rolling_transcript_has_topic": true},
+      "expected": {"answer_must_cite": "T04-003", "must_not": "thêm nội dung ngoài đoạn T04-003"}
+    }
+  ]
+}

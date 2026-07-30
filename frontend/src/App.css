@@ -57,6 +57,17 @@
   transform: translateY(-2px);
 }
 
+.scope-banner {
+  margin: 1rem 2rem 0;
+  padding: 0.75rem 1rem;
+  background-color: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 8px;
+  color: #7dd3fc;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
 .main-content {
   display: flex;
   flex: 1;
@@ -147,10 +158,145 @@
   color: #f59e0b;
 }
 
+.note-definition { border-left-color: #38bdf8; }
+.note-definition .note-type { background-color: rgba(56, 189, 248, 0.2); color: #38bdf8; }
+.note-example { border-left-color: #a78bfa; }
+.note-example .note-type { background-color: rgba(167, 139, 250, 0.2); color: #a78bfa; }
+.note-exam_warning { border-left-color: #f87171; }
+.note-exam_warning .note-type { background-color: rgba(248, 113, 113, 0.2); color: #f87171; }
+.note-action_item { border-left-color: #34d399; }
+.note-action_item .note-type { background-color: rgba(52, 211, 153, 0.2); color: #34d399; }
+
+.note-draft {
+  opacity: 0.75;
+  border-style: dashed;
+}
+
+.note-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.note-draft-tag {
+  font-size: 0.7rem;
+  color: #94a3b8;
+  font-style: italic;
+}
+
 .note-content {
   margin: 0;
   color: #f1f5f9;
   line-height: 1.6;
+}
+
+.note-edit textarea {
+  width: 100%;
+  background: #0f172a;
+  color: #f1f5f9;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 0.5rem;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.note-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.note-actions button,
+.note-edit button {
+  background: #334155;
+  color: #f1f5f9;
+  border: none;
+  border-radius: 6px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.note-actions button:hover,
+.note-edit button:hover {
+  background: #475569;
+}
+
+/* Q&A catch-up panel */
+.qa-empty {
+  color: #64748b;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.qa-message {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+.qa-message p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.qa-student {
+  background-color: #1d4ed8;
+  color: white;
+  align-self: flex-end;
+}
+
+.qa-assistant {
+  background-color: #0f172a;
+  color: #f1f5f9;
+}
+
+.qa-intent-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  color: #f59e0b;
+  margin-bottom: 0.35rem;
+  font-weight: 700;
+}
+
+.qa-thinking {
+  color: #64748b;
+  font-style: italic;
+  font-size: 0.85rem;
+}
+
+.qa-composer {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #334155;
+}
+
+.qa-composer input {
+  flex: 1;
+  background: #0f172a;
+  color: #f1f5f9;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  font-family: inherit;
+}
+
+.qa-composer button {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.qa-composer button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 @keyframes slideIn {

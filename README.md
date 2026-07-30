@@ -1,3 +1,15 @@
+## Thành viên & phân công
+
+| Tên | Role | Việc chính |
+|---|---|---|
+| Phương | Backend + LangGraph Agent | `backend/agent/`, `backend/main.py` |
+| Hiếu | Frontend + UX/Validation | `frontend/src/`, `validation/` |
+| Hưng | Spec + Evidence + Eval | `spec.md`, `eval/`, khảo sát |
+
+Chi tiết: xem [`PHAN-CONG.md`](PHAN-CONG.md).
+
+---
+
 # Mini Hackathon AI — Batch 03
 
 **SPEC → Prototype → Demo.** Đây không phải cuộc thi code — đây là cuộc thi **tư duy sản phẩm AI**.
