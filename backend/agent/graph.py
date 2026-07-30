@@ -57,7 +57,7 @@ def note_writer_node(state: AgentState) -> dict:
         timestamp_s=segment.timestamp_s,
         label=classification["label"],
         summary=classification["summary"],
-        source_speaker=segment.speaker,
+        source_speaker=classification.get("speaker", segment.speaker),
     )
     return {"session_notes": [note]}
 

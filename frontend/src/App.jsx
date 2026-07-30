@@ -6,6 +6,9 @@ const LABEL_TEXT = {
   example: 'VÍ DỤ',
   exam_warning: 'LƯU Ý THI',
   action_item: 'VIỆC CẦN LÀM',
+  key_point: 'Ý CHÍNH',
+  insight: 'KIẾN THỨC',
+  student_insight: 'Ý KIẾN HỌC VIÊN',
 };
 
 function App() {

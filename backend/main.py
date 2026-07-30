@@ -4,13 +4,14 @@ import logging
 import time
 
 from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 
 from agent.graph import ingest_graph, question_graph
 from agent.state import AgentState, TranscriptSegment
-
-load_dotenv()
+from mock_stt import stream_transcript_from_file
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -25,23 +26,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Sketch/Mock: nguồn transcript giả lập một buổi live thật (không có pipeline
-# STT nối mic thật trong phạm vi hackathon) — ghi rõ trong spec §4 là phần mock.
-# Nội dung transcript AI THẬT chạy qua `ingest_graph` (agent/graph.py), không
-# hardcode kết quả note.
-MOCK_TRANSCRIPTS = [
-    {"speaker": "Teacher", "text": "Chào các em. Hôm nay chúng ta sẽ bắt đầu học về Agent trong AI."},
-    {"speaker": "Teacher", "text": "Các em có hiểu Agent là gì không?"},
-    {
-        "speaker": "Student A",
-        "text": "Thưa thầy, Agent có phải là một chương trình có khả năng tự động thực hiện các tác vụ không ạ?",
-    },
-    {"speaker": "Teacher", "text": "Đúng rồi. Nó có thể nhận thức môi trường và hành động để đạt được mục tiêu."},
-    {"speaker": "Teacher", "text": "Cái này quan trọng đấy, mọi người nhớ kỹ nhé."},
-    {"speaker": "Teacher", "text": "Vậy thành phần quan trọng nhất của một Agent là gì?"},
-    {"speaker": "Student B", "text": "Em nghĩ là bộ nhớ (memory) và công cụ (tools) ạ."},
-    {"speaker": "Teacher", "text": "Chính xác, thêm cả khả năng lập kế hoạch (planning) nữa."},
-]
+# Sử dụng stream từ file mock thay vì hardcode.
 
 
 def _note_to_event(note) -> dict:
@@ -64,31 +49,57 @@ async def websocket_endpoint(websocket: WebSocket):
 
     async def ingest_worker():
         nonlocal session_state
-        for item in MOCK_TRANSCRIPTS:
-            await asyncio.sleep(4)
-            segment = TranscriptSegment(
-                speaker=item["speaker"],
-                text=item["text"],
-                timestamp_s=time.monotonic() - start_time,
-            )
-            await websocket.send_json(
-                {"event": "transcript", "speaker": segment.speaker, "text": segment.text, "is_final": True}
-            )
-
-            try:
-                result = await asyncio.to_thread(
-                    ingest_graph.invoke,
-                    {"incoming_segment": segment, "rolling_transcript": [segment]},
+        file_path = r"c:\Users\doanh\OneDrive\Documents\SE\VinUni\Week 1\day5\Hackathon_VlearnNote\data\vlearn-pack\transcript\transcript-06-clean.md"
+        
+        buffer_segments = []
+        try:
+            logger.info("Bắt đầu ingest_worker từ file...")
+            async for item in stream_transcript_from_file(file_path, delay_seconds=4.0):
+                segment = TranscriptSegment(
+                    speaker=item["speaker"],
+                    text=item["text"],
+                    timestamp_s=time.monotonic() - start_time,
                 )
-            except Exception as exc:  # noqa: BLE001 — 1 segment lỗi không được làm sập cả stream
-                logger.error("classify_segment loi: %s", exc)
-                continue
+                
+                # 1. Trả ngay lên giao diện cho người dùng đọc (phụ đề realtime)
+                await websocket.send_json(
+                    {"event": "transcript", "speaker": segment.speaker, "text": segment.text, "is_final": True}
+                )
+                
+                # 2. Lưu vào state tổng
+                session_state["rolling_transcript"].append(segment)
+                buffer_segments.append(segment)
+                
+                # 3. Gom thành một đoạn văn trước khi đưa vào LLM (ở đây cấu hình gom 3 câu)
+                if len(buffer_segments) >= 3:
+                    combined_text = " ".join([f"[{s.speaker}]: {s.text}" for s in buffer_segments])
+                    
+                    # Tạo segment tổng hợp
+                    combined_segment = TranscriptSegment(
+                        speaker="Mixed",
+                        text=combined_text,
+                        timestamp_s=buffer_segments[0].timestamp_s
+                    )
+                    
+                    try:
+                        result = await asyncio.to_thread(
+                            ingest_graph.invoke,
+                            {"incoming_segment": combined_segment, "rolling_transcript": session_state["rolling_transcript"]},
+                        )
+                        logger.info(f"=== KẾT QUẢ PHÂN LOẠI LLM ===\nText: {combined_text}\nClassification: {result.get('classification')}")
+                    except Exception as exc:
+                        logger.error("classify_segment loi: %s", exc)
+                        buffer_segments = []
+                        continue
 
-            session_state["rolling_transcript"].append(segment)
-            new_notes = result.get("session_notes") or []
-            if new_notes:
-                session_state["session_notes"].extend(new_notes)
-                await websocket.send_json(_note_to_event(new_notes[0]))
+                    new_notes = result.get("session_notes") or []
+                    if new_notes:
+                        session_state["session_notes"].extend(new_notes)
+                        await websocket.send_json(_note_to_event(new_notes[0]))
+                        
+                    buffer_segments = [] # Xoá buffer để gom đoạn tiếp theo
+        except Exception as e:
+            logger.error("ingest_worker crashed: %s", e)
 
     async def question_worker(raw_text: str):
         try:
@@ -136,7 +147,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 # Audio thật (mic) — trong Sketch này bỏ qua vì chưa nối STT thật.
                 continue
             if message.get("text") is not None:
-                await question_worker(message["text"])
+                asyncio.create_task(question_worker(message["text"]))
     except WebSocketDisconnect:
         logger.info("Client disconnected")
         ingest_task.cancel()

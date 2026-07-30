@@ -1,8 +1,4 @@
-# Transcript bài giảng (bản sạch) — Buổi Foundation: transformer & attention
 
-> **Nguồn:** `transcript_2/06.md` (bản ASR thô) · **Buổi:** buổi Foundation về transformer & attention, có demo cơ chế attention (không gắn số ngày)
-> **Quy ước:** `[Txx-NNN]` mã đoạn để trích dẫn · `[Hoạt động lớp: ...]` phần tương tác/hành chính đã rút gọn · `[không nghe rõ]` chỗ không khôi phục được từ bản thô · `[học viên]` tên học viên đã ẩn danh
-> **Xử lý:** sửa lỗi nhận dạng giọng nói theo ngữ cảnh khoá học, ngắt câu, bỏ từ đệm — giữ giọng nói tự nhiên và trình tự ý của giảng viên, không thêm ý mới.
 
 ## Giới thiệu giảng viên và khảo sát làm quen lớp
 
@@ -14,35 +10,35 @@
 
 **[T06-004]** Đấy, ở bên tay phải là đáp án mà các bạn đang trả lời, chúng ta sẽ làm việc trên dữ liệu này. 13% các bạn nhận ra AI có sức mạnh khủng, 87% [không nghe rõ]. 16% [không nghe rõ] — nói gì thì nói, ví dụ như trong ngành thời trang đúng không, có cái bot nào mới là các bạn gái cũng rất thích, phải theo mốt đúng không, bây giờ AI cũng vậy đúng không — 68%. Tổng lớp hôm nay là bao nhiêu bạn nhỉ? 207 bạn. Ok, mình chuyển sang câu hỏi số 2 nhé. Thêm một câu hỏi nữa, câu này mời các bạn. Thực ra mình nghĩ rất là tuyệt vời: từ khóa 1 cho đến bây giờ khóa 3, nghe có vẻ chất lượng học viên đổ vào càng ngày càng cao, rất là tuyệt vời. Có ai dũng cảm nói là đến từ hành tinh khác không? [không nghe rõ] Quả này có vẻ là cũng chưa nhiều bạn đi làm đúng không, mà phần lớn là sinh viên. Có bao nhiêu bạn ở đây đang đi làm rồi ạ? Khoảng 10-15 bạn gì đấy đúng không? Ai đi làm trên 5 năm rồi? Một bạn, hai bạn. Ok. Trong khi chờ mọi người hoàn thành thì mời bạn đi làm trên 5 năm — bạn làm công ty nào nhỉ? Giao lưu chút. Các bạn khác cứ trả lời tiếp các bạn nhé.
 
-**[T06-005]** [học viên]: Vâng, chào thầy. Em đi làm đến năm nay là 18 năm.
+**[T06-005]** Vâng, chào thầy. Em đi làm đến năm nay là 18 năm.
 
 **[T06-006]** 18 năm. Ok.
 
-**[T06-007]** [học viên]: Em cũng trải qua khá nhiều công ty, một số công ty như Smart OSC, về outsourcing, rồi công ty gần nhất là Kid Plaza.
+**[T06-007]**  Em cũng trải qua khá nhiều công ty, một số công ty như Smart OSC, về outsourcing, rồi công ty gần nhất là Kid Plaza.
 
 **[T06-008]** Kid Plaza. Ok, cái chuỗi bán lẻ. Khi làm ở đấy thì bạn làm ở vị trí nào? Ví dụ như developer, hay là làm PO, hay là PM?
 
-**[T06-009]** [học viên]: Vị trí gần nhất em làm là IT manager. Ở bên đấy thì hiện tại em đã nghỉ rồi, mới nghỉ để đi học khóa này.
+**[T06-009]** Vị trí gần nhất em làm là IT manager. Ở bên đấy thì hiện tại em đã nghỉ rồi, mới nghỉ để đi học khóa này.
 
 **[T06-010]** Ok. Mọi người cho một tràng pháo tay được không ạ? Tức là nói gì thì nói, người mà nghỉ việc để đi học ở bên này chứng tỏ là kỳ vọng đủ cao đúng không? Mình có một câu hỏi cho bạn, tại vì kinh nghiệm của ai cũng đáng quý hết cả. Đây chúng ta có một bạn 18 năm đi làm, và có những cái tên bạn ấy kể ra cũng lớn — ví dụ Kid Plaza cũng là công ty lớn trong lĩnh vực của họ.
 
-**[T06-011]** [học viên]: Background của em là về software engineer, nói chung em cũng trải qua hết tất cả các đau thương, xây dựng sản phẩm rồi outsourcing đủ cả. Nhưng thấy thời đại AI này nó rất là hot, thế nên em cũng muốn thay đổi một cái hướng, vì software bây giờ vibe code quá đơn giản rồi, ai cũng có thể vibe code được, nên đôi khi có thể nói là nó hơi bị xuống thấp một chút, em muốn thay đổi môi trường.
+**[T06-011]**  : Background của em là về software engineer, nói chung em cũng trải qua hết tất cả các đau thương, xây dựng sản phẩm rồi outsourcing đủ cả. Nhưng thấy thời đại AI này nó rất là hot, thế nên em cũng muốn thay đổi một cái hướng, vì software bây giờ vibe code quá đơn giản rồi, ai cũng có thể vibe code được, nên đôi khi có thể nói là nó hơi bị xuống thấp một chút, em muốn thay đổi môi trường.
 
 **[T06-012]** Ok. Câu cuối là bạn có chia sẻ kinh nghiệm gì khác — từ đau thương hoặc hạnh phúc nhất trong nghề IT — cho các bạn trẻ không?
 
-**[T06-013]** [học viên]: Chia sẻ thì nói chung IT thì phải trâu — một từ thôi: trâu bò. [không nghe rõ]
+**[T06-013]**  : Chia sẻ thì nói chung IT thì phải trâu — một từ thôi: trâu bò. [không nghe rõ]
 
-**[T06-014]** Ok, các bạn thấy đấy đúng không ạ? Mình đang thấy có một phần hay nhất trong phần trình bày của bạn — bạn tên gì nhỉ? [học viên] đúng không? Phần hay nhất trong phần trình bày vừa rồi của [học viên] là gì? Đó là vibe code. Bây giờ có bạn nào không đồng tình chuyện này không? Em không đồng tình — vì sao, cầm mic lên. Các bạn khác chưa làm thì tranh thủ làm cho xong nhé.
+**[T06-014]** Ok, các bạn thấy đấy đúng không ạ? Mình đang thấy có một phần hay nhất trong phần trình bày của bạn — bạn tên gì nhỉ?   đúng không? Phần hay nhất trong phần trình bày vừa rồi của   là gì? Đó là vibe code. Bây giờ có bạn nào không đồng tình chuyện này không? Em không đồng tình — vì sao, cầm mic lên. Các bạn khác chưa làm thì tranh thủ làm cho xong nhé.
 
-**[T06-015]** [học viên]: Chào thầy và các bạn. Về việc vibe code thì nó có thể đúng với những sản phẩm dùng cho cá nhân. Còn về một sản phẩm dùng cho một lượng lớn người dùng thì việc vibe code phải có con người kiểm soát, cũng như phải có trách nhiệm với cái output mà nó làm ra, chứ không thể nào nói là vibe code hoàn toàn là AI — chỉ cần quăng tài liệu cho con agent nó ngồi làm từ đầu đến cuối, xong rồi mình ra sản phẩm mình đi chào mời — thì em không đồng ý. Tóm lại, một sản phẩm dùng cho cá nhân thì mình có thể vibe được, còn nếu mình làm cho nhiều người dùng thì con người cần phải can thiệp sâu hơn vào những quyết định mà AI đưa ra.
+**[T06-015]**  : Chào thầy và các bạn. Về việc vibe code thì nó có thể đúng với những sản phẩm dùng cho cá nhân. Còn về một sản phẩm dùng cho một lượng lớn người dùng thì việc vibe code phải có con người kiểm soát, cũng như phải có trách nhiệm với cái output mà nó làm ra, chứ không thể nào nói là vibe code hoàn toàn là AI — chỉ cần quăng tài liệu cho con agent nó ngồi làm từ đầu đến cuối, xong rồi mình ra sản phẩm mình đi chào mời — thì em không đồng ý. Tóm lại, một sản phẩm dùng cho cá nhân thì mình có thể vibe được, còn nếu mình làm cho nhiều người dùng thì con người cần phải can thiệp sâu hơn vào những quyết định mà AI đưa ra.
 
-**[T06-016]** Có bạn nào bổ sung hoặc agree với ý kiến này không? Tức là thông điệp bắt đầu là gì: bây giờ vibe code ai cũng làm rồi, nghĩa là nó dễ rồi. Còn bạn này thì đang đi sâu sang một khía cạnh khác một chút — ví dụ là làm thế nào đó để mình tạo ra một hệ thống có sử dụng AI nhưng vẫn có human in the loop. Thông điệp của bạn [học viên] là bây giờ ai cũng có thể trở thành builder được, tại vì vibe code nó phổ biến. Bây giờ mình hỏi luôn các bạn: ai là người nói cái từ vibe code đầu tiên? Cái từ đấy do ai tạo ra? Các bạn thấy không, ở đây có sự thú vị là ai cũng nói về nó, cho đến lúc hỏi bản chất nó đến từ đâu thì cũng không ít người chưa trả lời được. Nhân chuyện này mình muốn nhấn lại một chút. Về vibe code, mình hoàn toàn đồng ý với [học viên] là bây giờ ai cũng có thể trở thành builder bằng cách vibe code. Chiều sâu của AI là chúng ta có thể ra lệnh theo ngôn ngữ thông thường mà không cần phải học lập trình mà vẫn ra được sản phẩm — thì gọi là vibe code. Thế còn câu chuyện kỹ năng ra lệnh bằng ngôn ngữ thông thường: ví dụ mình là nhà văn thì mình sẽ nhớ những từ của nhà văn, mình là lập trình viên thì mình vẫn nhớ những từ của lập trình viên, mình làm về xây dựng thì mình vẫn nhớ những từ của ngành xây dựng. Thế bây giờ mình nói chuyện bằng ngôn ngữ của người làm về xây dựng cộng thêm ngôn ngữ của người làm về software thì mình cũng có thể trở thành builder. Đấy là một thực tế mà các bạn không thể cưỡng lại được. Và xa hơn nữa, mình cũng mạnh dạn chia sẻ với các bạn là cái bài toán về code ấy thì AI bây giờ nó đã giải xong rồi. Cho nên câu chuyện là làm thế nào để hệ thống nó có sức tải, nó có [không nghe rõ] — đấy là phần từ chia sẻ của [học viên]. Còn một bạn nữa đi làm 5 năm, mình sẽ giao lưu với bạn 2-3 phút nữa. Mời bạn giới thiệu một chút.
+**[T06-016]** Có bạn nào bổ sung hoặc agree với ý kiến này không? Tức là thông điệp bắt đầu là gì: bây giờ vibe code ai cũng làm rồi, nghĩa là nó dễ rồi. Còn bạn này thì đang đi sâu sang một khía cạnh khác một chút — ví dụ là làm thế nào đó để mình tạo ra một hệ thống có sử dụng AI nhưng vẫn có human in the loop. Thông điệp của bạn   là bây giờ ai cũng có thể trở thành builder được, tại vì vibe code nó phổ biến. Bây giờ mình hỏi luôn các bạn: ai là người nói cái từ vibe code đầu tiên? Cái từ đấy do ai tạo ra? Các bạn thấy không, ở đây có sự thú vị là ai cũng nói về nó, cho đến lúc hỏi bản chất nó đến từ đâu thì cũng không ít người chưa trả lời được. Nhân chuyện này mình muốn nhấn lại một chút. Về vibe code, mình hoàn toàn đồng ý với   là bây giờ ai cũng có thể trở thành builder bằng cách vibe code. Chiều sâu của AI là chúng ta có thể ra lệnh theo ngôn ngữ thông thường mà không cần phải học lập trình mà vẫn ra được sản phẩm — thì gọi là vibe code. Thế còn câu chuyện kỹ năng ra lệnh bằng ngôn ngữ thông thường: ví dụ mình là nhà văn thì mình sẽ nhớ những từ của nhà văn, mình là lập trình viên thì mình vẫn nhớ những từ của lập trình viên, mình làm về xây dựng thì mình vẫn nhớ những từ của ngành xây dựng. Thế bây giờ mình nói chuyện bằng ngôn ngữ của người làm về xây dựng cộng thêm ngôn ngữ của người làm về software thì mình cũng có thể trở thành builder. Đấy là một thực tế mà các bạn không thể cưỡng lại được. Và xa hơn nữa, mình cũng mạnh dạn chia sẻ với các bạn là cái bài toán về code ấy thì AI bây giờ nó đã giải xong rồi. Cho nên câu chuyện là làm thế nào để hệ thống nó có sức tải, nó có [không nghe rõ] — đấy là phần từ chia sẻ của  . Còn một bạn nữa đi làm 5 năm, mình sẽ giao lưu với bạn 2-3 phút nữa. Mời bạn giới thiệu một chút.
 
-**[T06-017]** [học viên]: Em tên là [học viên]. Ngày xưa sinh viên thì em vừa đi học vừa đi làm thêm, và hiện tại em đang làm việc tại [không nghe rõ]. Về bản chất công việc thì em khác với anh [học viên]: em ở giữa giai đoạn khi AI bắt đầu nổi lên, vậy nên em cũng được tiếp xúc nhiều, hiện tại em cũng đang làm rất nhiều sản phẩm.
+**[T06-017]**  : Em tên là  . Ngày xưa sinh viên thì em vừa đi học vừa đi làm thêm, và hiện tại em đang làm việc tại [không nghe rõ]. Về bản chất công việc thì em khác với anh  : em ở giữa giai đoạn khi AI bắt đầu nổi lên, vậy nên em cũng được tiếp xúc nhiều, hiện tại em cũng đang làm rất nhiều sản phẩm.
 
 **[T06-018]** Có sản phẩm thương mại hóa rồi không?
 
-**[T06-019]** [học viên]: Có một số sản phẩm chạy thử, còn thương mại hóa thì ok ạ. Về bản chất thì vibe code như thầy đã nói — con người ngay từ giây phút mà mọi người phải tranh chấp với nhau về những kiến thức cơ bản, hay nói cách khác là những kiến thức mà fresher phải nắm được, thì bây giờ người ta cần coder phải lên cao hơn một tí. Như ngày xưa thì fresher chỉ cần code, còn bây giờ fresher cần phải biết nhiều hơn nữa. AI đã làm được cái việc là chúng ta code được rồi, vậy nên mình sẽ phải làm bộ não cho nó để nó thông minh hơn, cũng như mình cần phải quy trình hóa nó để nó làm việc không chỉ với bản thân mình. Và thầy có thể thấy là bây giờ AI nó không chỉ là một người có thể code nữa, mà cả team cùng dùng AI để code, nên quy trình hóa nó và làm sao để nó giao tiếp với tất cả mọi người — nó là điều mà tất cả đang hướng tới. Như bên em — em chia sẻ hơi nội bộ tí — thì đang tập trung vào cái mảng là quy trình hóa, chuẩn hóa quy trình sử dụng AI, không chỉ trong công việc mà còn trong cả vận hành doanh nghiệp nữa.
+**[T06-019]**  : Có một số sản phẩm chạy thử, còn thương mại hóa thì ok ạ. Về bản chất thì vibe code như thầy đã nói — con người ngay từ giây phút mà mọi người phải tranh chấp với nhau về những kiến thức cơ bản, hay nói cách khác là những kiến thức mà fresher phải nắm được, thì bây giờ người ta cần coder phải lên cao hơn một tí. Như ngày xưa thì fresher chỉ cần code, còn bây giờ fresher cần phải biết nhiều hơn nữa. AI đã làm được cái việc là chúng ta code được rồi, vậy nên mình sẽ phải làm bộ não cho nó để nó thông minh hơn, cũng như mình cần phải quy trình hóa nó để nó làm việc không chỉ với bản thân mình. Và thầy có thể thấy là bây giờ AI nó không chỉ là một người có thể code nữa, mà cả team cùng dùng AI để code, nên quy trình hóa nó và làm sao để nó giao tiếp với tất cả mọi người — nó là điều mà tất cả đang hướng tới. Như bên em — em chia sẻ hơi nội bộ tí — thì đang tập trung vào cái mảng là quy trình hóa, chuẩn hóa quy trình sử dụng AI, không chỉ trong công việc mà còn trong cả vận hành doanh nghiệp nữa.
 
 **[T06-020]** Ok. Từ phần trình bày vừa rồi thì mình có một suy nghĩ thế này, để nó có thể lan tỏa cho mọi người cùng suy nghĩ thêm: chúng ta cố gắng dùng AI đúng cách, và tất cả cùng dùng AI. Khi một người dùng AI đúng cách đã khó, nhưng khi tất cả cùng dùng AI đúng cách càng khó hơn nữa. Và thứ ba, khi tất cả mọi người dùng AI đúng cách thì ở cái viễn cảnh gọi là tối đa hóa nhất — giả sử một team bảy người, một người có thể tự deploy khoảng tầm độ 70 cái agent — thì đây các bạn sẽ thấy quy mô là khủng khiếp. Cho nên từ phần bạn chia sẻ, mình chỉ gợi ý các bạn là làm thế nào đó để không chỉ riêng các bạn dùng AI đúng cách mà cả team dùng đúng cách. Chuyện đó quay về câu chuyện khóa học của các bạn — làm sao để phối hợp thật là tốt.
 
@@ -56,43 +52,43 @@
 
 **[T06-023]** Đầu tiên, nếu các bạn được yêu cầu khoanh vùng AI là gì — bây giờ mình hỏi: giả sử cái máy tính Casio, cái máy tính học sinh hay dùng để làm toán ấy, thì theo các bạn, đấy có thể được xem là một sản phẩm AI không?
 
-**[T06-024]** [học viên]: Em nghĩ là có.
+**[T06-024]**  : Em nghĩ là có.
 
 **[T06-025]** Có đúng không? Vì sao?
 
-**[T06-026]** [học viên]: Tại vì định nghĩa của AI tức là máy thực hiện công việc mà nó thông minh như con người. Máy nó tính toán thì công việc đấy kiểu giống con người tính toán.
+**[T06-026]**  : Tại vì định nghĩa của AI tức là máy thực hiện công việc mà nó thông minh như con người. Máy nó tính toán thì công việc đấy kiểu giống con người tính toán.
 
-**[T06-027]** Ok em nhé. Các bạn chú ý là gì: máy thực hiện cái tác vụ thông minh thì gọi là AI, và theo cái đó thì thậm chí cái máy tính Casio ngày xưa cũng được xem là một sản phẩm AI rồi. Trong cấu trúc của hệ thống ấy thì AI là cái vòng bên ngoài cùng, nó bao hàm những cái thứ bên trong. Ở lớp kế tiếp của nó là gì? Là machine learning. Mình tin các bạn cũng đã biết về những khái niệm này rồi. Có bạn nào có thể giải thích cho mọi người được không? Bạn [học viên] hay bạn nào nhỉ? Bạn nữ lúc nãy đâu rồi nhỉ? Mình muốn hỏi theo cách này để mọi người cùng nhớ. Có ai giơ tay không — mời em.
+**[T06-027]** Ok em nhé. Các bạn chú ý là gì: máy thực hiện cái tác vụ thông minh thì gọi là AI, và theo cái đó thì thậm chí cái máy tính Casio ngày xưa cũng được xem là một sản phẩm AI rồi. Trong cấu trúc của hệ thống ấy thì AI là cái vòng bên ngoài cùng, nó bao hàm những cái thứ bên trong. Ở lớp kế tiếp của nó là gì? Là machine learning. Mình tin các bạn cũng đã biết về những khái niệm này rồi. Có bạn nào có thể giải thích cho mọi người được không? Bạn   hay bạn nào nhỉ? Bạn nữ lúc nãy đâu rồi nhỉ? Mình muốn hỏi theo cách này để mọi người cùng nhớ. Có ai giơ tay không — mời em.
 
-**[T06-028]** [học viên]: Em chào thầy và các bạn. Em tên là [học viên]. Em xin giải thích: machine learning là người ta lập trình theo xác suất chứ không phải lập trình tường minh. Lập trình bình thường là lập trình tường minh theo điều kiện — việc này xảy ra thì việc kia xảy ra. Còn lập trình theo xác suất thì là có thể xảy ra hoặc không xảy ra, hoặc theo nhiều nhánh khác nhau.
+**[T06-028]**  : Em chào thầy và các bạn. Em tên là  . Em xin giải thích: machine learning là người ta lập trình theo xác suất chứ không phải lập trình tường minh. Lập trình bình thường là lập trình tường minh theo điều kiện — việc này xảy ra thì việc kia xảy ra. Còn lập trình theo xác suất thì là có thể xảy ra hoặc không xảy ra, hoặc theo nhiều nhánh khác nhau.
 
 **[T06-029]** Ok, cảm ơn em, tuyệt vời. Còn bạn nào — mời em.
 
-**[T06-030]** [học viên]: Theo em thì machine learning là mình cung cấp cho máy tính khả năng thực hiện một bài toán mà không cần lập trình.
+**[T06-030]**  : Theo em thì machine learning là mình cung cấp cho máy tính khả năng thực hiện một bài toán mà không cần lập trình.
 
 **[T06-031]** Ok. Còn nữa không? Có bạn nào có ý kiến không — mời em.
 
-**[T06-032]** [học viên]: Em là [học viên]. Em cũng đồng ý với ý của bạn trước. Với em thì đó là có dữ liệu và nó sẽ nhận ra quy luật.
+**[T06-032]**  : Em là  . Em cũng đồng ý với ý của bạn trước. Với em thì đó là có dữ liệu và nó sẽ nhận ra quy luật.
 
 **[T06-033]** Nhận ra quy luật — ok, cũng rất tuyệt vời.
 
-**[T06-034]** [học viên]: Theo em thì nó khác ở chỗ con người phải cung cấp cho phần mềm [không nghe rõ].
+**[T06-034]**  : Theo em thì nó khác ở chỗ con người phải cung cấp cho phần mềm [không nghe rõ].
 
 **[T06-035]** Ok cả em, tuyệt vời. Mời bạn.
 
-**[T06-036]** [học viên]: Thưa thầy, em tên là [học viên], em 2k3. Em thấy là AI với machine learning nó khác nhau ở chỗ — ngay trên đấy mình có nói là không cần lập trình một cách tường minh. Với AI bình thường: lúc đầu mình vào học, chương trình đầu tiên là Hello World — khi mình yêu cầu máy tính print ra thì nó sẽ print ra. Rắc rối hơn một tí: khi vào một cửa hàng chẳng hạn, mình có thể dự đoán lưu lượng hàng như thế nào, thì mình lập trình một cách tường minh — ngày thứ hai cần giới thiệu mặt hàng này thì nó sẽ giới thiệu mặt hàng này, ngày thứ ba như thế nào. Còn khi mình sử dụng machine learning thì mình sẽ chỉ cần đưa vào dữ liệu, mình lập trình con model để cho nó tự học, và nó sẽ tự đưa ra dự đoán dựa trên cái dữ liệu đấy, chứ không cần phải yêu cầu một cách rõ ràng nữa.
+**[T06-036]**  : Thưa thầy, em tên là  , em 2k3. Em thấy là AI với machine learning nó khác nhau ở chỗ — ngay trên đấy mình có nói là không cần lập trình một cách tường minh. Với AI bình thường: lúc đầu mình vào học, chương trình đầu tiên là Hello World — khi mình yêu cầu máy tính print ra thì nó sẽ print ra. Rắc rối hơn một tí: khi vào một cửa hàng chẳng hạn, mình có thể dự đoán lưu lượng hàng như thế nào, thì mình lập trình một cách tường minh — ngày thứ hai cần giới thiệu mặt hàng này thì nó sẽ giới thiệu mặt hàng này, ngày thứ ba như thế nào. Còn khi mình sử dụng machine learning thì mình sẽ chỉ cần đưa vào dữ liệu, mình lập trình con model để cho nó tự học, và nó sẽ tự đưa ra dự đoán dựa trên cái dữ liệu đấy, chứ không cần phải yêu cầu một cách rõ ràng nữa.
 
 **[T06-037]** Ok, cảm ơn em. Tất cả các ý kiến của các bạn đều rất tuyệt vời nhé, và mỗi một câu trả lời đều mang lại những đặc điểm để mọi người rất dễ nhớ đúng không ạ — có bạn thì nói là một bên cần tường minh, có bạn thì nói là đưa vào dữ liệu. Tất cả các ý kiến đều cung cấp góc nhìn của con người hiểu về một khái niệm, và tất cả đều đúng. Cái mà mình muốn các bạn tổng kết lại ở đây là: machine learning là cách chúng ta đưa dữ liệu vào trong máy mà không cần phải lập trình, và nó đưa ra kết quả. Chuyện này nó khác như thế nào? Các bạn tưởng tượng: giả sử các bạn là một chuyên gia và các bạn phải tạo ra một thuật toán có đến 1 tỷ vòng lặp, thì việc đầu tiên là chính các bạn cũng không nhớ được, đúng không? Chúng ta có thể làm thống kê để đếm xem số vòng lặp đấy là 1 tỷ hay là 2 tỷ — ví dụ bài toán email đúng không ạ, chúng ta có thể thống kê để hiểu rằng bên trong đang có 2 tỷ vòng lặp. Nhưng khi chúng ta lập trình tiếp cái số vòng lặp đấy thì não bình thường của mình cũng không biết được là kết quả sau đó nó sẽ đi theo nhánh nào. Còn cách số hai là gì: người ta sẽ đưa dữ liệu vào — giả sử người ta đưa 10.000 bức ảnh, gán nhãn là chó là mèo, sau đấy nó sẽ tự học cái pattern — sang từ tiếng Việt gọi là nhận dạng — và sau khi được học thì nó sẽ trả về những kết quả kế tiếp. Machine learning là như vậy. Rồi sau đó đến deep learning — có bạn nào trả lời thêm cho cái này không? Mời em, có cái mic ở phía trước, nếu bàn các bạn không có mic thì các bạn có thể lấy mic ở bàn khác.
 
-**[T06-038]** [học viên]: Chào mọi người ạ, em [học viên] ạ. Theo em nghĩ thì nó khác ở chỗ là deep learning sẽ dùng neural network, và nó sẽ có thêm các hàm phi tuyến tạo ra tính [không nghe rõ], còn bình thường sẽ là các hàm tuyến tính.
+**[T06-038]**  : Chào mọi người ạ, em   ạ. Theo em nghĩ thì nó khác ở chỗ là deep learning sẽ dùng neural network, và nó sẽ có thêm các hàm phi tuyến tạo ra tính [không nghe rõ], còn bình thường sẽ là các hàm tuyến tính.
 
 **[T06-039]** Ok. Có bạn nào bổ sung góc nhìn không?
 
-**[T06-040]** [học viên]: Theo như em tìm hiểu thì sự khác nhau giữa deep learning và machine learning: thứ nhất là cái dataset sử dụng cho deep learning sẽ lớn hơn dataset cho machine learning rất là nhiều. Cái thứ hai nữa là về phần cứng, về CPU thì deep learning sẽ đòi hỏi yêu cầu cao hơn — machine learning sử dụng thư viện và những mô hình có sẵn nên nó sẽ rất nhẹ, còn deep learning sử dụng mô hình có nhiều tầng nhiều lớp hơn thì nó sẽ nặng hơn rất nhiều.
+**[T06-040]**  : Theo như em tìm hiểu thì sự khác nhau giữa deep learning và machine learning: thứ nhất là cái dataset sử dụng cho deep learning sẽ lớn hơn dataset cho machine learning rất là nhiều. Cái thứ hai nữa là về phần cứng, về CPU thì deep learning sẽ đòi hỏi yêu cầu cao hơn — machine learning sử dụng thư viện và những mô hình có sẵn nên nó sẽ rất nhẹ, còn deep learning sử dụng mô hình có nhiều tầng nhiều lớp hơn thì nó sẽ nặng hơn rất nhiều.
 
 **[T06-041]** Ok, cảm ơn em. Còn ý nào nữa — mời bạn.
 
-**[T06-042]** [học viên]: Với em thì điểm khác biệt lớn nhất của deep learning: ví dụ deep learning thì nó sẽ có ba lớp, so với machine learning chỉ có input output thôi, còn deep learning sẽ có cái lớp ẩn và nó sẽ trích ra các đặc điểm, những cấu trúc bên trong của mô hình. Ví dụ mình chỉ cần cung cấp là vật thể — nếu như học có giám sát thì nhãn nó sẽ là chó và mèo, còn deep learning thì nó sẽ phải trích ra đặc điểm: tai như thế nào, các thứ như thế.
+**[T06-042]**  : Với em thì điểm khác biệt lớn nhất của deep learning: ví dụ deep learning thì nó sẽ có ba lớp, so với machine learning chỉ có input output thôi, còn deep learning sẽ có cái lớp ẩn và nó sẽ trích ra các đặc điểm, những cấu trúc bên trong của mô hình. Ví dụ mình chỉ cần cung cấp là vật thể — nếu như học có giám sát thì nhãn nó sẽ là chó và mèo, còn deep learning thì nó sẽ phải trích ra đặc điểm: tai như thế nào, các thứ như thế.
 
 **[T06-043]** Ok. Các ý đóng góp của các bạn đều rất tuyệt vời nhé. Mình nghĩ cái phép chốt là ở phần trả lời của bạn: nó có hai đặc điểm khác biệt lớn — đó là khả năng tính toán đòi hỏi cao hơn, rồi cái dataset nó cũng cao hơn. Các bạn tưởng tượng thế này: giả sử các bạn có một con chó, các bạn huấn luyện nó với một cái dataset tầm độ năm món đồ, 15 loại thức ăn — hàng ngày các bạn huấn luyện thì con chó nó cũng sẽ tự nhận ra được đâu là cái món ăn mà các bạn đã đào tạo nó, đúng không? Nhưng tưởng tượng với não bộ của con chó được tăng cường thêm nhiều lớp neuron, thì ngay lập tức sự liên kết giữa các lớp ấy sẽ giúp cho khả năng nhận ra những cái mới của con chó nó mở rộng lên. Đấy, chúng ta có thể hiểu nôm na về neural network là như vậy.
 
@@ -104,11 +100,11 @@
 
 **[T06-046]** Rồi sau đó thì bây giờ chúng ta sẽ có phần kế tiếp: ba nhóm chính của AI. Vậy bây giờ mình có câu hỏi là khi nào thì không dùng LLM? Có bạn nào đưa cho mình một tình huống không? Mời em.
 
-**[T06-047]** [học viên]: Khi những trường hợp nào mà có thể xử lý bằng [không nghe rõ] được thì mình sử dụng cái đấy, mà tránh sử dụng LLM.
+**[T06-047]**  : Khi những trường hợp nào mà có thể xử lý bằng [không nghe rõ] được thì mình sử dụng cái đấy, mà tránh sử dụng LLM.
 
 **[T06-048]** Ok, cảm ơn em. Còn bạn nào có ý kiến nữa không? Và em có thể đưa ra thêm một gợi ý chi tiết hơn không?
 
-**[T06-049]** [học viên]: Như là mình lập được bài toán ra thì mình code cứng luôn, chứ không nên đưa cho nó làm gì.
+**[T06-049]**  : Như là mình lập được bài toán ra thì mình code cứng luôn, chứ không nên đưa cho nó làm gì.
 
 **[T06-050]** Ok em. Câu trả lời hoàn toàn chính xác em nhé. Mở rộng ra là gì: là khi mà có những cái đã fix cứng giải quyết được rồi, hoặc giải quyết được với xác suất thành công cao. Mình lấy ví dụ là gì: giả sử các bạn được giao viết một cái hàm để phân loại xem cái tiền tố của email có đúng hay không — regex cho câu chuyện đấy bây giờ đã quá xuất sắc rồi, không cần phải đưa một cái AI vào để nó reasoning, vừa phức tạp để quản lý thêm. Câu hỏi này vì sao nó quan trọng? Tại vì đến một lúc, chính các bạn sẽ phải trả lời câu hỏi cho những người sếp của các bạn: ủa, tại sao tôi lại tiêu cái này? Vừa rồi Microsoft [không nghe rõ] tài khoản của nhân viên xài cost — tại vì cứ đốt tiền mà cũng không biết cái output là gì. Hiển nhiên là đằng sau thì Microsoft nó có nhiều cái mục đích khác nữa, nhưng đại loại là trong cái quyết định đấy nó gắn với cái chúng ta nói: chúng ta cần hiểu có những nhóm nào để sau đó chúng ta áp dụng cho nó phù hợp.
 
@@ -116,15 +112,15 @@
 
 **[T06-052]** Và chúng ta đi qua một chút về lịch sử. Nhìn vậy thôi nhưng từ cái AI cổ điển cho đến lúc này — cũng là lúc chúng ta hướng đến agentic AI — thì nó đi qua rất nhiều hành trình. Hôm qua mình đi ăn trưa với cả team dev, thì có một bạn dev kêu là dev AI xong để lúc AI thay dev. Các bạn có đồng tình với nhận định này không? Mời bạn — vì sao?
 
-**[T06-053]** [học viên]: Em xin trả lời câu hỏi này. Em nghĩ là đầu tiên lập trình viên nghĩ ra những giải pháp giải quyết những bài toán như thế, nhưng từ khi AI ra đời thì AI sẽ hỗ trợ cái việc đấy nhanh hơn, thì lập trình viên sẽ phải chuyển sang huấn luyện cái AI để nó mạnh hơn.
+**[T06-053]**  : Em xin trả lời câu hỏi này. Em nghĩ là đầu tiên lập trình viên nghĩ ra những giải pháp giải quyết những bài toán như thế, nhưng từ khi AI ra đời thì AI sẽ hỗ trợ cái việc đấy nhanh hơn, thì lập trình viên sẽ phải chuyển sang huấn luyện cái AI để nó mạnh hơn.
 
 **[T06-054]** Ok, cảm ơn em. Rồi có bạn nào có ý kiến không — mời em.
 
-**[T06-055]** [học viên]: Với câu hỏi của thầy thì em xin trả lời là nó thay thế được phần nào thôi. Ví dụ như lúc đầu bạn chia sẻ: những công việc đơn giản, những cái mà ở tầng lớp fresher đã làm được rồi, thì em trả lời là những cái việc đấy đã thay thế được. Cho nên câu trả lời của em là AI chỉ thay thế được một phần thôi chứ không thay thế hoàn toàn được một người dev.
+**[T06-055]**  : Với câu hỏi của thầy thì em xin trả lời là nó thay thế được phần nào thôi. Ví dụ như lúc đầu bạn chia sẻ: những công việc đơn giản, những cái mà ở tầng lớp fresher đã làm được rồi, thì em trả lời là những cái việc đấy đã thay thế được. Cho nên câu trả lời của em là AI chỉ thay thế được một phần thôi chứ không thay thế hoàn toàn được một người dev.
 
 **[T06-056]** Ok. Rồi, cảm ơn em. Còn ai có ý kiến không — mời em.
 
-**[T06-057]** [học viên]: Dạ, em là [học viên] ạ. Đây là một vấn đề mà em thấy là đã xảy ra ở các nước khác: có nhiều công ty lớn đã trải qua cái việc là vì sự bùng nổ của AI mà có một đợt lay-off lớn, để rồi lại tuyển lại những cái dev đấy về với lương cao hơn nữa.
+**[T06-057]**  : Dạ, em là   ạ. Đây là một vấn đề mà em thấy là đã xảy ra ở các nước khác: có nhiều công ty lớn đã trải qua cái việc là vì sự bùng nổ của AI mà có một đợt lay-off lớn, để rồi lại tuyển lại những cái dev đấy về với lương cao hơn nữa.
 
 **[T06-058]** Ok, cảm ơn em. Mọi người đang tập trung quá nhiều vào cái vế số hai — thực ra cũng là một chủ đề rất hay để chúng ta trao đổi, đó là AI nó sẽ thay thế lập trình viên. Mình thì không muốn tập trung vào cái vế đấy, nhưng nếu nói vào chỗ đó một chút thì mình muốn nói thế này: về mặt số liệu thì bây giờ là đang tuyển lại rất nhiều, và về mặt bản chất thì nó đang redesign lại cái flow, chứ cũng không hẳn là nó thay hay không thay đâu. Chuyện này chúng ta sẽ trao đổi về sau. Nhưng câu chuyện của cái slide này: cái bạn trả lời trong ví dụ mình vừa nói ấy đang tuyệt đối hóa vai trò của developer, của lập trình viên. Trong khi đó, đằng sau có những người là nhà toán học, nhà tâm lý học — có rất nhiều nhà khoa học ở nhiều ngành nghề khác nhau, nhưng hai trong số những ngành nghề đấy là toán học và tâm lý học. Tại sao có tâm lý học? Tại vì đến tận cùng, việc đầu tiên là AI nó tạo ra cái bộ não giống như cấu trúc não người: nó có khả năng nhớ được dài, nó có khả năng [không nghe rõ], đúng không ạ? Và câu chuyện này nó bắt nguồn từ chuyện mình sẽ kể các bạn: có một người tên là Turing — bây giờ có cái viện gọi là viện Turing đúng không, là tên của nhà khoa học. Người ta làm rất đơn giản: tôi không biết cái máy của mình làm máy gì, nhưng tôi đặt cái máy ở phía sau, và tôi để hai cái blackbox — một cái blackbox là người và một cái blackbox là máy, nhưng tôi không cho người đánh giá biết bên nào là máy, bên nào là người. Làm sao bạn lừa được cái người bên kia? Khi bạn đánh lừa được người ta, thì đó là cách mà người ta đánh giá xem AI nó có thực sự hiểu như vậy không. Các bạn tìm hiểu thêm về cái Turing test đó. Ok chưa?
 
@@ -140,7 +136,7 @@
 
 ## Hỏi đáp về phạm vi và lộ trình khóa học
 
-**[T06-063]** [Học viên]: Xin phép hỏi, cái scope của lớp mình sẽ tập trung xung quanh buổi này, hay là chủ đề của cả khóa?
+**[T06-063]**  : Xin phép hỏi, cái scope của lớp mình sẽ tập trung xung quanh buổi này, hay là chủ đề của cả khóa?
 
 **[T06-064]** À, một câu hỏi rất hay, em vừa có một góp ý hay đấy. Mình sẽ có tổng cộng 14 ngày học, mình đi qua nhiều subject, sẽ có lý thuyết rồi có thực hành. Lý thuyết thì mình đi từ những cái cơ bản như thế này — cái foundation này — xong đó mình đi đến phần dữ liệu, rồi phần [không nghe rõ], rồi các kiến trúc về cách các hệ thống nó suy nghĩ như thế nào, rồi cách chúng ta dùng guardrail, dùng human-in-the-loop system, rồi data observability, vân vân. Để tí nữa anh sẽ giới thiệu cho mọi người một chút về chuyện này. Còn nếu học kiểu bài bản, bắt đầu từ ma trận số trở đi, thì không thể học được trong 15 ngày. Nhưng câu hỏi rất hay, tí nữa anh nghĩ cách để show cái này cho mọi người. Vương, em chuẩn bị giùm anh một cái slide — câu hỏi của bạn rất hay nhá — là: vậy thì cả khóa mình sẽ học những cái gì?
 
@@ -148,11 +144,11 @@
 
 **[T06-066]** Anh góp ý là em trả lời vậy thì đang đi ngược lại cái chuyện quan trọng. Mọi chương trình học bao giờ cũng vậy, phải cho người học biết được — ở đây câu hỏi của bạn rất xác đáng, đó là lý do anh ghi nhận câu hỏi này rất giá trị. Khi em học cái gì đó thì cần biết outcome của cả khóa em sẽ thu nhận cái gì, và cả quá trình nó là gì. Còn theo cách cũ thì cứ đến buổi nào tôi dạy buổi đấy. Cái này để tí nữa anh nghĩ cách.
 
-**[T06-067]** [Học viên]: Nếu được thì các anh giúp tổng hợp lại các chủ đề của cả lớp, ví dụ như em muốn chuẩn bị trước cho lớp để có thể tiếp thu tốt hơn.
+**[T06-067]**  : Nếu được thì các anh giúp tổng hợp lại các chủ đề của cả lớp, ví dụ như em muốn chuẩn bị trước cho lớp để có thể tiếp thu tốt hơn.
 
 **[T06-068]** Cũng không hẳn là chuẩn bị, ý là anh sẽ cung cấp cho bọn em một cái journey ở góc độ high level.
 
-**[T06-069]** [Học viên]: Vâng, kiểu như cái syllabus. — Ờ, syllabus thì trên LMS có. — Thế cái email lập cho bọn em thì có truy cập được không, đăng nhập sao? — Ok. Ok em cảm ơn nhá, câu hỏi hay.
+**[T06-069]**  : Vâng, kiểu như cái syllabus. — Ờ, syllabus thì trên LMS có. — Thế cái email lập cho bọn em thì có truy cập được không, đăng nhập sao? — Ok. Ok em cảm ơn nhá, câu hỏi hay.
 
 **[T06-070]** [Hoạt động lớp: chia sẻ màn hình hướng dẫn kết nối Discord — QR thứ nhất tải tài liệu hướng dẫn, QR thứ hai là form feedback lỗi kết nối kèm mã sinh viên cho ban tổ chức xử lý; giải đáp một trường hợp email không khớp]
 
@@ -160,7 +156,7 @@
 
 **[T06-072]** Các bạn lúc nãy đã phát biểu thì nhớ điền thông tin vào nhá. Trong giờ giải lao vừa rồi có một bạn đặt cho mình một câu hỏi. Bạn đấy đâu rồi nhỉ? Em đứng dậy, đặt câu hỏi lại cho mọi người nghe, xong rồi vừa tính điểm cho em, và biết đâu những người khác cũng quan tâm cùng câu hỏi với em.
 
-**[T06-073]** [Học viên]: Dạ, lúc nãy em có lên hỏi thầy là quy mô và chủ đề mà khóa mình sẽ cover theo từng bài học bao gồm cái gì, và nó có tập trung hoàn toàn vào [không nghe rõ] không, hay là cả các chủ đề khác về AI?
+**[T06-073]**  : Dạ, lúc nãy em có lên hỏi thầy là quy mô và chủ đề mà khóa mình sẽ cover theo từng bài học bao gồm cái gì, và nó có tập trung hoàn toàn vào [không nghe rõ] không, hay là cả các chủ đề khác về AI?
 
 **[T06-074]** Ok, cảm ơn em nhá. Mọi người lưu ý, câu hỏi đấy rất hay. Lúc sáng [giảng viên] cũng đã trao đổi đầu buổi, mình cũng vì việc này việc kia mà không đi hết được cái summary này cho các bạn. Trong vòng 15 ngày thì gần như các bạn sẽ học được toàn diện. Trong khi chờ đợi thì mình đã summarize như này, các bạn có thể đọc để nắm được tổng thể. Còn chi tiết toàn bộ chương trình, mỗi ngày học cái gì, các bạn cập nhật trên LMS. Tổng thể là: cung cấp kiến thức toàn diện và kỹ năng thực tế để các bạn đi từ thiết kế, phát triển, quản lý đến triển khai các ứng dụng AI ở cấp độ production, cũng như các quy trình về dữ liệu. Mục tiêu chính bao gồm AI/ML này, các kỹ thuật nhắc lệnh — prompt engineering này, các mô hình thiết kế này. Ở đây vẫn còn thiếu: các bạn cũng sẽ học về CI/CD, học về tương tác trên cloud environment, cloud infrastructure — tổng lại là khá toàn diện. Còn toàn bộ chủ đề từng ngày các bạn sẽ nhìn thấy trên LMS đây: nó sẽ có các buổi như thế này, những ngày như thế này. Các bạn thậm chí còn được học cả kỹ năng quản trị dự án. Rồi đây, data pipeline này, guardrail này — những chủ đề mà mình nghĩ các trường đại học bên ngoài đang đào tạo thuần về lý thuyết thì ở đây các bạn sẽ được học, ví dụ như evaluation pipeline chẳng hạn. Đấy là cái tổng thể, các bạn có thể nhìn vào đây. Thôi, chúng ta quay lại nhá.
 
@@ -168,17 +164,17 @@
 
 **[T06-075]** Rồi, sang phần số hai, cũng là phần quan trọng nhất trong buổi hôm nay. Sau phần này sẽ có một bạn hỗ trợ, các bạn sẽ tự thực hành để demo cái cơ chế transformer hoạt động như thế nào, attention hoạt động như thế nào. Cái LLM thì chúng ta có thể xem nó là gì? Là một mô hình ngôn ngữ rất lớn, dựa trên kiến trúc transformer, và huấn luyện dựa trên lượng dữ liệu có cấu trúc hoặc không có cấu trúc rất khổng lồ — người ta định nghĩa token đấy. Như lúc nãy nói, nó có thể tạo ra cái mới: có thể là văn bản, trả lời câu hỏi, viết code, hoặc quá trình lý luận nhiều bước phức tạp. Đặc điểm chính của LLM, đầu tiên là việc decode. Cho mình hỏi ở đây có bạn nào giải thích được encode và decode như nào không? À, em để dành cho người khác nhá. Các bạn nhớ lúc nãy chúng ta có concept giơ tay phát biểu thì sẽ có ghi nhận và tích điểm đúng không? Bây giờ mình mời bạn ở phía xa đầu kia trước. Mời em, giới thiệu tên và giải thích ngắn gọn encode và decode.
 
-**[T06-076]** [Học viên]: Chào thầy và mọi người. Em tên là [học viên], em ở trường đại học công nghệ kỹ thuật ở Thành phố Hồ Chí Minh. Em xin trả lời câu hỏi về encoder và decoder của mô hình ngôn ngữ lớn. Trước hết đó là một bài toán cơ bản về biểu diễn. Mã hóa tức là một dữ liệu đầu vào sẽ được mã hóa thành một dạng dữ liệu đơn giản hơn. Từ cái dữ liệu đơn giản này nó sẽ được giải mã, và từ đó hoạt động cho nhiều bài toán khác nhau. Họ có thể giải mã ra từ tiếp theo: với dữ liệu đầu vào đã được mã hóa như vậy thì từ tiếp theo có thể là từ gì — đó cũng là ý tưởng của những mô hình ngôn ngữ lớn. Về sau thì họ có xu hướng bỏ đi phần mã hóa, vì thấy mã hóa tốn kém quá, nên khi có đầu vào thì người ta đem đi giải mã luôn. Đó là ý tưởng về decode. Đa số mô hình bây giờ đều có xu hướng chỉ giải mã thôi, họ bỏ đi phần mã hóa.
+**[T06-076]**  : Chào thầy và mọi người. Em tên là  , em ở trường đại học công nghệ kỹ thuật ở Thành phố Hồ Chí Minh. Em xin trả lời câu hỏi về encoder và decoder của mô hình ngôn ngữ lớn. Trước hết đó là một bài toán cơ bản về biểu diễn. Mã hóa tức là một dữ liệu đầu vào sẽ được mã hóa thành một dạng dữ liệu đơn giản hơn. Từ cái dữ liệu đơn giản này nó sẽ được giải mã, và từ đó hoạt động cho nhiều bài toán khác nhau. Họ có thể giải mã ra từ tiếp theo: với dữ liệu đầu vào đã được mã hóa như vậy thì từ tiếp theo có thể là từ gì — đó cũng là ý tưởng của những mô hình ngôn ngữ lớn. Về sau thì họ có xu hướng bỏ đi phần mã hóa, vì thấy mã hóa tốn kém quá, nên khi có đầu vào thì người ta đem đi giải mã luôn. Đó là ý tưởng về decode. Đa số mô hình bây giờ đều có xu hướng chỉ giải mã thôi, họ bỏ đi phần mã hóa.
 
 **[T06-077]** Ok, cảm ơn em, rất tuyệt vời. Với phần trả lời như vậy, cho mình hỏi có bạn nào không hiểu về encode và decode không ạ? Mình đang nói cái cơ bản thôi, chứ chưa nói đến mối liên hệ giữa encode và decode trong LLM. Câu trả lời của em rất tuyệt vời. Mời em bổ sung tiếp.
 
-**[T06-078]** [Học viên]: Em xin phép giới thiệu bản thân, em tên là [học viên]. Phần nội dung bạn vừa nói thì hơi cao quá, em xin xét lại phần encode với decode ạ. Đầu tiên, input của các mô hình ngôn ngữ sẽ là các con số, nó sẽ được tính toán và tính ra xác suất. Mình cần phải mã hóa các ngôn ngữ — kiểu ngôn ngữ tự nhiên — thành số để máy đọc được, học được đúng không? Và sau khi mô hình tính toán ra xác suất xong thì nó phải chuyển hóa cái số đấy thành ngôn ngữ mà con người có thể hiểu được.
+**[T06-078]**  : Em xin phép giới thiệu bản thân, em tên là  . Phần nội dung bạn vừa nói thì hơi cao quá, em xin xét lại phần encode với decode ạ. Đầu tiên, input của các mô hình ngôn ngữ sẽ là các con số, nó sẽ được tính toán và tính ra xác suất. Mình cần phải mã hóa các ngôn ngữ — kiểu ngôn ngữ tự nhiên — thành số để máy đọc được, học được đúng không? Và sau khi mô hình tính toán ra xác suất xong thì nó phải chuyển hóa cái số đấy thành ngôn ngữ mà con người có thể hiểu được.
 
-**[T06-079]** Ok, cảm ơn em. Hai câu trả lời này rất tốt các bạn nhá. Đặc biệt phần trả lời của [học viên] cũng giải mã vì sao — trong số những đặc điểm chính đây — mô hình decoder-only transformer đang ngày càng được ưa chuộng. Đại loại các bạn hiểu nôm na là mọi việc bắt đầu bằng việc chúng ta có nhu cầu encode cái gì đó, rồi sau đấy có quá trình decode. Trong quá trình làm thì các bạn đều học toán rồi, đều biết là muốn tính nhanh thì bắt buộc phải chuyển những cái cần tính theo một cấu trúc biểu diễn [không nghe rõ] thì mọi cái sẽ nhanh.
+**[T06-079]** Ok, cảm ơn em. Hai câu trả lời này rất tốt các bạn nhá. Đặc biệt phần trả lời của   cũng giải mã vì sao — trong số những đặc điểm chính đây — mô hình decoder-only transformer đang ngày càng được ưa chuộng. Đại loại các bạn hiểu nôm na là mọi việc bắt đầu bằng việc chúng ta có nhu cầu encode cái gì đó, rồi sau đấy có quá trình decode. Trong quá trình làm thì các bạn đều học toán rồi, đều biết là muốn tính nhanh thì bắt buộc phải chuyển những cái cần tính theo một cấu trúc biểu diễn [không nghe rõ] thì mọi cái sẽ nhanh.
 
 **[T06-080]** Quay về chủ đề chính: LLM có bốn đặc điểm. Đặc điểm thứ nhất là decoder-only transformer architecture. Thứ hai là việc áp dụng pretraining, và giai đoạn reinforcement learning để fine-tune mô hình. Đặc điểm thứ ba là nó dự đoán từ kế tiếp. Và cái cuối cùng là chủ đề bây giờ đang cãi nhau — cãi nhau ở điểm nào thì tí nữa mình nói.
 
-**[T06-081]** Chúng ta đi vào từng đặc điểm. Đầu tiên là phần decoder-only. Thực ra [học viên] lúc nãy trả lời chuẩn đấy: nửa bên trái sẽ là encode và nửa bên phải sẽ là mình giải mã. Câu chuyện tách giải mã sang một bên giúp cho việc đọc theo trình tự trái sang phải, tốc độ nhanh hơn. Đối với LLM thì việc trả về kết quả nhanh và đúng lại là yếu tố quan trọng nhất. Ví dụ một hệ thống mà chúng ta ngồi chờ khoảng một phút sau nó mới trả về thì chúng ta sẽ đánh giá thấp hệ thống kiểu đấy.
+**[T06-081]** Chúng ta đi vào từng đặc điểm. Đầu tiên là phần decoder-only. Thực ra   lúc nãy trả lời chuẩn đấy: nửa bên trái sẽ là encode và nửa bên phải sẽ là mình giải mã. Câu chuyện tách giải mã sang một bên giúp cho việc đọc theo trình tự trái sang phải, tốc độ nhanh hơn. Đối với LLM thì việc trả về kết quả nhanh và đúng lại là yếu tố quan trọng nhất. Ví dụ một hệ thống mà chúng ta ngồi chờ khoảng một phút sau nó mới trả về thì chúng ta sẽ đánh giá thấp hệ thống kiểu đấy.
 
 **[T06-082]** Kế tiếp — để mình highlight chỗ này nhá — sau khi các dữ liệu đã được đưa vào đào tạo, mục tiêu chính là làm thế nào để chúng ta kiểm soát được câu trả lời của nó có mức độ chính xác ngày càng cao. Vì thế chúng ta cần hai tầng sau đó: tầng self-supervised training và reinforcement learning. Sau quá trình đó, khi mô hình đã huấn luyện hết từng đó, điều quan trọng nhất là: cái từ kế tiếp mà mô hình sản sinh ra phải đi theo logic như thế nào.
 
@@ -196,65 +192,65 @@
 
 ## Trò chuyện bên lề trong lúc phát thẻ: hành trình công nghệ và Google Developer Expert
 
-**[T06-089]** [Học viên]: Thầy còn code không hay là chỉ đi dạy thôi?
+**[T06-089]**  : Thầy còn code không hay là chỉ đi dạy thôi?
 
 **[T06-090]** Code thì 4 năm rồi để AI code. Còn mình vẫn làm trong ngạch, vẫn xây dựng hệ thống, vẫn làm sản phẩm — tức là giờ không code, để cho AI code thôi, mà hệ thống thì vẫn chạy. Bạn 86 à? Mình hơn bạn 3 tuổi.
 
-**[T06-091]** [Học viên]: Thầy làm thế nào để được cái này? Cái này dai lắm, không dễ đâu. Mà có vẻ thầy không phải background kỹ thuật?
+**[T06-091]**  : Thầy làm thế nào để được cái này? Cái này dai lắm, không dễ đâu. Mà có vẻ thầy không phải background kỹ thuật?
 
 **[T06-092]** Để làm được nó phải đánh giá kỹ thuật chứ. Hành trình của mình nó khác với của mọi người: phần lớn mọi người đi từ engineer background, mình thì ngày xưa học kinh tế. Xong đấy mình làm công nghệ, đến nay là cũng 25 năm rồi. Mình bắt đầu tự học từ khoảng 2012 — tính ra mình là một trong những người trả tiền cho Amazon AWS sớm nhất Việt Nam. Năm 2012 là mình đã deploy, mình đã dùng cái SNS đấy.
 
-**[T06-093]** [Học viên]: SNS?
+**[T06-093]**  : SNS?
 
 **[T06-094]** Simple Notification Service. Nếu bạn làm ví dụ các hệ thống về SMS branding chắc biết đúng không? SNS nó bao gồm cái đó, bao gồm cả email marketing, cả dịch vụ push notification trên các device. SNS là năm 2012 mình dùng rồi. Năm 2012 mình cũng đã deploy, đã thuê instance, làm các thể loại rồi. Tự học từ hồi đấy.
 
-**[T06-095]** [Học viên]: Em tiếp xúc với Amazon cũng chỉ EC2 thôi, chứ mấy cái kia mất nhiều tiền quá.
+**[T06-095]**  : Em tiếp xúc với Amazon cũng chỉ EC2 thôi, chứ mấy cái kia mất nhiều tiền quá.
 
 **[T06-096]** Đến 2014 thì mình bắt đầu tập trung hoàn toàn vào thằng Google. Đến năm 2023 — tức là 9 năm — mới được ghi nhận. Cái chương trình đấy ở Việt Nam hiện tại người ta ghi nhận có tám người thôi, cả toàn cầu cũng được khoảng 1200 người thôi. Chương trình 15 năm rồi.
 
-**[T06-097]** [Học viên]: Chương trình đấy có phải duy trì hàng năm không?
+**[T06-097]**  : Chương trình đấy có phải duy trì hàng năm không?
 
 **[T06-098]** Có chứ. Hàng năm, sau khi được rồi thì bọn mình phải có một số KPI trong đấy: cũng làm solution, cũng đi [không nghe rõ], cũng viết tech blog, còn lại nhiều thứ sau lắm chứ không phải làm xong cái là xong. Nhưng đổi lại thì cũng có nhiều thứ hay, họ tài trợ rất nhiều thứ — ví dụ vừa rồi đi Mỹ là được 5000 đô này, tháng tám này thì được đi Bắc Kinh.
 
-**[T06-099]** [Học viên]: Ngày xưa em cũng biết một anh, ý là anh ấy cũng liên quan đến kiểu Google Expert, không biết có trong danh sách không — anh ấy đi đầu về kiểu mobile, về Android.
+**[T06-099]**  : Ngày xưa em cũng biết một anh, ý là anh ấy cũng liên quan đến kiểu Google Expert, không biết có trong danh sách không — anh ấy đi đầu về kiểu mobile, về Android.
 
 **[T06-100]** Có một bạn là Quang Thảo là GDE trong lĩnh vực Android này. Thảo làm cho công ty Hà Lan, bây giờ về làm cho Vin này. Việt Nam thì có một bạn làm được Android này. Mình thì lại là người đầu tiên ở Đông Nam Á được Workspace. Thực ra Workspace nó là một phần của Google Cloud: toàn bộ từ email, Drive, Form, rồi Apps Script, nó là một nhánh của Google Cloud. Đấy: Thảo là Android nhá, Tú là cloud nhá, rồi Trường là cloud. Có một GDE khác cũng dạy cloud — Huy cũng là cloud nhưng là bên data. Xong đến mình, còn lại là ba bạn AI — danh sách được tám người. Bây giờ Việt Nam cũng đóng, không có nhận thêm ứng viên: cái giai đoạn applicant, mà mình submit đơn ấy, bây giờ người ta cũng không tiếp nhận nữa.
 
 **[T06-101]** Anh đang có hai cái add-on đang chạy. Một add-on là em dùng Google Sheet mà em có thể kiểm soát được toàn bộ Google Drive của em: từ việc tạo ra một directory mới — ví dụ giả sử ứng dụng cho Kid Plaza, mỗi một khách hàng như vậy mình tạo một profile khách hàng đúng không, rồi sau đấy mình log lịch sử khách hàng, đủ thời gian thì nó sẽ có cấu trúc lưu nào đó.
 
-**[T06-102]** [Học viên]: Em có một bài toán: ví dụ khi khách hàng order một khóa học, người ta có email, thì tự động add email vào một folder trên Google Drive của mình. Cái đấy có dễ không? Ý em là các bài giảng của khóa học đang lưu trong một folder, khi mua thì add email đấy tự động vào.
+**[T06-102]**  : Em có một bài toán: ví dụ khi khách hàng order một khóa học, người ta có email, thì tự động add email vào một folder trên Google Drive của mình. Cái đấy có dễ không? Ý em là các bài giảng của khóa học đang lưu trong một folder, khi mua thì add email đấy tự động vào.
 
 **[T06-103]** Dễ. Dùng API thôi. Dùng Apps Script cộng với Drive API hoặc Sheet API, tùy vào việc muốn cho nó [không nghe rõ] đến mức sâu nào.
 
-**[T06-104]** [Học viên]: Tech blog của thầy là gì đấy ạ?
+**[T06-104]**  : Tech blog của thầy là gì đấy ạ?
 
 **[T06-105]** Có trang web tham khảo [đã ẩn]. Còn cái add-on của mình ở trang [đã ẩn] Cái Google Sheet này bây giờ nhiều nữa nhá: càng phát triển càng nhiều thì người ta lợi dụng làm database. Mình dùng Google Sheet làm database đến 10 năm rồi. Thậm chí bây giờ, không những vậy — show cho bạn xem luôn — những người install cái add-on này, mình lại đang dùng Gmail để làm communication channel với người ta luôn. Ví dụ mấy cái email này này, đều là email tự động hết. Người ta cài trên marketplace là cái này đều gửi đi hết, mình không làm cái gì cả. Mà mình làm cái này 7 năm, mình chuyên một cái hệ sinh thái. Tóm lại — bạn nhìn danh sách email đây, có cái thì tám, có cái thì ba, có cái thì một — tức là nó theo cái vòng, mình không đụng cái gì hết, mình đã set hết, nó tự động chạy hết. Tức là dùng cái Google Apps Script đấy, nó giống kiểu VBA ngày xưa ấy. Dân kinh tế thực ra là chọn công cụ nào phù hợp với bài toán nào thôi. Thế còn cái Apps Script thì bản chất là serverless — cực kỳ tiện lợi. Còn muốn đẩy nó lên giống như mình đang làm, thì mặc dù ngôn ngữ của nó vẫn là Apps Script nhưng nó được bọc bên trong Cloud Run của GCP nên nó scale thoải mái.
 
 **[T06-106]** Mình còn một trang là Content Driver. Cái này là production rồi, mình cũng đang hoàn thiện tiếp — toàn bộ cái này một mình mình làm, nó có kênh thanh toán tích hợp sẵn rồi. Đơn giản nhất bạn vào đây này: tất cả các bài trên này là mình không đụng vào một cái gì hết. Trên này bây giờ có khoảng hơn 1000 bài.
 
-**[T06-107]** [Học viên]: Tức là nó có một con agent tự viết?
+**[T06-107]**  : Tức là nó có một con agent tự viết?
 
 **[T06-108]** Nhiều con. 20 agent tham gia viết một bài viết này, xong nó tự post lên đây.
 
-**[T06-109]** [Học viên]: Nó có tự post lên được các mạng xã hội không?
+**[T06-109]**  : Nó có tự post lên được các mạng xã hội không?
 
 **[T06-110]** Đấy là cái phase tiếp theo. Cái việc tự post lên mạng xã hội thì từ năm 2017 mình đã làm cái Google Sheet — bạn lên tìm trên YouTube vẫn còn — xong auto post lên tất cả các mạng xã hội. Còn phase này hiện tại mình chỉ dừng lại là cho nó viết blog của mình thôi, sau đó mình sẽ consolidate phần này vào cái Content Driver lúc nãy mình nói. Nói chung là mình cũng ôm nhiều lắm đấy — bắt đầu với cloud technology từ năm 2012.
 
-**[T06-111]** [Học viên]: Trang này với trang kia, trang nào kiếm tiền ạ?
+**[T06-111]**  : Trang này với trang kia, trang nào kiếm tiền ạ?
 
 **[T06-112]** Cái này thì lâu ngày mình không đụng vào. Thằng này là one-time payment, còn thằng bên kia là subscription.
 
-**[T06-113]** [Học viên]: Cái này chắc anh cũng phải trả cho Google ít nhiều đúng không?
+**[T06-113]**  : Cái này chắc anh cũng phải trả cho Google ít nhiều đúng không?
 
 **[T06-114]** Không, mình trả hạ tầng thôi. Hiển nhiên ông nào dùng Cloud Run vân vân thì đều phải trả thôi.
 
-**[T06-115]** [Học viên]: Nó tương ứng với cái gì ở bên Amazon nhỉ?
+**[T06-115]**  : Nó tương ứng với cái gì ở bên Amazon nhỉ?
 
 **[T06-116]** Lambda. Bản chất là nó scale cái việc chạy đấy để tăng cái runtime lên. Toàn bộ quá trình logging, quá trình deploy, cái hạ tầng... mình bắt đầu với Amazon, xong thậm chí đến năm 2019 mình còn join mấy khóa đào tạo của partner của Amazon nữa — ví dụ về big data, mình có cả certification big data với visualization của thằng Amazon cơ. Nhưng từ 2014 bắt đầu migrate hoàn toàn sang thằng Google, mãi đến 2023 thì nó mới ghi nhận.
 
 ## Trao đổi về hệ thống LMS học viên đang xây
 
-**[T06-117]** [Học viên]: Thầy, bên em là bên làm sản phẩm. Tụi em đang làm một cái LMS có thể [không nghe rõ] được hết tất cả những cái comment — nó sẽ xử lý số lượng lớn câu hỏi của tất cả các bạn, gom lại xong đưa ra, rồi visualize. Câu hỏi của em là thầy sẽ góp ý gì trong đấy — ý là muốn thầy login vào xem, có gì feedback. Vừa cần feedback, vừa muốn thầy có thể cho tụi em xin slide để tụi em up lên trên.
+**[T06-117]**  : Thầy, bên em là bên làm sản phẩm. Tụi em đang làm một cái LMS có thể [không nghe rõ] được hết tất cả những cái comment — nó sẽ xử lý số lượng lớn câu hỏi của tất cả các bạn, gom lại xong đưa ra, rồi visualize. Câu hỏi của em là thầy sẽ góp ý gì trong đấy — ý là muốn thầy login vào xem, có gì feedback. Vừa cần feedback, vừa muốn thầy có thể cho tụi em xin slide để tụi em up lên trên.
 
 **[T06-118]** À, tức là em nằm trong các bạn [không nghe rõ] hả? — Dạ đúng rồi.
 
@@ -262,7 +258,7 @@
 
 **[T06-120]** Điều quan trọng nhất, thầy đoán là nếu không có một người thực sự hiểu sâu về hệ thống, thì các em có làm cũng sẽ giống như kiểu các em đang đi may một cái bông hoa ở trên một cái áo thôi. May hết cái bông hoa này thì thấy cái này chưa được, đi may một bông hoa khác, rồi lại đi may một bông hoa khác. Các em cứ tưởng tượng: bản thân cái hệ thống LMS của VinUniversity nó đã có sẵn rồi đúng không? Và người ta đã bỏ rất nhiều tiền vào đó rồi đúng không? Mà nó vẫn chưa work đúng không? Tại vì nếu nó work rồi thì đâu cần bọn em nữa. Thành ra là nếu không có một người guide bọn em đủ sâu thì chắc chắn bọn em cũng giống như đang định làm cái áo nhưng trên thực tế chỉ may một cái hoa ở bên này, bên này, bên này, rồi ráp lại thì thấy loạn xì ngầu.
 
-**[T06-121]** [Học viên]: Thật ra team em cũng có mấy anh ex — cựu nhân viên của [không nghe rõ].
+**[T06-121]**  : Thật ra team em cũng có mấy anh ex — cựu nhân viên của [không nghe rõ].
 
 **[T06-122]** Có thể, có thể. Thực ra personally anh cũng có trao đổi với cả [giảng viên]. [Giảng viên] thì rất giỏi về mặt học thuật, rất giỏi về academy. Và giờ có một cái challenge là quản lý và operation cho 2000 người — đây là một cái rất thách thức, không phải đơn giản đâu. Ai cũng vậy, nhiều cái sẽ phải học. Ngược lại, những người nào làm các hệ thống rồi — anh ví dụ nhá, anh chỉ nói còn em làm: đơn giản là viết những cái add-on cho Google Classroom, lấy Google Classroom làm cái bộ xương sống. Xong đấy là có thể giải quyết tất cả mọi việc. Đây, để share cho một cái này. Thôi, lấy cái bản basic này cũng được — có một anh gửi cho thầy cái bản này, nó có hết rồi. Đây là Google Education này — nó đi từ năm 2011 đến tận bây giờ.
 
@@ -280,7 +276,7 @@
 
 **[T06-126]** Các bạn quay về một chút: LLM là trái tim của cái được gọi là AI hiện đại, thì kiến trúc Transformer lại là trái tim của trái tim đấy. Nó giống như cái nền tảng không thể bỏ qua. Các bạn cũng đừng ngại các công thức mình trình bày sau đây. Trước mắt, các bạn thấy cơ chế hoạt động của nó: đầu tiên chúng ta có input token, sau đấy nó nhúng (embedding) cái đó để biểu diễn trong không gian vectơ, sau đấy là self-attention — từ khóa quan trọng nhất trong chỗ này, các bạn nhớ, đó là nó học song song, nó nhìn song song — rồi nó feed forward trong cái mạng neural network, và cuối cùng nó sẽ dự đoán token kế tiếp. Ở đây những cái quan trọng nhất là: mỗi token nhìn các token khác, có quá trình xử lý phi tuyến tính, và nhìn song song.
 
-**[T06-127]** Ở bước số 1 là quá trình chúng ta đưa văn bản đầu vào — ví dụ văn bản kiểu viết bình thường — nó sẽ được tách thành các token. Cái token chúng ta nói kỹ hơn ở phần sau. Sau khi được tách thành các token, mỗi token sẽ được chuyển thành cái quan trọng nhất nhá: các vectơ. Tại vì vectơ thì mới tính được — giống như chúng ta biểu diễn các công thức toán học, ma trận vân vân, thì nó mới tính được. Lúc nãy [học viên] nói rất hay: quá trình mà không cần biết đầu vào là cái gì nhưng chúng ta biểu diễn được cái đầu vào đấy trên không gian toán học. Đã gọi là toán học thì là gì ạ? Cộng trừ nhân chia, xác suất vân vân — bởi vậy nó mới nhanh được. Và khác với những mô hình kiến trúc xử lý trước đây như RNN hay LSTM, Transformer cho phép xử lý song song. Xử lý song song là gì? Các bạn cứ tưởng tượng não bộ con người đọc từ trang 1 đến trang 500 thì kiểu gì chúng ta cũng quên những trang ở đầu. Còn giả sử mỗi trang là 100 token, 500 trang là 5.000 token, thì cả 5.000 token nó nhìn lẫn nhau, thế nên nó không quên được đúng không ạ? Điểm mạnh của Transformer là chỗ đấy.
+**[T06-127]** Ở bước số 1 là quá trình chúng ta đưa văn bản đầu vào — ví dụ văn bản kiểu viết bình thường — nó sẽ được tách thành các token. Cái token chúng ta nói kỹ hơn ở phần sau. Sau khi được tách thành các token, mỗi token sẽ được chuyển thành cái quan trọng nhất nhá: các vectơ. Tại vì vectơ thì mới tính được — giống như chúng ta biểu diễn các công thức toán học, ma trận vân vân, thì nó mới tính được. Lúc nãy   nói rất hay: quá trình mà không cần biết đầu vào là cái gì nhưng chúng ta biểu diễn được cái đầu vào đấy trên không gian toán học. Đã gọi là toán học thì là gì ạ? Cộng trừ nhân chia, xác suất vân vân — bởi vậy nó mới nhanh được. Và khác với những mô hình kiến trúc xử lý trước đây như RNN hay LSTM, Transformer cho phép xử lý song song. Xử lý song song là gì? Các bạn cứ tưởng tượng não bộ con người đọc từ trang 1 đến trang 500 thì kiểu gì chúng ta cũng quên những trang ở đầu. Còn giả sử mỗi trang là 100 token, 500 trang là 5.000 token, thì cả 5.000 token nó nhìn lẫn nhau, thế nên nó không quên được đúng không ạ? Điểm mạnh của Transformer là chỗ đấy.
 
 **[T06-128]** Sau đó, ở bước thứ hai, mỗi token sau khi được chuyển vào một vectơ có nghĩa là nó được định danh. Vectơ là gì? Vectơ là chúng ta định danh một cái gì đó trong không gian toán học. Giống như mỗi vị trí trên trái đất được định nghĩa bằng latitude và longitude của GPS thì chúng ta mới tracking được mình đang đi đâu đúng không? Trong không gian toán học thì bước embedding làm cái chuyện đấy — đó là bước số hai các bạn. Sau đó, mỗi token trong không gian toán học đấy nhìn lẫn nhau để tìm ra similarity score — điểm tương đồng. Sau bước đó nó tiếp tục feed forward — đẩy toàn bộ những cái đã diễn ra trước đó về phía trước. Và cuối cùng nó đoán next token là gì — next token giải mã lại thì chính là từ tiếp theo. Mình nói lại: về mặt kiến trúc, cái này rất quan trọng, cần phải học, và cái này phải giải thích đi giải thích lại nhá.
 
@@ -342,7 +338,7 @@
 
 **[T06-151]** [Hoạt động lớp: khảo sát giơ tay — bao nhiêu bạn đã gọi API từ các mô hình của Google hoặc ChatGPT; ai gọi từ năm 2022; ai đang vận hành hệ thống production tự động gọi API khi có user input.]
 
-**[T06-152]** Một bạn chia sẻ. [học viên]: Hiện tại em đang có một startup nhỏ, đơn giản gọi API — một nền tảng [không nghe rõ] giải quyết các bài toán phân tích trong ngành marketing. Tức là tập trung vào dạng xây dựng các bản kế hoạch chi tiết theo KPI, hoặc xây dựng bản kế hoạch marketing chẳng hạn, và những tác vụ khác liên quan đến marketing. Flow của nó là: một bạn marketing input vào, sau đấy nó tạo lên một kế hoạch marketing. Nó sẽ nhận thông tin từ tài liệu doanh nghiệp, hoặc là qua link, thứ ba là có thể trả lời bộ câu hỏi trắc nghiệm; sau đó nó đánh giá doanh nghiệp đấy, đưa ra các điểm yếu, đưa ra các gợi ý, rồi sau đó mới đến prompt.
+**[T06-152]** Một bạn chia sẻ.  : Hiện tại em đang có một startup nhỏ, đơn giản gọi API — một nền tảng [không nghe rõ] giải quyết các bài toán phân tích trong ngành marketing. Tức là tập trung vào dạng xây dựng các bản kế hoạch chi tiết theo KPI, hoặc xây dựng bản kế hoạch marketing chẳng hạn, và những tác vụ khác liên quan đến marketing. Flow của nó là: một bạn marketing input vào, sau đấy nó tạo lên một kế hoạch marketing. Nó sẽ nhận thông tin từ tài liệu doanh nghiệp, hoặc là qua link, thứ ba là có thể trả lời bộ câu hỏi trắc nghiệm; sau đó nó đánh giá doanh nghiệp đấy, đưa ra các điểm yếu, đưa ra các gợi ý, rồi sau đó mới đến prompt.
 
 **[T06-153]** Ừ, tức là anh hiểu rằng em cũng crawl dữ liệu về, đẩy nó thành một cái database, em nhúng nó vào, em tạo ra một cái list cho nó. Sau đó agent của em có thể access vào cái list đó real time, hoặc nó đã được train từ trước, sau đấy user sẽ prompt và tải kết quả lên, đúng không? Ok, cảm ơn em. Đấy, phần lớn hiện tại cũng là gọi ra kiểu như vậy thôi: có thể chúng ta crawl dữ liệu bên ngoài về, sau đó đưa vào trong một cái [không nghe rõ] mà chúng ta tăng cường, rồi sau đó prompt trên một cái chatbot — cái chatbot đấy đã được đào tạo trên cái kho kiến thức đã được crawl về.
 

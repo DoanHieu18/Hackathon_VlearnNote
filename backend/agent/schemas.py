@@ -9,8 +9,9 @@ from pydantic import BaseModel, Field
 
 class SegmentClassification(BaseModel):
     is_note_worthy: bool = Field(description="Đoạn này có đáng ghi thành note không")
-    label: Literal["definition", "example", "exam_warning", "action_item", "ambiguous", "none"]
+    label: Literal["definition", "example", "exam_warning", "action_item", "ambiguous", "none", "key_point", "insight", "student_insight"]
     summary: str = Field(description="Tóm tắt ngắn bám sát nguyên văn, rỗng nếu không note")
+    speaker: str = Field(default="Unknown", description="Người nói chính trong đoạn (ví dụ: Giảng viên, Học viên, Hệ thống, v.v...)")
 
 
 class IntentRoute(BaseModel):

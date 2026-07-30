@@ -4,5 +4,5 @@ websockets==11.0.3
 python-dotenv==1.0.0
 langgraph==0.2.60
 langchain-core==0.3.29
-langchain-google-genai==2.0.9
+langchain-openai==0.1.25
 pydantic==2.10.4

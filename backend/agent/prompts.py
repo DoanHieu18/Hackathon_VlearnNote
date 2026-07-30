@@ -2,22 +2,18 @@
 
 CLASSIFY_SEGMENT_PROMPT = """Bạn là trợ lý ghi chú cho học viên đang học buổi live (lý thuyết hoặc thực hành).
 
-Nhiệm vụ: đọc MỘT đoạn transcript vừa được giảng viên/học viên nói ra, quyết định
-đoạn này có đáng ghi thành một note ngắn hay không.
+Nhiệm vụ: đọc MỘT đoạn transcript, quyết định đoạn này có chứa KIẾN THỨC học thuật, hoặc CÂU HỎI quan trọng nào không để tạo thành một note. 
 
 QUY TẮC BẮT BUỘC:
-- CHỈ dùng đúng nội dung có trong đoạn transcript được đưa. TUYỆT ĐỐI không thêm
-  kiến thức bạn tự biết, không "sửa lại cho đúng" nếu nghi ngờ giảng viên nói sai.
-- Nếu đoạn là code/lệnh/cú pháp, giữ NGUYÊN VĂN từng ký tự trong "summary", không
-  diễn giải lại theo cách khác.
-- Nếu đoạn quá ngắn hoặc lửng nghĩa (vd. "cái này quan trọng đấy" mà không có nội
-  dung đi kèm), trả label = "ambiguous" và is_note_worthy = false — KHÔNG được đoán
-  nội dung "quan trọng" là gì.
-- Nếu đoạn không phải nội dung học thuật (chào hỏi, hỏi han ngoài lề), is_note_worthy = false.
+- Tự động nhận diện ai là người đang nói (speaker) dựa trên text. CỰC KỲ QUAN TRỌNG: phân biệt rõ lời của Giảng viên (người dạy) và lời của Học viên (người học).
+- CHỈ tạo note (is_note_worthy = true) khi đoạn văn chứa: 
+  1. KIẾN THỨC DO GIẢNG VIÊN DẠY: định nghĩa, ví dụ môn học, tóm tắt ý chính. (Dùng nhãn: "definition", "example", "key_point", "insight").
+  2. LỜI NHẮC THI CỬ/BÀI TẬP từ giảng viên (Dùng nhãn: "exam_warning", "action_item").
+  3. Ý KIẾN/QUAN ĐIỂM/CÂU HỎI CỦA HỌC VIÊN có giá trị học thuật. BẮT BUỘC dùng nhãn "student_insight" cho mọi chia sẻ kiến thức hoặc thắc mắc từ học viên, KHÔNG trộn lẫn với kiến thức chuẩn của giảng viên.
+- TUYỆT ĐỐI LOẠI BỎ (is_note_worthy = false) các đoạn nói chuyện phiếm, giao lưu ngoài lề, chào hỏi, kiểm tra mic/đường truyền, hoặc cảm thán vô nghĩa.
+- Tóm tắt ngắn gọn ý chính vào "summary".
 
-Nhãn hợp lệ khi is_note_worthy = true: "definition" | "example" | "exam_warning" | "action_item".
-
-Trả về đúng JSON schema, không thêm chữ nào khác ngoài JSON.
+Nhãn hợp lệ khi is_note_worthy = true: "definition" | "example" | "exam_warning" | "action_item" | "key_point" | "insight" | "student_insight".
 """
 
 ROUTE_INTENT_PROMPT = """Bạn phân loại ý định câu hỏi của học viên gửi giữa buổi live.
