@@ -56,8 +56,12 @@ def _build_clients() -> list[ChatGoogleGenerativeAI]:
             "xem backend/.env.example. Tính năng bắt buộc gọi AI thật, không được "
             "hardcode/mock ở lớp này."
         )
+    # max_retries=0: để CHÍNH lớp xoay vòng key ở dưới xử lý lỗi quota, thay vì
+    # để SDK tự retry lâu trên cùng một key đã hết quota rồi mới báo lỗi.
     return [
-        ChatGoogleGenerativeAI(model=DEFAULT_MODEL, google_api_key=key, temperature=0)
+        ChatGoogleGenerativeAI(
+            model=DEFAULT_MODEL, google_api_key=key, temperature=0, max_retries=0
+        )
         for key in keys
     ]
 

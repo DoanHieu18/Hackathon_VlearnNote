@@ -14,6 +14,6 @@ class SegmentClassification(BaseModel):
 
 
 class IntentRoute(BaseModel):
-    intent: Literal["catch_up", "session_recap", "out_of_scope"]
+    intent: Literal["catch_up", "session_recap", "out_of_scope", "unclear"]
     keyword: str = Field(default="", description="Từ khoá chính nếu học viên nhắc tới")
     window_minutes: float = Field(default=10.0, description="Khoảng phút muốn xem lại")

@@ -78,9 +78,23 @@ Loại: [ ] Tối ưu tính năng có sẵn  [x] Tính năng mới
   1. *Đúng có-căn-cứ*: mọi note/câu trả lời phải trace được về đúng mã đoạn transcript hoặc trạng thái "không tìm thấy" — pass/fail.
   2. *Đúng nhãn phân loại*: label (definition/example/exam_warning/action_item/ambiguous) khớp kỳ vọng trong golden set — pass/fail.
   3. *Không bịa thêm*: đối chiếu nội dung note/câu trả lời với transcript gốc, không có câu/ý nằm ngoài input — pass/fail, người thứ hai chấm độc lập.
-- **Golden set**: `eval/golden_set.json` — hiện có **22 case** (9 thường, 2 hiếm, 8 case theo 4 lớp chỗ khó ×2, 3 case route Q&A thường), ≥10 case lấy trực tiếp từ 6 transcript thật (`data/vlearn-pack/transcript/`). Cần bổ sung thêm ≥8 case (mở rộng lên 30+ theo khuyến nghị) trước CP4 nếu dùng promptfoo.
-- **Quality bar** (chốt tại thời điểm commit spec, giữ nguyên sau đó): *"Đạt khi ≥80% case classify_segment đúng is_note_worthy + đúng label, VÀ 100% case lớp ① (nguồn sự thật) không được bịa thêm nội dung ngoài input."*
-- **Kết quả chạy**: chưa chạy lượt đầu — cần `GEMINI_API_KEY` thật (xem `backend/.env.example`, lấy từ Google AI Studio). Kế hoạch: chạy trọn `eval/golden_set.json` qua `ingest_graph`/`question_graph` trước CP3, ghi bảng % vào `eval/run_001.md`.
+- **Golden set**: `eval/golden_set.json` — **35 case**, phủ đủ 4 lớp chỗ khó (① 8 case · ② 7 · ③ 7 · ④ 4) + 7 case thường + 2 case hiếm. **29/35 case bắt nguồn từ quan sát thực tế**: 14 case giữ nguyên văn tin nhắn học viên trong `data/vlearn-pack/chatlog` (2.522 dòng thật — giữ cả lỗi chính tả "biều đồ"/"đaau", thiếu dấu "nop btap o dau", slang "hôm nay học gì z", tin cụt "hi"/"hả"/"d"), 3 case từ tình huống thật trong chatlog, 8 case trích đoạn giảng thật trong `transcript/`, 1 case từ số mining (166/1.261 lượt tutor thật phải trả "không tìm thấy" = 13,2%), 3 case từ lúc nhóm tự dùng thử.
+- **Quality bar** (chốt tại thời điểm commit spec, **giữ nguyên, không hạ**): *"Đạt khi ≥80% case classify_segment đúng is_note_worthy + đúng label, VÀ 100% case lớp ① (nguồn sự thật) không được bịa thêm nội dung ngoài input."*
+- **Kết quả các lượt chạy** (runner: `eval/run_eval.py`, model `gemini-2.5-flash`, gọi AI thật):
+
+  | Lượt | Đo được | Tổng thể | classify_segment (bar ≥80%) | Lớp ① (bar 100%) | Kết luận |
+  |---|---|---|---|---|---|
+  | **001** — lượt đo đầu, đầy đủ | 35/35 | **29/35 = 82,9%** | 11/13 = **84,6%** ✅ | **7/8** ❌ | **Chưa đạt bar** — điều kiện cứng thất bại |
+  | 002 — sau fix ①, chạy dở | 23/35 | không dùng | — | **8/8** ✅ | Fix ① có tác dụng, nhưng lộ regression lớp ② |
+  | 003 — hết quota ngày | 6/35 | không dùng | — | — | Không hợp lệ, giữ lại để minh bạch |
+
+  Chi tiết đủ mọi case kể cả fail: `eval/run_001.md` (số liệu chính thức), `eval/run_002.md`, `eval/run_003.md`.
+
+- **Phân tích khoảng cách với bar** (nội dung slide 4 khi demo):
+  1. **Failure đau nhất — false negative "chưa thấy thầy nhắc"** (case `C1_08`, `C4_04`): `route_intent` trích keyword đã diễn giải lại ("chạy server") trong khi `search_transcript` chỉ khớp chuỗi nguyên văn ("Chạy bằng lệnh: uvicorn main:app") → tool trả `not_found` → agent trung thực trả lời "chưa thấy" **dù giảng viên ĐÃ nói**. Nguy hiểm nhất trong cả sản phẩm: học viên tưởng mình không bỏ sót gì, trong khi thực ra có. Đã sửa: `search_transcript` thêm tầng khớp theo token nội dung (bỏ dấu, bỏ stopword) và tầng `unconfirmed` trả kèm đoạn gần nhất nhưng ghi rõ "chưa xác nhận khớp" — giữ nguyên guardrail chống bịa. Lượt 002 xác nhận lớp ① lên 8/8.
+  2. **Regression do sửa prompt** (lượt 002, case `C2_02` "hả", `C2_03` "d"): siết prompt route làm tin cụt bị xếp thành `catch_up` rồi trả về một đoạn transcript bất kỳ — đúng kiểu "sửa chỗ này vỡ chỗ kia". Đã xử lý bằng cách thêm intent `unclear` + node `ask_clarify` (hỏi lại thay vì đoán — HAX G10), thay vì nhồi tiếp vào prompt.
+  3. **Lệch định nghĩa nhãn** (case `S04`, `S06`): ranh giới `example` vs `action_item` chưa được định nghĩa rõ trong spec nên nhóm và model chấm khác nhau. Đã viết rõ định nghĩa trong prompt (số liệu/minh hoạ = example; việc học viên phải tự làm = action_item) và ghi vào Changelog — **không đổi % của bar**.
+  4. **Việc còn phải làm**: chạy lại trọn bộ 35 case sau 2 fix trên khi quota reset để có lượt đo đầy đủ thứ hai.
 
 ## §8. Phân công & kế hoạch
 - **Phân công có tên** (xem thêm `PHAN-CONG.md`):
@@ -97,3 +111,7 @@ Loại: [ ] Tối ưu tính năng có sẵn  [x] Tính năng mới
 | Bản đầu | Lát cắt gốc: chỉ note tự động thụ động | — |
 | Cập nhật | Bổ sung nhánh catch-up Q&A + session_recap, mở rộng job sang "mất tập trung/không theo kịp" | Theo yêu cầu nhóm + khớp số liệu khảo sát (71% "không ghi chú kịp", kênh xử lý phổ biến nhất là "hỏi bạn học" — cho thấy cần một kênh hỏi-đáp chính thức) |
 | Cập nhật | Dùng LangGraph StateGraph thay vì 1 vòng ReAct đơn | Cần state chia sẻ liên tục giữa luồng ingest transcript và luồng trả lời câu hỏi chen ngang bất kỳ lúc nào |
+| Sau lượt đo 001 | `search_transcript` thêm tầng khớp theo token nội dung (bỏ dấu/stopword) + status `unconfirmed` | Case `C1_08` và `C4_04`: khớp chuỗi nguyên văn làm agent trả "chưa thấy thầy nhắc" dù giảng viên ĐÃ nói — failure đau nhất, làm thất bại điều kiện cứng lớp ① (7/8) |
+| Sau lượt đo 001 | Viết rõ định nghĩa nhãn `example` vs `action_item` trong `CLASSIFY_SEGMENT_PROMPT`; sửa kỳ vọng case `S06` thành `action_item` | Case `S04`/`S06`: định nghĩa nhãn trong spec chưa phân định rõ nên nhóm và model chấm khác nhau. **Quality bar % không đổi** — chỉ làm rõ định nghĩa đang mơ hồ, đúng hướng dẫn guide §4.1 |
+| Sau lượt đo 002 | Thêm intent `unclear` + node `ask_clarify` vào `question_graph` | Regression lộ ra ở lượt 002: siết prompt route làm tin cụt thật ("hả", "d" — lấy từ chatlog) bị xếp thành `catch_up` rồi trả về đoạn transcript bất kỳ. Hỏi lại đúng tinh thần HAX G10 thay vì đoán |
+| Sau lượt đo 003 | `run_eval.py` tách "CHƯA ĐO ĐƯỢC (hết quota)" khỏi "FAIL"; `llm.py` đặt `max_retries=0` để lớp xoay vòng key tự xử lý | Lượt 003 chỉ đo được 6/35 vì hết quota ngày, nếu tính chung vào mẫu số sẽ ra 17,1% — con số gây hiểu nhầm hoàn toàn về chất lượng sản phẩm |
