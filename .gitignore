@@ -54,3 +54,8 @@ venv.bak/
 .idea/
 *.swp
 *.swo
+
+# Runtime data
+backend/vlearnnote.db
+backend/session_audio/
+.cache/

@@ -1,0 +1,18 @@
+<svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Red Top-Left Triangle Accent -->
+  <polygon points="15,10 38,30 15,30" fill="#DC2626" />
+  
+  <!-- Faceted Dark Blue VinUniversity / VLearn V Chevron Body -->
+  <!-- Facet 1: Left Upper Arm -->
+  <polygon points="19,35 42,55 50,63 29,80" fill="#1E4F96" />
+  <!-- Facet 2: Center Bottom Left -->
+  <polygon points="29,80 50,63 50,92" fill="#12376A" />
+  <!-- Facet 3: Center Bottom Right -->
+  <polygon points="50,63 71,44 50,92" fill="#0E2D56" />
+  <!-- Facet 4: Right Arm Inner -->
+  <polygon points="50,63 71,44 71,18 50,18" fill="#2563EB" />
+  <!-- Facet 5: Right Arm Outer -->
+  <polygon points="71,44 88,18 88,48 50,92" fill="#1A4380" />
+  <!-- Facet 6: Right Top Tip -->
+  <polygon points="71,18 88,18 71,44" fill="#1D4F99" />
+</svg>
