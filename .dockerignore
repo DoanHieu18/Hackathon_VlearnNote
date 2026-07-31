@@ -1,0 +1,13 @@
+.git
+.github
+.venv
+**/__pycache__
+**/*.pyc
+**/node_modules
+**/dist
+.cache
+Hackathon_VlearnNote
+frontend/src/AppTest.jsx
+backend/.env
+backend/vlearnnote.db
+backend/session_audio

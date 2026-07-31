@@ -1,20 +1,17 @@
-# Deploy miễn phí
+# Deploy miễn phí trên một Render service
 
-## Backend trên Render
+Repo dùng Docker để build React và chạy FastAPI trong cùng một service. Frontend,
+REST API và WebSocket dùng chung một domain nên không cần Vercel hay `VITE_API_URL`.
 
-1. Tạo Web Service từ repository `DoanHieu18/Hackathon_VlearnNote`.
-2. Chọn branch `main`; Render sẽ đọc `render.yaml`.
-3. Thêm `OPENAI_API_KEY` trong Environment.
-4. Sau khi deploy, lưu URL dạng `https://vlearnnote-api.onrender.com`.
+1. Tạo Render Web Service từ repository `DoanHieu18/Hackathon_VlearnNote`.
+2. Chọn branch `main` và runtime `Docker`.
+3. Để trống Root Directory; Dockerfile nằm ở root repository.
+4. Thêm `OPENAI_API_KEY` trong Environment.
+5. Chọn instance Free và deploy.
 
-Repo đã kèm `runtime.txt` để Render dùng Python 3.11.9. Nếu service cũ vẫn
-hiện Python 3.14, hãy tạo deploy mới hoặc xoá cache build rồi deploy lại.
+Nếu service cũ đang dùng runtime Python/Root Directory `backend`, nên tạo service
+mới từ `render.yaml` hoặc đổi runtime sang Docker và xóa Root Directory.
 
-## Frontend trên Vercel
-
-1. Import cùng repository vào Vercel.
-2. Chọn Root Directory là `frontend` và framework là Vite.
-3. Thêm biến môi trường `VITE_API_URL` bằng URL Render ở trên.
-4. Deploy. `frontend/vercel.json` đã cấu hình fallback cho React Router/SPA.
-
-Render free có thể ngủ khi không có truy cập; request đầu tiên sau một thời gian sẽ cần vài giây để thức dậy.
+Render free có thể ngủ khi không có truy cập; request đầu tiên sau một thời gian
+sẽ cần vài giây để thức dậy. SQLite và audio nằm trên filesystem tạm thời nên có
+thể mất khi Render redeploy; dữ liệu cần lưu lâu dài nên chuyển sang PostgreSQL.

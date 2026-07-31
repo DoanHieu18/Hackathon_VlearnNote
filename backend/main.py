@@ -3,24 +3,11 @@ import base64
 import json
 import logging
 import time
-import shutil
 import os
 import re
 import sqlite3
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
-
-try:
-    src_icon = r'C:\Users\dinhl\.gemini\antigravity-ide\brain\d5665087-bb5a-4323-81d5-f3dc40349744\media__1785433212588.png'
-    src_full = r'C:\Users\dinhl\.gemini\antigravity-ide\brain\d5665087-bb5a-4323-81d5-f3dc40349744\media__1785433345999.jpg'
-    dst_dir = r'd:\Hackathon_VlearnNote\frontend\public\brand'
-    os.makedirs(dst_dir, exist_ok=True)
-    if os.path.exists(src_icon):
-        shutil.copy(src_icon, os.path.join(dst_dir, 'user-v-logo.png'))
-    if os.path.exists(src_full):
-        shutil.copy(src_full, os.path.join(dst_dir, 'vlearn-logo-full.jpg'))
-except Exception as _e:
-    pass
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -606,6 +593,25 @@ async def chat_without_stream(data: dict):
         intent = "error"
     _save_chat_message(user_email, "assistant", answer, session_id)
     return {"answer": answer, "intent": intent}
+
+
+FRONTEND_DIST = os.path.abspath(
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "frontend", "dist")
+)
+
+
+@app.get("/{full_path:path}", include_in_schema=False)
+async def serve_frontend(full_path: str):
+    """Serve the built Vite app and fall back to index.html for SPA routes."""
+    index_path = os.path.join(FRONTEND_DIST, "index.html")
+    if not os.path.isfile(index_path):
+        return {"service": "VLearnNote API", "frontend": "not built"}
+
+    requested_path = os.path.abspath(os.path.join(FRONTEND_DIST, full_path))
+    dist_prefix = FRONTEND_DIST + os.sep
+    if requested_path.startswith(dist_prefix) and os.path.isfile(requested_path):
+        return FileResponse(requested_path)
+    return FileResponse(index_path)
 
 
 if __name__ == "__main__":

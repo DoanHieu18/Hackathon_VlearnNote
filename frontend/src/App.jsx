@@ -62,7 +62,8 @@ const NOTE_ICONS = {
   student_insight: MessageCircle,
 };
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || `http://${window.location.hostname}:8001`;
+const API_BASE_URL = import.meta.env.VITE_API_URL
+  || (import.meta.env.DEV ? `http://${window.location.hostname}:8001` : window.location.origin);
 const WS_BASE_URL = API_BASE_URL.replace(/^http/, 'ws');
 
 const UiIcon = ({ icon: Icon, size = 18, ...props }) => (
