@@ -14,6 +14,7 @@ from langgraph.graph import END, StateGraph
 
 from agent.llm import invoke_with_timeout
 from agent.prompts import (
+    ASK_CLARIFY_PROMPT,
     CATCH_UP_ANSWER_PROMPT,
     CLASSIFY_SEGMENT_PROMPT,
     OUT_OF_SCOPE_REFUSAL_PROMPT,
@@ -143,6 +144,17 @@ def session_recap_node(state: AgentState) -> dict:
     return {"qa_answer": {"text": answer.content, "observation": observation}}
 
 
+def ask_clarify_node(state: AgentState) -> dict:
+    """Lớp ② — tin nhắn không rõ nội dung: hỏi lại thay vì đoán (HAX G10)."""
+    answer = invoke_with_timeout(
+        [
+            {"role": "system", "content": ASK_CLARIFY_PROMPT},
+            {"role": "user", "content": state["student_question"] or ""},
+        ]
+    )
+    return {"qa_answer": {"text": answer.content, "observation": None}}
+
+
 def out_of_scope_node(state: AgentState) -> dict:
     answer = invoke_with_timeout(
         [
@@ -163,6 +175,7 @@ def build_question_graph():
     graph.add_node("catch_up_qa", catch_up_qa_node)
     graph.add_node("session_recap", session_recap_node)
     graph.add_node("out_of_scope", out_of_scope_node)
+    graph.add_node("ask_clarify", ask_clarify_node)
     graph.set_entry_point("route_intent")
     graph.add_conditional_edges(
         "route_intent",
@@ -171,11 +184,13 @@ def build_question_graph():
             "catch_up": "catch_up_qa",
             "session_recap": "session_recap",
             "out_of_scope": "out_of_scope",
+            "unclear": "ask_clarify",
         },
     )
     graph.add_edge("catch_up_qa", END)
     graph.add_edge("session_recap", END)
     graph.add_edge("out_of_scope", END)
+    graph.add_edge("ask_clarify", END)
     return graph.compile()
 
 

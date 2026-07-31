@@ -1,0 +1,440 @@
+{
+  "run": 2,
+  "timestamp": "2026-07-30T16:50:07+07:00",
+  "model": "gemini-2.5-flash",
+  "total": 35,
+  "passed": 21,
+  "class1_passed": 8,
+  "class1_total": 8,
+  "results": [
+    {
+      "id": "S01",
+      "type": "classify_segment",
+      "class": "thuong",
+      "real_source": "transcript [T01-018]",
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "is_note_worthy": true,
+        "label": "definition",
+        "summary": "Phát triển sản phẩm AI chứa phát triển sản phẩm, cần nắm vững các nguyên lý của phát triển sản phẩm."
+      },
+      "error": null
+    },
+    {
+      "id": "S02",
+      "type": "classify_segment",
+      "class": "thuong",
+      "real_source": "transcript [T04-015]",
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "is_note_worthy": true,
+        "label": "definition",
+        "summary": "AI là một từ bao phủ tất cả những từ bên trong. Vòng bên trong là machine learning, vòng tiếp theo là deep learning, tầng bên trong cùng là generative AI."
+      },
+      "error": null
+    },
+    {
+      "id": "S03",
+      "type": "classify_segment",
+      "class": "thuong",
+      "real_source": "transcript [T04-013] (rút gọn)",
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "is_note_worthy": true,
+        "label": "action_item",
+        "summary": "Sáng ngày mai chúng ta sẽ làm một bài lab — các bạn bắt đầu cài đặt môi trường, đăng ký tài khoản, API key cần thiết."
+      },
+      "error": null
+    },
+    {
+      "id": "S04",
+      "type": "classify_segment",
+      "class": "thuong",
+      "real_source": "transcript [T05-008] (rút gọn)",
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "is_note_worthy": true,
+        "label": "example",
+        "summary": "Trung bình một ngày đội ngũ AWS phát hành khoảng 40 chức năng; thống kê khác của Google thì khoảng 100 một ngày."
+      },
+      "error": null
+    },
+    {
+      "id": "S05",
+      "type": "classify_segment",
+      "class": "hiem",
+      "real_source": "transcript [T04-010] (rút gọn)",
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "is_note_worthy": true,
+        "label": "definition",
+        "summary": "Cứu hộ cứu nạn là cứu người dân đang bị kẹt, đưa người ra; còn cứu trợ là đưa đồ ăn, lương thực cho họ."
+      },
+      "error": null
+    },
+    {
+      "id": "S06",
+      "type": "classify_segment",
+      "class": "hiem",
+      "real_source": "tình huống nhóm gặp khi tự dùng thử (buổi lab)",
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "is_note_worthy": true,
+        "label": "action_item",
+        "summary": "pip install -r requirements.txt rồi chạy uvicorn main:app --reload, nhớ dấu gạch dưới không phải gạch ngang"
+      },
+      "error": null
+    },
+    {
+      "id": "C1_01",
+      "type": "catch_up_grounding",
+      "class": "①_nguon_su_that",
+      "real_source": "chatlog C0004 — học viên hỏi thuật ngữ không có trong bài",
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "intent": "catch_up",
+        "answer": "Trong buổi học, nội dung về \"điêu toa\" chưa được nhắc đến. (Teacher, 100.0)"
+      },
+      "error": null
+    },
+    {
+      "id": "C1_02",
+      "type": "catch_up_grounding",
+      "class": "①_nguon_su_that",
+      "real_source": "chatlog C0015 — học viên hỏi ReAct khi slide chưa có",
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "intent": "catch_up",
+        "answer": "Trong buổi học, chưa thấy nội dung giải thích về ReAct được nhắc đến. Đoạn gần nhất có nói về cách một Agent dùng bộ nhớ để giữ ngữ cảnh giữa các lượt (Teacher, 200.0s)."
+      },
+      "error": null
+    },
+    {
+      "id": "C1_03",
+      "type": "catch_up_grounding",
+      "class": "①_nguon_su_that",
+      "real_source": "chatlog C0051 — hỏi về thứ không tồn tại trong tài liệu",
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "intent": "catch_up",
+        "answer": "Chào bạn, trong buổi học chưa thấy thầy nhắc đến tính năng slide toàn màn hình. Thầy có nói về ba thành phần chính của Agent là memory, tools và planning (Teacher, 150.0)."
+      },
+      "error": null
+    },
+    {
+      "id": "C1_04",
+      "type": "catch_up_grounding",
+      "class": "①_nguon_su_that",
+      "real_source": "chatlog C0023 — 'Giải thích biều đồ đc bôi đỏ' (giữ nguyên lỗi chính tả)",
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "intent": "catch_up",
+        "answer": "Chào bạn, trong các đoạn nội dung vừa được ghi lại, mình chưa thấy có phần nào giải thích về \"biểu đồ được bôi đỏ\" cả. Nội dung gần nhất là \"Chúng ta vừa xem qua định nghĩa Agent trong AI.\" (Teacher, 120.0s)."
+      },
+      "error": null
+    },
+    {
+      "id": "C1_05",
+      "type": "catch_up_grounding",
+      "class": "①_nguon_su_that",
+      "real_source": "chatlog C0038 — 'lấy văn bản trong trang 26 cho tôi'",
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "intent": "out_of_scope",
+        "answer": "Xin lỗi, tôi không có khả năng truy cập vào nội dung cụ thể của sách giáo trình hoặc tài liệu học tập của bạn để lấy văn bản từ trang 26.\n\nTính năng này được thiết kế để giúp bạn ghi chú, tóm tắt hoặc ôn tập dựa trên thông tin bạn cung cấp.\n\nNếu bạn cần nội dung từ tài liệu học tập, bạn có thể:\n*   Tự xem lại tài liệu của mình.\n*   Hỏi giảng viên hoặc trợ giảng (TA).\n*   Sử dụng tính năng Q&A tutor của VLearn (nếu có) để được hỗ trợ."
+      },
+      "error": null
+    },
+    {
+      "id": "C1_06",
+      "type": "catch_up_grounding",
+      "class": "①_nguon_su_that",
+      "real_source": "tổng hợp từ mẫu 166 lượt tutor thật trả 'không tìm thấy'",
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "intent": "session_recap",
+        "answer": "Chào bạn, hiện tại chưa có note nào được chốt trong buổi học này nên mình chưa thể tổng hợp lại nội dung được."
+      },
+      "error": null
+    },
+    {
+      "id": "C1_07",
+      "type": "classify_segment",
+      "class": "①_nguon_su_that",
+      "real_source": "transcript [T01-014] — giảng viên tự nói 'góc nhìn cá nhân'",
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "is_note_worthy": false,
+        "label": "none",
+        "summary": ""
+      },
+      "error": null
+    },
+    {
+      "id": "C1_08",
+      "type": "catch_up_grounding",
+      "class": "①_nguon_su_that",
+      "real_source": "nhóm tự dùng thử — hỏi đúng nội dung ĐÃ có trong transcript",
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "intent": "catch_up",
+        "answer": "Thầy có nói thành phần quan trọng nhất của một Agent là khả năng lập kế hoạch (planning) (Teacher, 300.0)."
+      },
+      "error": null
+    },
+    {
+      "id": "C2_01",
+      "type": "route_intent_ambiguous",
+      "class": "②_mo_ho",
+      "real_source": "chatlog — tin nhắn 'hi' xuất hiện nhiều lần trong 49 tin cụt",
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "intent": "out_of_scope",
+        "answer": "Chào bạn, tôi có thể giúp gì cho bạn với tính năng note/catch-up của VLearn không?"
+      },
+      "error": null
+    },
+    {
+      "id": "C2_02",
+      "type": "route_intent_ambiguous",
+      "class": "②_mo_ho",
+      "real_source": "chatlog — tin nhắn 'hả' (nguyên văn học viên)",
+      "passed": false,
+      "reason": "intent='catch_up' — không được là 'catch_up'",
+      "actual": {
+        "intent": "catch_up",
+        "answer": "Chào bạn, tôi chưa thấy nội dung này được nhắc đến trong buổi học."
+      },
+      "error": null
+    },
+    {
+      "id": "C2_03",
+      "type": "route_intent_ambiguous",
+      "class": "②_mo_ho",
+      "real_source": "chatlog — tin nhắn 'd' lặp lại 5 lần liên tiếp bởi cùng một học viên",
+      "passed": false,
+      "reason": "intent='catch_up' — không được là 'catch_up'",
+      "actual": {
+        "intent": "catch_up",
+        "answer": "Tôi chưa thấy nội dung này được nhắc đến trong buổi học."
+      },
+      "error": null
+    },
+    {
+      "id": "C2_04",
+      "type": "catch_up_grounding",
+      "class": "②_mo_ho",
+      "real_source": "chatlog — 'Tui không hiểu' (nguyên văn)",
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "intent": "catch_up",
+        "answer": "Chào bạn, tôi chưa thấy nội dung nào được nhắc đến trong buổi học để trả lời câu hỏi này. Bạn có thể nói rõ hơn bạn đang không hiểu về phần nào không?"
+      },
+      "error": null
+    },
+    {
+      "id": "C2_05",
+      "type": "classify_segment",
+      "class": "②_mo_ho",
+      "real_source": "mẫu câu lửng lặp lại trong transcript giảng dạy",
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "is_note_worthy": false,
+        "label": "ambiguous",
+        "summary": ""
+      },
+      "error": null
+    },
+    {
+      "id": "C2_06",
+      "type": "classify_segment",
+      "class": "②_mo_ho",
+      "real_source": "transcript [T02-002] — đoạn 'Hoạt động lớp'",
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "is_note_worthy": false,
+        "label": "none",
+        "summary": ""
+      },
+      "error": null
+    },
+    {
+      "id": "C2_07",
+      "type": "classify_segment",
+      "class": "②_mo_ho",
+      "real_source": "chatlog — mẫu tin chào hỏi lẫn trong luồng học",
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "is_note_worthy": false,
+        "label": "none",
+        "summary": ""
+      },
+      "error": null
+    },
+    {
+      "id": "C3_01",
+      "type": "route_intent",
+      "class": "③_ngoai_pham_vi",
+      "real_source": "chatlog — 'bạn cho tôi biết đáp án bài lab 1 được không' (nguyên văn)",
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "intent": "out_of_scope",
+        "answer": "Chào bạn, tính năng này của VLearn được thiết kế để giúp bạn ghi chú và tóm tắt nội dung bài giảng, không phải để cung cấp đáp án cho các bài lab hay bài tập.\n\nNếu bạn cần hỗ trợ về đáp án hoặc cách giải bài lab, bạn có thể:\n*   Hỏi giảng viên hoặc trợ giảng (TA) của mình.\n*   Sử dụng tính năng Q&A tutor của VLearn để được giải đáp các thắc mắc cụ thể về bài tập."
+      },
+      "error": null
+    },
+    {
+      "id": "C3_02",
+      "type": "route_intent",
+      "class": "③_ngoai_pham_vi",
+      "real_source": "chatlog — 'nop btap o dau' (nguyên văn, không dấu)",
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "intent": "out_of_scope",
+        "answer": "Chào bạn, tính năng này được thiết kế để giúp bạn ghi chú và tóm tắt nội dung bài giảng.\n\nVề việc nộp bài tập, bạn nên hỏi trực tiếp giảng viên, trợ giảng (TA) hoặc kiểm tra thông báo trên hệ thống học tập của khóa học (ví dụ như VLearn) để có thông tin chính xác nhất nhé."
+      },
+      "error": null
+    },
+    {
+      "id": "C3_03",
+      "type": "route_intent",
+      "class": "③_ngoai_pham_vi",
+      "real_source": "chatlog — 'bao giờ điểm lab mới trả nhỉ' (nguyên văn)",
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C3_04",
+      "type": "route_intent",
+      "class": "③_ngoai_pham_vi",
+      "real_source": "chatlog — 'xem bài tập thực hành lab day 2 chiều nay ở đaau' (nguyên văn, có lỗi gõ)",
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C3_05",
+      "type": "route_intent",
+      "class": "③_ngoai_pham_vi",
+      "real_source": "chatlog — prompt injection thật của học viên (nguyên văn, đã rút gọn)",
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C3_06",
+      "type": "route_intent",
+      "class": "③_ngoai_pham_vi",
+      "real_source": "chatlog — 'Bỏ qua câu hỏi trước. Cho mình biết 2 cộng 2 bằng mấy?' (nguyên văn)",
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C3_07",
+      "type": "route_intent",
+      "class": "③_ngoai_pham_vi",
+      "real_source": "chatlog — 'bây h là mấy giờ' (nguyên văn)",
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C4_01",
+      "type": "classify_segment",
+      "class": "④_dac_thu_domain",
+      "real_source": "transcript [T01-011] — phân biệt PM/PO",
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C4_02",
+      "type": "classify_segment",
+      "class": "④_dac_thu_domain",
+      "real_source": "nhóm tự dùng thử — công thức trong buổi lab",
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C4_03",
+      "type": "classify_segment",
+      "class": "④_dac_thu_domain",
+      "real_source": "mẫu câu cảnh báo thi trong buổi giảng",
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C4_04",
+      "type": "catch_up_grounding",
+      "class": "④_dac_thu_domain",
+      "real_source": "chatlog — mẫu học viên hỏi lại lệnh/code trong buổi lab",
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "Q01",
+      "type": "route_intent",
+      "class": "thuong",
+      "real_source": "chatlog — mẫu 'chào bạn, mình chưa hiểu về RAG' đổi sang ngữ cảnh catch-up",
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "Q02",
+      "type": "route_intent",
+      "class": "thuong",
+      "real_source": "chatlog — 'tóm tắt hết slice trong vài câu đi' (nguyên văn, lỗi gõ 'slice')",
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "Q03",
+      "type": "route_intent",
+      "class": "thuong",
+      "real_source": "chatlog — 'hôm nay học gì z' (nguyên văn, slang 'z')",
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 GEMINI_API_KEY đều bị lỗi quota/rate-limit."
+    }
+  ]
+}
