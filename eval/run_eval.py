@@ -61,14 +61,31 @@ def _run_classify(case: dict) -> tuple[bool, str, dict]:
     got_worthy = bool(cls.get("is_note_worthy"))
     got_label = cls.get("label")
     got_summary = cls.get("summary") or ""
+    got_speaker = cls.get("speaker") or ""
     exp = case["expected"]
-    actual = {"is_note_worthy": got_worthy, "label": got_label, "summary": got_summary}
+    actual = {
+        "is_note_worthy": got_worthy,
+        "label": got_label,
+        "speaker": got_speaker,
+        "summary": got_summary,
+    }
 
     reasons = []
     if "is_note_worthy" in exp and got_worthy != exp["is_note_worthy"]:
         reasons.append(f"is_note_worthy={got_worthy}, mong đợi {exp['is_note_worthy']}")
     if "label" in exp and got_label != exp["label"]:
         reasons.append(f"label='{got_label}', mong đợi '{exp['label']}'")
+    # `label_in`: dùng khi taxonomy có nhiều nhãn cùng đúng một cách chính đáng
+    # (vd. một số liệu minh hoạ có thể là example/key_point/insight). Vẫn chấm
+    # fail nếu rơi ra ngoài tập nhãn hợp lý.
+    if "label_in" in exp and got_label not in exp["label_in"]:
+        reasons.append(f"label='{got_label}', mong đợi một trong {exp['label_in']}")
+    if "speaker_must_contain_any" in exp and not _contains_any(
+        got_speaker, exp["speaker_must_contain_any"]
+    ):
+        reasons.append(
+            f"speaker='{got_speaker}', mong đợi chứa một trong {exp['speaker_must_contain_any']}"
+        )
     if "summary_must_contain_all" in exp:
         missing = [k for k in exp["summary_must_contain_all"] if k.lower() not in got_summary.lower()]
         if missing:
