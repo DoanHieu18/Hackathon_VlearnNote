@@ -7,7 +7,8 @@ không phải hỏi bạn học hay đợi hết buổi.
 | Tên | Role | Việc chính | File/thư mục phụ trách |
 |---|---|---|---|
 | **Phương** | Backend + LangGraph Agent | Dựng StateGraph (ingest → classify → note_writer / route_intent → catch_up_qa), nối AI thật vào WebSocket, guardrail (timeout, không bịa nguồn) | `codebase/backend/` |
-| **Hiếu** | Frontend + UX/Validation | Panel note có xác nhận/sửa/xoá (G9), banner phạm vi (G2), khung hỏi-đáp catch-up, chạy vòng validation ≥5 người | `codebase/frontend/`, `validation/` |
+| **Hiếu** | Frontend + UX | Panel note có xác nhận/sửa/xoá (G9), banner phạm vi (G2), khung hỏi-đáp catch-up | `codebase/frontend/` |
 | **Hưng** | Spec + Evidence + Eval | Hoàn thiện `spec.md` §1-§9, mining transcript + khảo sát, xây golden set ≥20 case, chấm quality bar | `spec.md`, `eval/` |
+| **Hoàng** | Validation + User Testing | Quản lý 5 Willing Users, thu thập log phỏng vấn 5 người dùng thật, cập nhật Changelog & Slide 5 | `validation/` |
 
 Ai cũng phải giải thích được phần có tên mình (vibe-coding rule — kiểm tra ngẫu nhiên tại CP5).

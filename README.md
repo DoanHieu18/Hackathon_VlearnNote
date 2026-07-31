@@ -3,8 +3,9 @@
 | Tên | Role | Việc chính |
 |---|---|---|
 | Phương | Backend + LangGraph Agent | `backend/agent/`, `backend/main.py` |
-| Hiếu | Frontend + UX/Validation | `frontend/src/`, `validation/` |
+| Hiếu | Frontend + UX | `frontend/src/` |
 | Hưng | Spec + Evidence + Eval | `spec.md`, `eval/`, khảo sát |
+| Hoàng | Validation + User Testing | `validation/`, phỏng vấn user |
 
 Chi tiết: xem [`PHAN-CONG.md`](PHAN-CONG.md).
 

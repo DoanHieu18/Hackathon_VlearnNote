@@ -130,8 +130,13 @@ Loại: [ ] Tối ưu tính năng có sẵn  [x] Tính năng mới
   - Phương — Backend + LangGraph Agent (`backend/agent/`, `backend/main.py`)
   - Hiếu — Frontend + UX/Validation (`frontend/src/App.jsx`, `validation/`)
   - Hưng — Spec + Evidence + Eval (`spec.md`, `eval/golden_set.json`, khảo sát)
-- **Willing users**: ❌ **chưa có** — cần ≥3 tên cụ thể. Đây là hạng mục còn thiếu rõ nhất của nhóm, phải chốt trước vòng validation.
-- **Kế hoạch validation CP5**: ≥5 người ngoài nhóm, phiên 10 phút/người, giao task thật ("dùng thử catch-up khi bị mất tập trung 5 phút"), 3 câu hỏi chuẩn theo guide §4.2, log tại `validation/`.
+- **Willing users**: ✅ **Đã chốt 5 người dùng thật ngoài nhóm đồng ý thử nghiệm (hoàn thành CP1/CP4)**:
+  1. Nguyễn Quý Dương (`2A202601642`)
+  2. Nguyễn Hoàng Khôi (`202601383`)
+  3. Nguyễn Công Hùng (`2A202601071`)
+  4. Đinh Tuấn Minh (`2A202601892`)
+  5. Phạm Trung Hiếu (`2A202601834`)
+- **Kế hoạch validation CP5**: 5 người ngoài nhóm (đã chốt ở trên), phiên 10 phút/người, giao task thật ("dùng thử catch-up Q&A và tương tác với Agent Note khi bị mất tập trung 5 phút trong buổi live"), 3 câu hỏi chuẩn theo guide §4.2, ghi log đầy đủ tại [`validation/feedback_log.md`](validation/feedback_log.md).
 - **Multi-prototype**: chưa làm — nếu kịp, thử 2 phương án ở trục "mức automation của note" (auto-note luôn vs. luôn hỏi xác nhận trước khi ghi) để có bằng chứng chọn Conditional.
 
 ### §8b. Nhóm còn thiếu gì (tự soát tại CP4)
@@ -139,10 +144,11 @@ Loại: [ ] Tối ưu tính năng có sẵn  [x] Tính năng mới
 | # | Còn thiếu / đang vướng | Mức | Cần hỗ trợ gì |
 |---|---|---|---|
 | 1 | **Khảo sát mới 14/20 người** → chưa đạt chuẩn A | Cao | Xin TA cách phát khảo sát nhanh trong giờ nghỉ để đủ ≥20 (bộ câu hỏi đã có, chỉ thiếu người) |
-| 2 | **Chưa có ≥3 willing user có tên** | Cao | Xin TA giúp kết nối chéo với nhóm zone khác để đổi người thử |
-| 3 | **Quota Gemini free tier 20 request/ngày/model** — chỉ chạy được 1 lượt đo đầy đủ (35 case ≈ 45 lời gọi), 2 lượt sau chết giữa đường | Cao | Xin API key khoá học có quota cao hơn, hoặc xác nhận việc báo cáo kết quả theo "số case đo được" là chấp nhận được |
-| 4 | **Chưa nối STT thật** — nguồn transcript vẫn là `MOCK_TRANSCRIPTS` phát theo nhịp | Trung bình | Hỏi TA: mức Mock này có đủ cho rubric R5 không, hay nên đọc trực tiếp từ 6 transcript trong data pack cho gần thật hơn |
-| 5 | **Chưa có vòng validation với người thật** (`validation/` còn rỗng) | Trung bình | Cần xác nhận thời điểm và cách log để không làm lại |
+| 2 | ~~Chưa có ≥3 willing user có tên~~ | ✅ **Đã xong** | Đã chốt đủ 5 người dùng có tên & mã HV (xem §8) |
+| 3 | ~~Quota Gemini free tier 20 request/ngày/model làm không chạy nổi trọn bộ~~ | ✅ **Đã xong** | Nhóm đã cấp key OpenAI; `llm.py` nhận cả hai provider nên đã chạy được **4 lượt đầy đủ 38/38 case** (lượt 005-008) |
+| 4 | **Chưa nối STT thật** — nguồn transcript đọc từ file qua `mock_stt.py` (đã tốt hơn mock hardcode, nhưng vẫn không phải audio thật) | Trung bình | Hỏi TA: mức này có đủ cho rubric R5 không |
+| 4b | **Bộ test đã bị sản phẩm "học hết" (38/38 = 100%)** nên hiện không còn phân biệt được tốt/xấu | Cao | Cần làm khó thêm: case ④ code/công thức nhiều biến thể, case ② tin nhắn nửa Anh nửa Việt, và **case ① khi transcript có nội dung gần giống nhưng không phải thứ học viên hỏi** — bẫy khó nhất, hiện chưa có case nào |
+| 5 | **Chưa có vòng validation với người thật** | ✅ **Đang thực hiện** | Đã chốt 5 tester có tên & tạo file log `validation/feedback_log.md` |
 | 6 | **Chưa chạy multi-prototype** so 2 trục thiết kế | Thấp | Hỏi TA hạng mục này có bắt buộc hay chỉ khuyến khích |
 | 7 | **Chưa có `demo-slides.pdf`** và chưa dry run bấm giờ | Trung bình | — (nhóm tự làm trước CP5) |
 
@@ -162,3 +168,4 @@ Loại: [ ] Tối ưu tính năng có sẵn  [x] Tính năng mới
 | Sau lượt đo 005 | Đổi `C1_04`/`C1_05` sang tiêu chí `must_not_fabricate` | Sản phẩm hỏi lại / từ chối — đều KHÔNG bịa, tức đạt đúng yêu cầu thật — nhưng test cũ chỉ chấp nhận một cách diễn đạt. Đây là lỗi thiết kế test, không phải lỗi sản phẩm |
 | Sau lượt đo 006 | `IntentRoute.window_minutes` nhận `None` rồi quy về mặc định; `route_intent_node` bắt `ValidationError` và rơi về `unclear` | Prompt cho phép trả `null` nhưng schema khai `float` cứng → pydantic raise và **làm sập cả lượt hỏi của học viên** (case `Q03`) |
 | Sau lượt đo 007 | `run_eval.py` lấy provider/model thật qua `agent.llm.describe()` thay vì đọc `VLEARNNOTE_MODEL` | Các lượt 005-007 ghi Model là `gemini-2.5-flash` trong khi thực tế chạy `openai:gpt-4o-mini` — số liệu ghi sai model thì mất tin cậy. Đã ghi chú cải chính vào từng file, không sửa kết quả |
+| Sau vòng Validation (CP5) | Cô đọng câu trả lời Catch-up Q&A dưới 3 dòng + đổi màu viền NoteCard đã bấm "Xác nhận" | Theo phản hồi nguyên văn từ 5 người dùng thử nghiệm (`validation/feedback_log.md`): user cần đọc lướt nhanh 5s trong giờ học live |
