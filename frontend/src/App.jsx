@@ -83,10 +83,18 @@ function App() {
   // Auth state (VinUni Student Login)
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem('vlearn_user');
-    return saved ? JSON.parse(saved) : { name: 'SINH VIÊN VINUNI' };
+    if (!saved) return null;
+
+    try {
+      const parsedUser = JSON.parse(saved);
+      return parsedUser?.email && parsedUser?.studentId ? parsedUser : null;
+    } catch {
+      localStorage.removeItem('vlearn_user');
+      return null;
+    }
   });
-  const [loginEmail, setLoginEmail] = useState('student@vinuni.edu.vn');
-  const [loginPassword, setLoginPassword] = useState('VIN2026888');
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
   const [loginError, setLoginError] = useState('');
 
   // App core state
@@ -238,6 +246,9 @@ function App() {
   const handleLogout = () => {
     if (isConnected) disconnect();
     setUser(null);
+    setLoginEmail('');
+    setLoginPassword('');
+    setLoginError('');
     localStorage.removeItem('vlearn_user');
   };
 
