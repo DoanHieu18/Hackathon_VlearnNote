@@ -7,6 +7,9 @@
 3. Thêm `OPENAI_API_KEY` trong Environment.
 4. Sau khi deploy, lưu URL dạng `https://vlearnnote-api.onrender.com`.
 
+Repo đã kèm `runtime.txt` để Render dùng Python 3.11.9. Nếu service cũ vẫn
+hiện Python 3.14, hãy tạo deploy mới hoặc xoá cache build rồi deploy lại.
+
 ## Frontend trên Vercel
 
 1. Import cùng repository vào Vercel.
