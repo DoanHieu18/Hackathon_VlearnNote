@@ -121,8 +121,13 @@ Loại: [ ] Tối ưu tính năng có sẵn  [x] Tính năng mới
   - Phương — Backend + LangGraph Agent (`backend/agent/`, `backend/main.py`)
   - Hiếu — Frontend + UX/Validation (`frontend/src/App.jsx`, `validation/`)
   - Hưng — Spec + Evidence + Eval (`spec.md`, `eval/golden_set.json`, khảo sát)
-- **Willing users**: ❌ **chưa có** — cần ≥3 tên cụ thể. Đây là hạng mục còn thiếu rõ nhất của nhóm, phải chốt trước vòng validation.
-- **Kế hoạch validation CP5**: ≥5 người ngoài nhóm, phiên 10 phút/người, giao task thật ("dùng thử catch-up khi bị mất tập trung 5 phút"), 3 câu hỏi chuẩn theo guide §4.2, log tại `validation/`.
+- **Willing users**: ✅ **Đã chốt 5 người dùng thật ngoài nhóm đồng ý thử nghiệm (hoàn thành CP1/CP4)**:
+  1. Nguyễn Quý Dương (`2A202601642`)
+  2. Nguyễn Hoàng Khôi (`202601383`)
+  3. Nguyễn Công Hùng (`2A202601071`)
+  4. Đinh Tuấn Minh (`2A202601892`)
+  5. Phạm Trung Hiếu (`2A202601834`)
+- **Kế hoạch validation CP5**: 5 người ngoài nhóm (đã chốt ở trên), phiên 10 phút/người, giao task thật ("dùng thử catch-up Q&A và tương tác với Agent Note khi bị mất tập trung 5 phút trong buổi live"), 3 câu hỏi chuẩn theo guide §4.2, ghi log đầy đủ tại [`validation/feedback_log.md`](validation/feedback_log.md).
 - **Multi-prototype**: chưa làm — nếu kịp, thử 2 phương án ở trục "mức automation của note" (auto-note luôn vs. luôn hỏi xác nhận trước khi ghi) để có bằng chứng chọn Conditional.
 
 ### §8b. Nhóm còn thiếu gì (tự soát tại CP4)
@@ -130,10 +135,10 @@ Loại: [ ] Tối ưu tính năng có sẵn  [x] Tính năng mới
 | # | Còn thiếu / đang vướng | Mức | Cần hỗ trợ gì |
 |---|---|---|---|
 | 1 | **Khảo sát mới 14/20 người** → chưa đạt chuẩn A | Cao | Xin TA cách phát khảo sát nhanh trong giờ nghỉ để đủ ≥20 (bộ câu hỏi đã có, chỉ thiếu người) |
-| 2 | **Chưa có ≥3 willing user có tên** | Cao | Xin TA giúp kết nối chéo với nhóm zone khác để đổi người thử |
+| 2 | ~~Chưa có ≥3 willing user có tên~~ | ✅ **Đã xong** | Đã chốt đủ 5 người dùng có tên & mã HV (xem §8) |
 | 3 | **Quota Gemini free tier 20 request/ngày/model** — chỉ chạy được 1 lượt đo đầy đủ (35 case ≈ 45 lời gọi), 2 lượt sau chết giữa đường | Cao | Xin API key khoá học có quota cao hơn, hoặc xác nhận việc báo cáo kết quả theo "số case đo được" là chấp nhận được |
 | 4 | **Chưa nối STT thật** — nguồn transcript vẫn là `MOCK_TRANSCRIPTS` phát theo nhịp | Trung bình | Hỏi TA: mức Mock này có đủ cho rubric R5 không, hay nên đọc trực tiếp từ 6 transcript trong data pack cho gần thật hơn |
-| 5 | **Chưa có vòng validation với người thật** (`validation/` còn rỗng) | Trung bình | Cần xác nhận thời điểm và cách log để không làm lại |
+| 5 | **Chưa có vòng validation với người thật** | ✅ **Đang thực hiện** | Đã chốt 5 tester có tên & tạo file log `validation/feedback_log.md` |
 | 6 | **Chưa chạy multi-prototype** so 2 trục thiết kế | Thấp | Hỏi TA hạng mục này có bắt buộc hay chỉ khuyến khích |
 | 7 | **Chưa có `demo-slides.pdf`** và chưa dry run bấm giờ | Trung bình | — (nhóm tự làm trước CP5) |
 
@@ -147,3 +152,4 @@ Loại: [ ] Tối ưu tính năng có sẵn  [x] Tính năng mới
 | Sau lượt đo 001 | Viết rõ định nghĩa nhãn `example` vs `action_item` trong `CLASSIFY_SEGMENT_PROMPT`; sửa kỳ vọng case `S06` thành `action_item` | Case `S04`/`S06`: định nghĩa nhãn trong spec chưa phân định rõ nên nhóm và model chấm khác nhau. **Quality bar % không đổi** — chỉ làm rõ định nghĩa đang mơ hồ, đúng hướng dẫn guide §4.1 |
 | Sau lượt đo 002 | Thêm intent `unclear` + node `ask_clarify` vào `question_graph` | Regression lộ ra ở lượt 002: siết prompt route làm tin cụt thật ("hả", "d" — lấy từ chatlog) bị xếp thành `catch_up` rồi trả về đoạn transcript bất kỳ. Hỏi lại đúng tinh thần HAX G10 thay vì đoán |
 | Sau lượt đo 003 | `run_eval.py` tách "CHƯA ĐO ĐƯỢC (hết quota)" khỏi "FAIL"; `llm.py` đặt `max_retries=0` để lớp xoay vòng key tự xử lý | Lượt 003 chỉ đo được 6/35 vì hết quota ngày, nếu tính chung vào mẫu số sẽ ra 17,1% — con số gây hiểu nhầm hoàn toàn về chất lượng sản phẩm |
+| Sau vòng Validation (CP5) | Cô đọng câu trả lời Catch-up Q&A dưới 3 dòng + đổi màu viền NoteCard đã bấm "Xác nhận" | Theo phản hồi nguyên văn từ 5 người dùng thử nghiệm (`validation/feedback_log.md`): user cần đọc lướt nhanh 5s trong giờ học live |
