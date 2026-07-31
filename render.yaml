@@ -6,6 +6,8 @@ services:
     dockerfilePath: ./Dockerfile
     healthCheckPath: /api/transcript-files
     envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
       - key: OPENAI_API_KEY
         sync: false
       - key: VLEARNNOTE_MODEL
