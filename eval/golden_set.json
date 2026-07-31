@@ -29,7 +29,8 @@
       "con_lai_6_case": "6 case còn lại tự nghĩ để phủ nốt các nhãn/tình huống chưa xuất hiện trong data"
     },
     "luu_y_bao_mat": "Chỉ trích ngắn kèm mã đoạn/mã hội thoại để trace lại — không dán nguyên văn dài, đúng luật bảo mật data pack",
-    "ghi_chu_taxonomy": "Taxonomy sau khi teammate mo rong co 9 nhan, trong do definition/key_point/insight CHONG LAN NHAU dang ke -> do bang 'dung mot nhan duy nhat' la thuoc do yeu. Nhung case ma nhieu nhan cung dung chinh dang thi dung `label_in`; nhung case chi co MOT nhan dung (action_item, exam_warning, student_insight) thi giu nguyen mot nhan cung de bo test khong bi loang."
+    "ghi_chu_taxonomy": "Taxonomy sau khi teammate mo rong co 9 nhan, trong do definition/key_point/insight CHONG LAN NHAU dang ke -> do bang 'dung mot nhan duy nhat' la thuoc do yeu. Nhung case ma nhieu nhan cung dung chinh dang thi dung `label_in`; nhung case chi co MOT nhan dung (action_item, exam_warning, student_insight) thi giu nguyen mot nhan cung de bo test khong bi loang.",
+    "ghi_chu_cham_diem": "Mot so case dat `must_not_fabricate` thay vi buoc dung mot cau chu cu the: dieu nhom thuc su quan tam la KHONG BIA, va co nhieu duong tra loi deu dat yeu cau do (thua nhan thieu can cu / hoi lai cho ro / tu choi vi ngoai pham vi). Check nay van fail duoc neu agent tra ve noi dung ve thu khong ton tai."
   },
   "cases": [
     {
@@ -219,9 +220,10 @@
         ]
       },
       "expected": {
-        "must_say_not_found": true
+        "must_not_fabricate": true
       },
-      "phai_tra_loi": "Không có biểu đồ nào trong transcript âm thanh → không được bịa ra nội dung biểu đồ"
+      "phai_tra_loi": "KHONG duoc bia noi dung bieu do. Dat yeu cau la must_not_fabricate vi co nhieu duong tra loi deu dung: thua nhan khong thay, HOI LAI 'bieu do nao?' (dung HAX G10 vi cau hoi that su mo ho), hoac tu choi vi ngoai pham vi.",
+      "ghi_chu_sua_ky_vong": "Luot 005: san pham route 'unclear' va hoi lai 'ban muon giai thich bieu do nao?'. Day la hanh vi DUNG (khong bia), nhung bi cham fail vi test cu chi chap nhan cau chu 'khong tim thay'. Loi o THIET KE TEST, khong phai o san pham -> doi sang must_not_fabricate. Check nay VAN fail duoc neu agent mo ta noi dung bieu do khong ton tai."
     },
     {
       "id": "C1_05",
@@ -239,9 +241,10 @@
         ]
       },
       "expected": {
-        "must_say_not_found": true
+        "must_not_fabricate": true
       },
-      "phai_tra_loi": "Transcript buổi live không có khái niệm 'trang' → phải nói không có, không map bừa sang đoạn nào"
+      "phai_tra_loi": "Transcript buoi live khong co khai niem 'trang' -> khong duoc bia noi dung trang 26. Thua nhan khong co, hoi lai, hoac tu choi vi ngoai pham vi deu duoc.",
+      "ghi_chu_sua_ky_vong": "Luot 005: san pham route 'out_of_scope' va tu choi ('khong ho tro cung cap van ban tu tai lieu', tro sang giang vien/TA) — dung tinh than, khong bia. Test cu fail vi cum tu 'khong ho tro' khong nam trong danh sach marker. Doi sang must_not_fabricate."
     },
     {
       "id": "C1_06",

@@ -26,6 +26,7 @@ from dotenv import load_dotenv  # noqa: E402
 load_dotenv(BACKEND / ".env")
 
 from agent.graph import ingest_graph, question_graph  # noqa: E402
+from agent.llm import describe as describe_llm  # noqa: E402
 from agent.state import TranscriptSegment  # noqa: E402
 
 # Cụm từ cho thấy agent thừa nhận KHÔNG có căn cứ (thay vì bịa).
@@ -41,6 +42,12 @@ NOT_FOUND_MARKERS = (
 ASK_BACK_MARKERS = (
     "?", "bạn muốn", "bạn cần", "cụ thể", "phần nào", "đoạn nào",
     "chỗ nào", "ý bạn", "làm rõ", "nói rõ",
+)
+
+# Cụm từ cho thấy agent từ chối vì ngoài phạm vi tính năng.
+REFUSAL_MARKERS = (
+    "không hỗ trợ", "không phải việc", "ngoài phạm vi", "xin lỗi",
+    "hỏi giảng viên", "trợ giảng", "không thể cung cấp", "tính năng này",
 )
 
 RATE_LIMIT_SLEEP = float(os.getenv("EVAL_SLEEP_SECONDS", "2"))
@@ -135,6 +142,17 @@ def _run_question(case: dict) -> tuple[bool, str, dict]:
         answer, ASK_BACK_MARKERS + NOT_FOUND_MARKERS
     ):
         reasons.append("không hỏi lại/khoanh vùng khi câu hỏi mơ hồ")
+    # `must_not_fabricate`: dùng khi điều nhóm THỰC SỰ quan tâm là "không bịa",
+    # và có NHIỀU đường trả lời đều đúng — thừa nhận không có căn cứ, hỏi lại cho
+    # rõ, hoặc từ chối vì ngoài phạm vi. Vẫn fail nếu agent thao thao nội dung về
+    # thứ không tồn tại (không rơi vào bất kỳ đường nào ở trên).
+    if exp.get("must_not_fabricate") and not _contains_any(
+        answer, NOT_FOUND_MARKERS + ASK_BACK_MARKERS + REFUSAL_MARKERS
+    ):
+        reasons.append(
+            "không thừa nhận thiếu căn cứ, không hỏi lại, cũng không từ chối "
+            "— nguy cơ đã bịa nội dung"
+        )
 
     return (not reasons), "; ".join(reasons), actual
 
@@ -150,7 +168,10 @@ RUNNERS = {
 def main() -> None:
     golden = json.loads((ROOT / "eval" / "golden_set.json").read_text(encoding="utf-8"))
     cases = golden["cases"]
-    model = os.getenv("VLEARNNOTE_MODEL", "(mặc định)")
+    # Lấy provider/model THẬT đang dùng, không đọc VLEARNNOTE_MODEL từ env: env có
+    # thể ghi tên model của provider khác (vd. để 'gemini-2.5-flash' nhưng chạy
+    # bằng key OpenAI) -> bảng kết quả sẽ ghi sai model, làm số liệu mất tin cậy.
+    model = describe_llm()
 
     results = []
     for i, case in enumerate(cases, 1):

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class SegmentClassification(BaseModel):
@@ -14,7 +14,22 @@ class SegmentClassification(BaseModel):
     speaker: str = Field(default="Unknown", description="Người nói chính trong đoạn (ví dụ: Giảng viên, Học viên, Hệ thống, v.v...)")
 
 
+DEFAULT_WINDOW_MINUTES = 10.0
+
+
 class IntentRoute(BaseModel):
     intent: Literal["catch_up", "session_recap", "out_of_scope", "unclear"]
     keyword: str = Field(default="", description="Từ khoá chính nếu học viên nhắc tới")
-    window_minutes: float = Field(default=10.0, description="Khoảng phút muốn xem lại")
+    # Prompt cho phép model trả `null` khi học viên không nói rõ khoảng thời gian,
+    # nên schema PHẢI nhận None rồi tự quy về mặc định. Trước đây khai `float`
+    # cứng khiến pydantic raise và làm sập cả lượt hỏi của học viên (case Q03).
+    window_minutes: float | None = Field(
+        default=DEFAULT_WINDOW_MINUTES, description="Khoảng phút muốn xem lại, null nếu không rõ"
+    )
+
+    @field_validator("window_minutes", mode="after")
+    @classmethod
+    def _default_window(cls, value: float | None) -> float:
+        if value is None or value <= 0:
+            return DEFAULT_WINDOW_MINUTES
+        return value

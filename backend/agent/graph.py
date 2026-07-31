@@ -10,7 +10,10 @@ hai đều gọi `invoke_with_timeout` (agent/llm.py), không hardcode câu tr�
 
 from __future__ import annotations
 
+import logging
+
 from langgraph.graph import END, StateGraph
+from pydantic import ValidationError
 
 from agent.llm import invoke_with_timeout
 from agent.prompts import (
@@ -20,9 +23,11 @@ from agent.prompts import (
     OUT_OF_SCOPE_REFUSAL_PROMPT,
     ROUTE_INTENT_PROMPT,
 )
-from agent.schemas import IntentRoute, SegmentClassification
+from agent.schemas import DEFAULT_WINDOW_MINUTES, IntentRoute, SegmentClassification
 from agent.state import AgentState, SessionNote
 from agent.tools import get_session_notes, search_transcript
+
+logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
 # Luồng 1 — ingest transcript liên tục
@@ -91,13 +96,27 @@ def build_ingest_graph():
 
 def route_intent_node(state: AgentState) -> dict:
     question = state["student_question"]
-    route: IntentRoute = invoke_with_timeout(
-        [
-            {"role": "system", "content": ROUTE_INTENT_PROMPT},
-            {"role": "user", "content": question or ""},
-        ],
-        response_format=IntentRoute,
-    )
+    try:
+        route: IntentRoute = invoke_with_timeout(
+            [
+                {"role": "system", "content": ROUTE_INTENT_PROMPT},
+                {"role": "user", "content": question or ""},
+            ],
+            response_format=IntentRoute,
+        )
+    except ValidationError as exc:
+        # Model trả structured output không khớp schema. Không được để sập cả lượt
+        # hỏi của học viên (đúng lỗi đã gặp ở case Q03) — rơi về `unclear` để hỏi
+        # lại, là đường an toàn nhất: không đoán nội dung, không bịa nguồn.
+        logger.warning("route_intent tra ve output khong hop le, rot ve 'unclear': %s", exc)
+        return {
+            "route_decision": {
+                "intent": "unclear",
+                "keyword": "",
+                "window_minutes": DEFAULT_WINDOW_MINUTES,
+                "fallback_reason": "invalid_structured_output",
+            }
+        }
     return {"route_decision": route.model_dump()}
 
 

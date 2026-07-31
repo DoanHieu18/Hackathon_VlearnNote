@@ -15,28 +15,49 @@ from agent.state import AgentState
 # Từ chức năng tiếng Việt — bỏ khi so khớp để "chạy server" vẫn khớp được đoạn
 # "Chạy bằng lệnh: uvicorn main:app". Giữ danh sách ngắn, chỉ những từ thực sự
 # không mang nội dung.
-_STOPWORDS = frozenset(
-    """
+_STOPWORDS_RAW = """
     của là và ở trong cho với thì mà nào gì đó này kia các những một cái
     có được bị người bạn em thầy cô mình nói vừa nãy nhất rất lại về từ
     khi lúc trên dưới sau trước hay hoặc như để đã sẽ đang bằng theo
-    """.split()
-)
+"""
 
 # Điểm khớp tối thiểu để coi là liên quan: phải trùng ≥50% token nội dung của
 # keyword. Ngưỡng này là guardrail — thấp hơn thì trả về "chưa xác nhận khớp"
 # thay vì im lặng coi như tìm thấy.
 _MIN_TOKEN_OVERLAP = 0.5
 
+# Dấu câu dính ở đầu/cuối token. Không cắt dấu ở GIỮA vì cần giữ nguyên
+# `main:app`, `requirements.txt` — đó là thứ học viên hỏi lại nguyên văn.
+_EDGE_PUNCT = ":.,-_;!?()[]{}\"'"
 
-def _content_tokens(text: str) -> set[str]:
-    """Tách token nội dung, bỏ dấu + stopword, để so khớp chịu được diễn giải lại."""
-    folded = "".join(
+
+def _fold(text: str) -> str:
+    """Hạ chữ thường + bỏ dấu tiếng Việt."""
+    return "".join(
         ch
         for ch in unicodedata.normalize("NFD", text.lower())
         if unicodedata.category(ch) != "Mn"
     )
-    return {t for t in re.findall(r"[a-z0-9_:.\-]+", folded) if t not in _STOPWORDS and len(t) > 1}
+
+
+# Stopword phải được bỏ dấu bằng CÙNG hàm với token, nếu không thì "bằng" trong
+# danh sách sẽ không bao giờ khớp token "bang" đã bỏ dấu — bug này từng làm
+# overlap của case C4_04 tụt từ 0,67 xuống 0,33 và báo sai "không tìm thấy".
+_STOPWORDS = frozenset(_fold(_STOPWORDS_RAW).split())
+
+
+def _content_tokens(text: str) -> set[str]:
+    """Tách token nội dung, bỏ dấu + stopword, để so khớp chịu được diễn giải lại.
+
+    Mỗi token giữ CẢ dạng nguyên (để `main:app`, `--reload` khớp nguyên văn) và
+    dạng đã cắt dấu câu ở hai đầu (để `lệnh:` khớp được `lệnh`).
+    """
+    tokens: set[str] = set()
+    for raw in re.findall(r"[a-z0-9_:.\-]+", _fold(text)):
+        for candidate in (raw, raw.strip(_EDGE_PUNCT)):
+            if len(candidate) > 1 and candidate not in _STOPWORDS:
+                tokens.add(candidate)
+    return tokens
 
 
 def _in_window(transcript: list, window_minutes: float) -> list:
