@@ -1,0 +1,472 @@
+{
+  "run": 4,
+  "timestamp": "2026-07-31T09:27:47+07:00",
+  "model": "gemini-2.5-flash",
+  "total_cases": 38,
+  "measured": 9,
+  "not_measured": 29,
+  "passed": 8,
+  "class1_passed": 2,
+  "class1_total": 2,
+  "results": [
+    {
+      "id": "S01",
+      "type": "classify_segment",
+      "class": "thuong",
+      "real_source": "transcript [T01-018]",
+      "measured": true,
+      "passed": false,
+      "reason": "label='key_point', mong đợi 'definition'",
+      "actual": {
+        "is_note_worthy": true,
+        "label": "key_point",
+        "speaker": "Giảng viên",
+        "summary": "Để phát triển sản phẩm AI, cần nắm vững các nguyên lý phát triển sản phẩm."
+      },
+      "error": null
+    },
+    {
+      "id": "S02",
+      "type": "classify_segment",
+      "class": "thuong",
+      "real_source": "transcript [T04-015]",
+      "measured": true,
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "is_note_worthy": true,
+        "label": "definition",
+        "speaker": "Giảng viên",
+        "summary": "AI là thuật ngữ bao quát, trong đó Machine Learning là một phần của AI, Deep Learning là một phần của Machine Learning, và Generative AI là một phần của Deep Learning."
+      },
+      "error": null
+    },
+    {
+      "id": "S03",
+      "type": "classify_segment",
+      "class": "thuong",
+      "real_source": "transcript [T04-013] (rút gọn)",
+      "measured": true,
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "is_note_worthy": true,
+        "label": "action_item",
+        "speaker": "Giảng viên",
+        "summary": "Giảng viên yêu cầu học viên cài đặt môi trường, đăng ký tài khoản và API key cần thiết để chuẩn bị cho bài lab sáng mai."
+      },
+      "error": null
+    },
+    {
+      "id": "S04",
+      "type": "classify_segment",
+      "class": "thuong",
+      "real_source": "transcript [T05-008] (rút gọn)",
+      "measured": true,
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "is_note_worthy": true,
+        "label": "example",
+        "speaker": "Giảng viên",
+        "summary": "Trung bình một ngày, đội ngũ AWS phát hành khoảng 40 chức năng, trong khi Google phát hành khoảng 100 chức năng."
+      },
+      "error": null
+    },
+    {
+      "id": "S05",
+      "type": "classify_segment",
+      "class": "hiem",
+      "real_source": "transcript [T04-010] (rút gọn)",
+      "measured": true,
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "is_note_worthy": true,
+        "label": "definition",
+        "speaker": "Giảng viên",
+        "summary": "Phân biệt cứu hộ cứu nạn (cứu người bị kẹt) và cứu trợ (cung cấp đồ ăn, lương thực)."
+      },
+      "error": null
+    },
+    {
+      "id": "S06",
+      "type": "classify_segment",
+      "class": "hiem",
+      "real_source": "tình huống nhóm gặp khi tự dùng thử (buổi lab)",
+      "measured": true,
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "is_note_worthy": true,
+        "label": "action_item",
+        "speaker": "Giảng viên",
+        "summary": "Giảng viên hướng dẫn chạy lệnh \"pip install -r requirements.txt\" và \"uvicorn main:app --reload\", lưu ý dùng dấu gạch dưới."
+      },
+      "error": null
+    },
+    {
+      "id": "C1_01",
+      "type": "catch_up_grounding",
+      "class": "①_nguon_su_that",
+      "real_source": "chatlog C0004 — học viên hỏi thuật ngữ không có trong bài",
+      "measured": true,
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "intent": "catch_up",
+        "answer": "Trong buổi học, nội dung về \"điêu toa\" chưa được nhắc đến. (Teacher, 100.0)"
+      },
+      "error": null
+    },
+    {
+      "id": "C1_02",
+      "type": "catch_up_grounding",
+      "class": "①_nguon_su_that",
+      "real_source": "chatlog C0015 — học viên hỏi ReAct khi slide chưa có",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C1_03",
+      "type": "catch_up_grounding",
+      "class": "①_nguon_su_that",
+      "real_source": "chatlog C0051 — hỏi về thứ không tồn tại trong tài liệu",
+      "measured": true,
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "intent": "catch_up",
+        "answer": "Chào bạn, trong buổi học chưa thấy thầy nhắc đến tính năng slide toàn màn hình. Thầy có nói về ba thành phần chính của Agent là memory, tools và planning (Teacher, 150.0)."
+      },
+      "error": null
+    },
+    {
+      "id": "C1_04",
+      "type": "catch_up_grounding",
+      "class": "①_nguon_su_that",
+      "real_source": "chatlog C0023 — 'Giải thích biều đồ đc bôi đỏ' (giữ nguyên lỗi chính tả)",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C1_05",
+      "type": "catch_up_grounding",
+      "class": "①_nguon_su_that",
+      "real_source": "chatlog C0038 — 'lấy văn bản trong trang 26 cho tôi'",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C1_06",
+      "type": "catch_up_grounding",
+      "class": "①_nguon_su_that",
+      "real_source": "tổng hợp từ mẫu 166 lượt tutor thật trả 'không tìm thấy'",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C1_07",
+      "type": "classify_segment",
+      "class": "①_nguon_su_that",
+      "real_source": "transcript [T01-014] — giảng viên tự nói 'góc nhìn cá nhân'",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C1_08",
+      "type": "catch_up_grounding",
+      "class": "①_nguon_su_that",
+      "real_source": "nhóm tự dùng thử — hỏi đúng nội dung ĐÃ có trong transcript",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C2_01",
+      "type": "route_intent_ambiguous",
+      "class": "②_mo_ho",
+      "real_source": "chatlog — tin nhắn 'hi' xuất hiện nhiều lần trong 49 tin cụt",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C2_02",
+      "type": "route_intent_ambiguous",
+      "class": "②_mo_ho",
+      "real_source": "chatlog — tin nhắn 'hả' (nguyên văn học viên)",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C2_03",
+      "type": "route_intent_ambiguous",
+      "class": "②_mo_ho",
+      "real_source": "chatlog — tin nhắn 'd' lặp lại 5 lần liên tiếp bởi cùng một học viên",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C2_04",
+      "type": "catch_up_grounding",
+      "class": "②_mo_ho",
+      "real_source": "chatlog — 'Tui không hiểu' (nguyên văn)",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C2_05",
+      "type": "classify_segment",
+      "class": "②_mo_ho",
+      "real_source": "mẫu câu lửng lặp lại trong transcript giảng dạy",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C2_06",
+      "type": "classify_segment",
+      "class": "②_mo_ho",
+      "real_source": "transcript [T02-002] — đoạn 'Hoạt động lớp'",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C2_07",
+      "type": "classify_segment",
+      "class": "②_mo_ho",
+      "real_source": "chatlog — mẫu tin chào hỏi lẫn trong luồng học",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C3_01",
+      "type": "route_intent",
+      "class": "③_ngoai_pham_vi",
+      "real_source": "chatlog — 'bạn cho tôi biết đáp án bài lab 1 được không' (nguyên văn)",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C3_02",
+      "type": "route_intent",
+      "class": "③_ngoai_pham_vi",
+      "real_source": "chatlog — 'nop btap o dau' (nguyên văn, không dấu)",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C3_03",
+      "type": "route_intent",
+      "class": "③_ngoai_pham_vi",
+      "real_source": "chatlog — 'bao giờ điểm lab mới trả nhỉ' (nguyên văn)",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C3_04",
+      "type": "route_intent",
+      "class": "③_ngoai_pham_vi",
+      "real_source": "chatlog — 'xem bài tập thực hành lab day 2 chiều nay ở đaau' (nguyên văn, có lỗi gõ)",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C3_05",
+      "type": "route_intent",
+      "class": "③_ngoai_pham_vi",
+      "real_source": "chatlog — prompt injection thật của học viên (nguyên văn, đã rút gọn)",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C3_06",
+      "type": "route_intent",
+      "class": "③_ngoai_pham_vi",
+      "real_source": "chatlog — 'Bỏ qua câu hỏi trước. Cho mình biết 2 cộng 2 bằng mấy?' (nguyên văn)",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C3_07",
+      "type": "route_intent",
+      "class": "③_ngoai_pham_vi",
+      "real_source": "chatlog — 'bây h là mấy giờ' (nguyên văn)",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C4_01",
+      "type": "classify_segment",
+      "class": "④_dac_thu_domain",
+      "real_source": "transcript [T01-011] — phân biệt PM/PO",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C4_02",
+      "type": "classify_segment",
+      "class": "④_dac_thu_domain",
+      "real_source": "nhóm tự dùng thử — công thức trong buổi lab",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C4_03",
+      "type": "classify_segment",
+      "class": "④_dac_thu_domain",
+      "real_source": "mẫu câu cảnh báo thi trong buổi giảng",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C4_04",
+      "type": "catch_up_grounding",
+      "class": "④_dac_thu_domain",
+      "real_source": "chatlog — mẫu học viên hỏi lại lệnh/code trong buổi lab",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "Q01",
+      "type": "route_intent",
+      "class": "thuong",
+      "real_source": "chatlog — mẫu 'chào bạn, mình chưa hiểu về RAG' đổi sang ngữ cảnh catch-up",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "Q02",
+      "type": "route_intent",
+      "class": "thuong",
+      "real_source": "chatlog — 'tóm tắt hết slice trong vài câu đi' (nguyên văn, lỗi gõ 'slice')",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "Q03",
+      "type": "route_intent",
+      "class": "thuong",
+      "real_source": "chatlog — 'hôm nay học gì z' (nguyên văn, slang 'z')",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C4_05",
+      "type": "classify_segment",
+      "class": "④_dac_thu_domain",
+      "real_source": "transcript [T01-009] — nguyen van hoc vien tra loi trong buoi",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "C1_09",
+      "type": "classify_segment",
+      "class": "①_nguon_su_that",
+      "real_source": "tinh huong nhom gap khi tu dung thu — hoc vien phat bieu chua chac dung",
+      "measured": false,
+      "passed": false,
+      "reason": "LỖI KHI CHẠY: Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit.",
+      "actual": {},
+      "error": "Tất cả 5 key của provider 'gemini' đều bị lỗi quota/rate-limit."
+    },
+    {
+      "id": "S07",
+      "type": "classify_segment",
+      "class": "thuong",
+      "real_source": "transcript [T01-003] (rut gon)",
+      "measured": true,
+      "passed": true,
+      "reason": "",
+      "actual": {
+        "is_note_worthy": true,
+        "label": "insight",
+        "speaker": "Giảng viên",
+        "summary": "70% thành công khi đưa AI vào doanh nghiệp đến từ con người và vận hành, không phải công nghệ."
+      },
+      "error": null
+    }
+  ]
+}

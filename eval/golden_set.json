@@ -6,29 +6,30 @@
       "route_intent: câu hỏi của học viên là bắt-kịp-bài / tổng-hợp-buổi / ngoài-phạm-vi",
       "catch_up_qa: khi trả lời, có bám transcript hay bịa thêm"
     ],
-    "model": "gemini-2.5-flash (đặt qua VLEARNNOTE_MODEL trong backend/.env)",
+    "model": "tu nhan theo key trong backend/.env (openai:gpt-4o-mini hoac gemini:gemini-2.5-flash) - xem cot Model trong tung file run_*.md",
     "quality_bar": "GIỮ NGUYÊN theo spec.md §7 đã commit: ≥80% case classify_segment đúng is_note_worthy + đúng label, VÀ 100% case lớp ① (không bịa nguồn) — không lần nào được sai. Tỉ lệ trên toàn bộ 35 case được báo cáo thêm để tham khảo, KHÔNG thay thế bar đã cam kết.",
     "cau_truc": {
-      "tong_so_case": 35,
-      "lop_1_nguon_su_that": 8,
+      "tong_so_case": 38,
+      "lop_1_nguon_su_that": 9,
       "lop_2_mo_ho": 7,
       "lop_3_ngoai_pham_vi": 7,
-      "lop_4_dac_thu_domain": 4,
-      "case_thuong": 7,
+      "lop_4_dac_thu_domain": 5,
+      "case_thuong": 8,
       "case_hiem": 2
     },
     "nguon_thuc_te": {
-      "so_case_tu_quan_sat_thuc_te": 29,
+      "so_case_tu_quan_sat_thuc_te": 32,
       "chi_tiet": [
         "14 case giữ NGUYÊN VĂN tin nhắn học viên từ data/vlearn-pack/chatlog (2.522 dòng hội thoại thật) — giữ cả lỗi chính tả ('biều đồ', 'đaau'), thiếu dấu ('nop btap o dau'), slang ('hôm nay học gì z'), tin cụt ('hi', 'hả', 'd')",
         "3 case dựng từ tình huống thật trong chatlog (thuật ngữ ngoài tài liệu ở C0004, ReAct chưa có slide ở C0015, tính năng không tồn tại ở C0051)",
-        "8 case trích đoạn giảng thật từ data/vlearn-pack/transcript (có mã [Txx-NNN] để trace)",
-        "1 case tổng hợp từ mining: 166/1.261 lượt tutor thật phải trả lời 'không tìm thấy' (13,2%)",
-        "3 case từ tình huống nhóm gặp khi tự dùng thử prototype trong buổi lab"
+        "10 case trích đoạn giảng thật từ data/vlearn-pack/transcript (có mã [Txx-NNN] để trace), trong đó [T01-009] là nguyên văn học viên phát biểu trong buổi",
+        "1 case tổng hợp từ mining: 189/1.261 lượt tutor thật phải trả lời 'không tìm thấy' (15,0%)",
+        "4 case từ tình huống nhóm gặp khi tự dùng thử prototype trong buổi lab"
       ],
-      "con_lai_6_case": "tự nghĩ để phủ nốt các nhãn/tình huống chưa xuất hiện trong data"
+      "con_lai_6_case": "6 case còn lại tự nghĩ để phủ nốt các nhãn/tình huống chưa xuất hiện trong data"
     },
-    "luu_y_bao_mat": "Chỉ trích ngắn kèm mã đoạn/mã hội thoại để trace lại — không dán nguyên văn dài, đúng luật bảo mật data pack"
+    "luu_y_bao_mat": "Chỉ trích ngắn kèm mã đoạn/mã hội thoại để trace lại — không dán nguyên văn dài, đúng luật bảo mật data pack",
+    "ghi_chu_taxonomy": "Taxonomy sau khi teammate mo rong co 9 nhan, trong do definition/key_point/insight CHONG LAN NHAU dang ke -> do bang 'dung mot nhan duy nhat' la thuoc do yeu. Nhung case ma nhieu nhan cung dung chinh dang thi dung `label_in`; nhung case chi co MOT nhan dung (action_item, exam_warning, student_insight) thi giu nguyen mot nhan cung de bo test khong bi loang."
   },
   "cases": [
     {
@@ -43,8 +44,13 @@
       },
       "expected": {
         "is_note_worthy": true,
-        "label": "definition"
-      }
+        "label_in": [
+          "definition",
+          "key_point",
+          "insight"
+        ]
+      },
+      "ghi_chu_sua_ky_vong": "Luot 004: model tra 'key_point'. Doc lai cau goc thi day dung la mot nguyen ly/y chinh hon la mot dinh nghia chat che -> label_in la dung, khong phai noi long de qua bai. Van fail neu roi ra ngoai tap (vd. 'none')."
     },
     {
       "id": "S02",
@@ -88,8 +94,13 @@
       },
       "expected": {
         "is_note_worthy": true,
-        "label": "example"
-      }
+        "label_in": [
+          "example",
+          "key_point",
+          "insight"
+        ]
+      },
+      "ghi_chu_sua_ky_vong": "Teammate mo rong taxonomy (them key_point/insight). Mot so lieu minh hoa co the xep example, key_point hoac insight deu chinh dang -> doi sang label_in thay vi mot nhan cung. Van fail neu roi ra ngoai tap nay (vd. 'none' nhu luot 001)."
     },
     {
       "id": "S05",
@@ -103,7 +114,11 @@
       },
       "expected": {
         "is_note_worthy": true,
-        "label": "definition"
+        "label_in": [
+          "definition",
+          "key_point",
+          "insight"
+        ]
       },
       "vi_sao_kho": "Định nghĩa nằm lẫn trong câu chuyện kể ngoài lề — dễ bị bỏ qua vì tưởng là chuyện vãn"
     },
@@ -603,6 +618,75 @@
         "intent": "session_recap"
       },
       "vi_sao_kho": "Viết tắt kiểu tin nhắn thật; ý là muốn biết nội dung buổi → recap chứ không phải out_of_scope"
+    },
+    {
+      "id": "C4_05",
+      "type": "classify_segment",
+      "class": "④_dac_thu_domain",
+      "real_source": "transcript [T01-009] — nguyen van hoc vien tra loi trong buoi",
+      "input": {
+        "speaker": "Unknown",
+        "text": "[Học viên]: Project thì kiểu một dự án tạo ra xong rồi là xong luôn, sau đấy người ta có thể bán lại hoặc bàn giao; còn sản phẩm thì người ta hiểu là đứa con của người ta, người ta sẽ tiếp tục bảo trì.",
+        "timestamp_s": 1500
+      },
+      "expected": {
+        "is_note_worthy": true,
+        "label": "student_insight",
+        "speaker_must_contain_any": [
+          "Học viên",
+          "học viên",
+          "Student"
+        ]
+      },
+      "phai_tra_loi": "Day la HOC VIEN phat bieu, khong phai giang vien. Phai gan nhan student_insight va nhan dien dung speaker — neu ghi thanh 'definition' thi hoc vien khac se doc note nhu kien thuc chuan cua khoa, trong khi do chi la cach hieu cua mot ban (co the sai/thieu)."
+    },
+    {
+      "id": "C1_09",
+      "type": "classify_segment",
+      "class": "①_nguon_su_that",
+      "real_source": "tinh huong nhom gap khi tu dung thu — hoc vien phat bieu chua chac dung",
+      "input": {
+        "speaker": "Unknown",
+        "text": "[Học viên]: Em nghĩ Agent với chatbot là một, chỉ khác tên gọi thôi ạ.",
+        "timestamp_s": 900
+      },
+      "expected": {
+        "is_note_worthy": true,
+        "label": "student_insight",
+        "speaker_must_contain_any": [
+          "Học viên",
+          "học viên",
+          "Student"
+        ]
+      },
+      "phai_tra_loi": "Phat bieu cua hoc vien va co kha nang SAI. Bat buoc gan student_insight de khong bien mot cau hieu sai thanh kien thuc chuan trong ban note — day la lop (1): nguon su that phai phan biet ai noi."
+    },
+    {
+      "id": "S07",
+      "type": "classify_segment",
+      "class": "thuong",
+      "real_source": "transcript [T01-003] (rut gon)",
+      "input": {
+        "speaker": "Teacher",
+        "text": "Việc đưa AI vào ứng dụng trong doanh nghiệp thì 70% đến từ con người và vận hành chứ không phải đến từ công nghệ.",
+        "timestamp_s": 300
+      },
+      "expected": {
+        "is_note_worthy": true,
+        "label_in": [
+          "key_point",
+          "insight",
+          "example",
+          "definition"
+        ],
+        "speaker_must_contain_any": [
+          "Giảng viên",
+          "giảng viên",
+          "Teacher",
+          "thầy"
+        ]
+      },
+      "phai_tra_loi": "Y chinh cua giang vien kem so lieu -> phai note, va speaker phai nhan dien la giang vien."
     }
   ]
 }
