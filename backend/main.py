@@ -298,7 +298,7 @@ async def chat_history(user_email: str = "guest", session_id: str = ""):
             ).fetchall()
         else:
             rows = connection.execute(
-                "SELECT role, content, created_at FROM chat_messages WHERE user_email = ? AND session_id = '' ORDER BY id ASC LIMIT 200",
+                "SELECT role, content, created_at FROM chat_messages WHERE user_email = ? ORDER BY id ASC LIMIT 200",
                 (user_email or "guest",),
             ).fetchall()
     return {"messages": [dict(row) for row in rows]}

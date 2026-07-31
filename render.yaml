@@ -2,6 +2,7 @@ services:
   - type: web
     name: vlearnnote
     runtime: docker
+    plan: free
     dockerfilePath: ./Dockerfile
     healthCheckPath: /api/transcript-files
     envVars:
