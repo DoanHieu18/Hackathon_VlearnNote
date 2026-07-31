@@ -134,6 +134,7 @@ function App() {
   const mediaRecorderRef = useRef(null);
   const streamRef = useRef(null);
   const transcriptEndRef = useRef(null);
+  const chatEndRef = useRef(null);
   const sessionStartTime = useRef(null);
   const currentSessionIdRef = useRef(null);
   const transcriptsRef = useRef([]);
@@ -161,6 +162,10 @@ function App() {
   useEffect(() => {
     agentNotesRef.current = agentNotes;
   }, [agentNotes]);
+
+  useEffect(() => {
+    if (isChatOpen) chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [chatMessages, isChatLoading, isChatOpen]);
 
   useEffect(() => {
     if (!appNotice) return undefined;
@@ -233,6 +238,17 @@ function App() {
       setLoginError('Vui lòng nhập đầy đủ Email sinh viên và Mã học viên!');
       return;
     }
+    setTranscripts([]);
+    setAgentNotes([]);
+    setSessions([]);
+    setDailyStats([]);
+    setChatMessages([]);
+    setQaHistoryCount(0);
+    setCurrentSessionId(null);
+    currentSessionIdRef.current = null;
+    setViewingSavedSessionId(null);
+    setSessionAudioUrl('');
+    setActiveSessionTitle('Chưa có buổi học đang mở');
     const studentUser = {
       email: loginEmail.trim(),
       studentId: loginPassword.trim(),
@@ -246,6 +262,17 @@ function App() {
 
   const handleLogout = () => {
     if (isConnected) disconnect();
+    setTranscripts([]);
+    setAgentNotes([]);
+    setSessions([]);
+    setDailyStats([]);
+    setChatMessages([]);
+    setQaHistoryCount(0);
+    setCurrentSessionId(null);
+    currentSessionIdRef.current = null;
+    setViewingSavedSessionId(null);
+    setSessionAudioUrl('');
+    setActiveSessionTitle('Chưa có buổi học đang mở');
     setUser(null);
     setLoginEmail('');
     setLoginPassword('');
@@ -294,7 +321,7 @@ function App() {
     ));
     if (knownAnswer) return knownAnswer.answer;
 
-    const wantsSummary = /tóm tắt|tom tat|ý chính|y chinh|ghi chú|ghi chu|tổng hợp|tong hop/.test(plainQuestion);
+    const wantsSummary = /tóm tắt|tom tat|ý chính|y chinh|ghi chú|ghi chu|tổng hợp|tong hop|highlight|đánh dấu|danh dau/.test(plainQuestion);
     const asksRecentContent = /vừa nãy|vua nay|mới nói|moi noi|gần nhất|gan nhat/.test(plainQuestion);
 
     if (wantsSummary && agentNotesRef.current.length > 0) {
@@ -405,6 +432,46 @@ function App() {
   const sourceExcerpt = (source) => {
     const clean = String(source || '').replace(/\*\*\[T\d+-\d+\]\*\*\s*/g, '').replace(/\s+/g, ' ').trim();
     return clean.length > 150 ? `${clean.slice(0, 147).replace(/\s+\S*$/, '')}...` : clean;
+  };
+
+  const normalizeTranscriptText = (value) => String(value || '')
+    .replace(/\*\*\[T\d+-\d+\]\*\*\s*/g, '')
+    .replace(/\[[^\]]+\]:\s*/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+
+  const getTranscriptHighlight = (segment) => {
+    const segmentText = normalizeTranscriptText(segment?.text);
+    if (segmentText.length < 12) return null;
+    return agentNotes.find((note) => {
+      const sourceText = normalizeTranscriptText(note.source);
+      return sourceText.includes(segmentText) || segmentText.includes(sourceText);
+    }) || null;
+  };
+
+  const getHighlightParts = (segment) => {
+    const note = getTranscriptHighlight(segment);
+    const text = String(segment?.text || '');
+    if (!note || !text) return [{ text, highlighted: false }];
+
+    const sentences = text.split(/(?<=[.!?])\s+/).filter(Boolean);
+    if (sentences.length <= 1) return [{ text, highlighted: true }];
+
+    const noteTokens = new Set(normalizeTranscriptText(note.content).match(/[a-z0-9À-ỹ]{3,}/g) || []);
+    let bestIndex = -1;
+    let bestScore = 0;
+    sentences.forEach((sentence, index) => {
+      const tokens = normalizeTranscriptText(sentence).match(/[a-z0-9À-ỹ]{3,}/g) || [];
+      const score = tokens.reduce((total, token) => total + (noteTokens.has(token) ? 1 : 0), 0);
+      if (score > bestScore) {
+        bestIndex = index;
+        bestScore = score;
+      }
+    });
+
+    if (bestIndex < 0 || bestScore < 2) return [{ text, highlighted: false }];
+    return sentences.map((sentence, index) => ({ text: sentence, highlighted: index === bestIndex }));
   };
 
   // AI Chat handler - gửi câu hỏi và nhận trả lời
@@ -911,6 +978,15 @@ function App() {
   const fmtTime = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 
   const selectedTranscript = transcriptFiles.find((file) => file.filename === selectedFile);
+  const lessonName = activeSessionTitle !== 'Chưa có buổi học đang mở'
+    ? activeSessionTitle
+    : (selectedTranscript?.title || selectedTranscript?.display_name || 'bài học này');
+  const suggestedPrompts = [
+    `Tóm tắt 3 ý chính của ${lessonName}`,
+    'Giải thích khái niệm quan trọng nhất trong bài',
+    'Vừa nãy giảng viên nói gì?',
+    'Tóm tắt các đoạn đã highlight trong transcript',
+  ];
 
   const noteCategoryData = [
     { label: 'Định nghĩa', value: stats.definitions, color: '#2563EB' },
@@ -1046,6 +1122,13 @@ function App() {
               onClick={() => setActiveTab('analytics')}
             >
               <UiIcon icon={BarChart3} size={17} /> Thống kê
+            </button>
+            <button
+              role="tab"
+              className={`tab-btn ${activeTab === 'guide' ? 'active' : ''}`}
+              onClick={() => setActiveTab('guide')}
+            >
+              <UiIcon icon={BookOpen} size={17} /> Hướng dẫn
             </button>
           </nav>
         </div>
@@ -1209,12 +1292,32 @@ function App() {
                     </div>
                   ) : (
                     <div className="transcript-list">
-                      {transcripts.map((t, idx) => (
-                        <div key={idx} className="transcript-item">
-                          <span className="speaker-tag">{t.speaker || 'Giảng viên'}:</span>
-                          <span className="transcript-text">{t.text}</span>
-                        </div>
-                      ))}
+                      {transcripts.map((t, idx) => {
+                        const highlightNote = getTranscriptHighlight(t);
+                        return (
+                          <div
+                            key={idx}
+                            className={`transcript-item ${highlightNote ? `is-highlighted highlight-${highlightNote.type}` : ''}`}
+                          >
+                            <div className="transcript-item-header">
+                              <span className="speaker-tag">{t.speaker || 'Giảng viên'}:</span>
+                              {highlightNote && (
+                                <span className="transcript-highlight-badge">
+                                  <NoteIcon type={highlightNote.type} size={13} />
+                                  {LABEL_TEXT[highlightNote.type] || 'ĐÃ GHI CHÚ'}
+                                </span>
+                              )}
+                            </div>
+                            <span className="transcript-text">
+                              {getHighlightParts(t).map((part, partIndex) => (
+                                part.highlighted
+                                  ? <mark className="transcript-highlight-mark" key={partIndex}>{partIndex > 0 ? ` ${part.text}` : part.text}</mark>
+                                  : <span key={partIndex}>{partIndex > 0 ? ` ${part.text}` : part.text}</span>
+                              ))}
+                            </span>
+                          </div>
+                        );
+                      })}
                       <div ref={transcriptEndRef} />
                     </div>
                   )}
@@ -1618,6 +1721,87 @@ function App() {
             </div>
           </div>
         )}
+
+        {activeTab === 'guide' && (
+          <div className="tab-content guide-tab">
+            <div className="guide-page-header">
+              <div>
+                <span className="guide-eyebrow">HƯỚNG DẪN CHO NGƯỜI MỚI</span>
+                <h1>Cách sử dụng VLearnNote từ đầu</h1>
+                <p>Làm lần lượt từng bước dưới đây để theo dõi bài, hỏi lại và lưu kết quả học tập.</p>
+              </div>
+              <button className="guide-start-button" onClick={() => setActiveTab('live')}>
+                <UiIcon icon={Mic} size={17} /> Bắt đầu học
+              </button>
+            </div>
+
+            <div className="guide-first-time">
+              <div className="guide-first-time-icon"><UiIcon icon={CheckCircle2} size={21} /></div>
+              <div>
+                <strong>Trước khi bắt đầu</strong>
+                <p>Đăng nhập đúng tài khoản cá nhân, cho phép trình duyệt dùng microphone nếu muốn ghi buổi học mới và kiểm tra tab Live Bài Giảng đang mở.</p>
+              </div>
+            </div>
+
+            <div className="guide-flow-list">
+              {[
+                {
+                  icon: FolderOpen,
+                  title: 'Chọn nguồn bài học',
+                  text: 'Trong tab Live Bài Giảng, tìm ô chọn buổi học ở đầu trang.',
+                  actions: ['Chọn một transcript có sẵn để chạy thử.', 'Hoặc chọn “Ghi buổi học mới bằng microphone” nếu đang học trực tiếp.', 'Kiểm tra tên bài xuất hiện ở thanh “Đang xem”.'],
+                  result: 'Trạng thái hiển thị “Sẵn sàng”.',
+                },
+                {
+                  icon: Mic,
+                  title: 'Bắt đầu phiên học',
+                  text: 'Bấm nút Bắt đầu ghi âm ở góc trên bên phải.',
+                  actions: ['Cho phép quyền microphone khi trình duyệt hỏi.', 'Theo dõi cột Phiên âm trực tiếp ở bên trái.', 'Khi nút chuyển thành “Dừng ghi âm” và trạng thái LIVE xuất hiện, phiên đã chạy.'],
+                  result: 'Transcript tăng dần theo nội dung bài.',
+                },
+                {
+                  icon: Sparkles,
+                  title: 'Đọc highlight và kiểm tra ghi chú',
+                  text: 'Hệ thống tự phát hiện nội dung đáng ghi nhớ trong transcript.',
+                  actions: ['Phần chữ bôi vàng là câu quan trọng, không phải toàn bộ đoạn.', 'Cột Ghi chú tự động hiển thị loại nội dung và câu tóm tắt.', 'Bấm xác nhận nếu đúng; dùng Sửa hoặc Xóa nếu cần điều chỉnh.', 'Mở Nguồn để đối chiếu lại câu gốc trong transcript.'],
+                  result: 'Bạn có bộ ghi chú ngắn, có thể kiểm chứng.',
+                },
+                {
+                  icon: MessageCircle,
+                  title: 'Hỏi chatbot khi bị mất nhịp',
+                  text: 'Bấm biểu tượng chat ở góc dưới bên phải màn hình.',
+                  actions: ['Chọn một câu hỏi gợi ý hoặc tự nhập câu hỏi.', 'Có thể hỏi “Vừa nãy giảng viên nói gì?” hoặc yêu cầu tóm tắt highlight.', 'Nhấn Enter hoặc nút gửi để đặt câu hỏi.', 'Lịch sử chat tự động được lưu theo đúng tài khoản đang đăng nhập.'],
+                  result: 'Bạn bắt kịp bài mà không phải hỏi người bên cạnh.',
+                },
+                {
+                  icon: BarChart3,
+                  title: 'Kết thúc, lưu và mở lại',
+                  text: 'Khi buổi học kết thúc, bấm Dừng ghi âm và đặt tên cho phiên.',
+                  actions: ['Bấm Lưu buổi học để giữ transcript, ghi chú, chat và audio.', 'Vào tab Ghi chú để đọc lại toàn bộ note.', 'Vào tab Thống kê để xem tiến độ và mở một phiên cũ.', 'Dùng Xuất Markdown hoặc JSON khi cần lưu ra máy.'],
+                  result: 'Toàn bộ kết quả được lưu trong tài khoản cá nhân.',
+                },
+              ].map((step, index) => (
+                <div className="guide-flow-step" key={step.title}>
+                  <div className="guide-step-number">{String(index + 1).padStart(2, '0')}</div>
+                  <div className="guide-step-icon"><UiIcon icon={step.icon} size={22} /></div>
+                  <div className="guide-step-copy">
+                    <h2>{step.title}</h2>
+                    <p>{step.text}</p>
+                    <ol className="guide-step-actions">
+                      {step.actions.map((action) => <li key={action}>{action}</li>)}
+                    </ol>
+                  </div>
+                  <div className="guide-step-result"><UiIcon icon={CheckCircle2} size={16} /> {step.result}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="guide-privacy-note">
+              <UiIcon icon={LockKeyhole} size={18} />
+              <div><strong>Dữ liệu cá nhân được tách riêng</strong><span>Mỗi tài khoản chỉ xem phiên học, ghi chú, chatbot và thống kê của chính mình.</span></div>
+            </div>
+          </div>
+        )}
       </main>
 
       {showSaveDialog && (
@@ -1678,21 +1862,35 @@ function App() {
               <div className="chat-header">
                 <div className="chat-header-info">
                   <div className="chat-avatar"><UiIcon icon={Bot} size={22} /></div>
-                  <div>
-                    <h4>AI Trợ lý VLearn</h4>
-                    <span className="chat-status"><span className="chat-status-dot" /> Sẵn sàng hỗ trợ</span>
+                  <div className="chat-header-copy">
+                    <div className="chat-title-row">
+                      <h4>AI Trợ lý VLearn</h4>
+                      <span className="chat-online-dot" title="Đang hoạt động" />
+                    </div>
+                    <span className="chat-status">{lessonName}</span>
                   </div>
                 </div>
                 <button className="chat-close" onClick={() => setIsChatOpen(false)} title="Đóng"><UiIcon icon={X} /></button>
               </div>
 
+              <div className="chat-context-strip">
+                <span><UiIcon icon={BookOpen} size={14} /> {qaHistoryCount} câu hỏi</span>
+                <span className="chat-account">{user.email}</span>
+              </div>
+
               <div className="chat-messages">
                 {chatMessages.length === 0 && (
                   <div className="chat-welcome">
-                    <p>Xin chào! Tôi là AI trợ lý của VLearnNote.</p>
-                    <p>Hãy hỏi tôi bất cứ điều gì về bài giảng nhé!</p>
+                    <div className="chat-welcome-icon"><UiIcon icon={Sparkles} size={24} /></div>
+                    <h5>Sẵn sàng cùng bạn ôn bài</h5>
+                    <p>Chọn một gợi ý bên dưới hoặc đặt câu hỏi về nội dung đang học.</p>
                   </div>
                 )}
+                <div className="chat-history-label">
+                  <span />
+                  <div><UiIcon icon={Clock3} size={13} /> {chatMessages.length > 0 ? 'Lịch sử gần đây' : 'Cuộc trò chuyện mới'}</div>
+                  <span />
+                </div>
                 {chatMessages.map((msg, idx) => (
                   <div key={idx} className={`chat-message ${msg.role}`}>
                     <div className="chat-bubble">{msg.content}</div>
@@ -1705,16 +1903,39 @@ function App() {
                     </div>
                   </div>
                 )}
+                <div ref={chatEndRef} />
+              </div>
+
+              <div className="chat-suggestions" aria-label="Câu hỏi gợi ý">
+                <div className="chat-suggestions-title"><UiIcon icon={Sparkles} size={14} /> Gợi ý cho bài đang học</div>
+                <div className="chat-suggestions-list">
+                  {suggestedPrompts.map((prompt) => (
+                    <button
+                      key={prompt}
+                      type="button"
+                      className="chat-suggestion-btn"
+                      onClick={() => setChatInput(prompt)}
+                      disabled={isChatLoading}
+                    >
+                      {prompt}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div className="chat-input-box">
-                <input
-                  type="text"
+                <textarea
                   className="chat-input"
                   placeholder="Nhập câu hỏi của bạn..."
                   value={chatInput}
                   onChange={(e) => setChatInput(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleChatSend()}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      handleChatSend();
+                    }
+                  }}
+                  rows={1}
                 />
                 <button
                   className="chat-send-btn"
